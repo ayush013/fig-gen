@@ -12,6 +12,7 @@ const plugins = [
     template: "src/index.html",
     chunks: ["htmlApp"],
     filename: "ui.html",
+    inject: "body",
   }),
   new HTMLInlineCSSWebpackPlugin(),
   new HtmlInlineScriptPlugin(),
@@ -23,7 +24,7 @@ env === "production" &&
 module.exports = {
   entry: {
     code: "./src/index.ts",
-    htmlApp: "./src/app/main.js",
+    htmlApp: "./src/app/main.ts",
   },
   mode: env,
   devtool: env === "development" ? "inline-source-map" : false,
