@@ -1,0 +1,10 @@
+{
+  "name": "FigGen",
+  "id": "1065278044402066626",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "ui": "ui.html"
+}
