@@ -5,6 +5,11 @@ const HTMLInlineCSSWebpackPlugin =
   require("html-inline-css-webpack-plugin").default;
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 
+const ENVIRONMENT = {
+  PROD: "production",
+  DEV: "development",
+};
+
 const env = process.env.NODE_ENV;
 const plugins = [
   new HtmlWebpackPlugin({
@@ -18,7 +23,7 @@ const plugins = [
   new HtmlInlineScriptPlugin(),
 ];
 
-env === "production" &&
+env === ENVIRONMENT.PROD &&
   plugins.unshift(new MiniCssExtractPlugin({ filename: "[name].css" }));
 
 module.exports = {
@@ -27,7 +32,7 @@ module.exports = {
     htmlApp: "./src/app/main.ts",
   },
   mode: env,
-  devtool: env === "development" ? "inline-source-map" : false,
+  devtool: env === ENVIRONMENT.DEV ? "inline-source-map" : false,
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
@@ -54,7 +59,9 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: [
-          env === "development" ? "style-loader" : MiniCssExtractPlugin.loader,
+          env === ENVIRONMENT.DEV
+            ? "style-loader"
+            : MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader",
           "postcss-loader",
