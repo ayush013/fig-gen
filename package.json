@@ -4,12 +4,28 @@
   "description": "Best Figma to HTML generator on internet",
   "main": "code.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json --watch"
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development webpack serve"
   },
   "author": "",
-  "license": "",
+  "license": "ISC",
   "devDependencies": {
     "@figma/plugin-typings": "^1.41.1",
-    "typescript": "^4.5.4"
+    "autoprefixer": "^10.2.5",
+    "css-loader": "^5.2.4",
+    "mini-css-extract-plugin": "^1.6.0",
+    "node-sass": "^6.0.0",
+    "postcss-cli": "^8.3.1",
+    "postcss-loader": "^5.2.0",
+    "sass-loader": "^11.0.1",
+    "html-loader": "^2.1.2",
+    "style-loader": "^2.0.0",
+    "tailwindcss": "^2.1.2",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }
