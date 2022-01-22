@@ -6,7 +6,7 @@
 // full browser environment (see documentation).
 
 // This shows the HTML page in "ui.html".
-figma.showUI(__html__);
+figma.showUI(__html__, { width: 500, height: 400 });
 
 // Skip over invisible nodes and their descendants inside instances for faster performance
 figma.skipInvisibleInstanceChildren = true;
