@@ -16,10 +16,6 @@ const main = () => {
 
   console.log("template", template);
 
-  setTimeout(() => {
-    template.destroy();
-  }, 5000);
-
   const cancel = document.getElementById("cancel");
   cancel &&
     cancel.addEventListener("click", () => {

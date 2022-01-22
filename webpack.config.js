@@ -32,9 +32,13 @@ module.exports = {
     htmlApp: "./src/app/main.ts",
   },
   mode: env,
-  devtool: env === ENVIRONMENT.DEV ? "inline-source-map" : false,
+  devtool: false,
   output: {
-    filename: "[name].js",
+    filename: (chunkData) => {
+      return chunkData.chunk.name === "code"
+        ? "[name].js"
+        : "[name].[chunkhash:8].js";
+    },
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },

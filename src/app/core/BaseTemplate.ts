@@ -8,6 +8,7 @@ export class BaseTemplate<T> {
   constructor(id: string, parentNode: HTMLElement, data?: T) {
     this.__layoutRef = document.getElementById(id) as HTMLTemplateElement;
     this.parentNode = parentNode;
+    this.data = data;
 
     this.render();
   }
