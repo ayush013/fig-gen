@@ -41,6 +41,10 @@ module.exports = {
   devServer: {
     contentBase: "./dist",
   },
+  resolve: {
+    extensions: [".ts", ".js"],
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
+  },
   module: {
     rules: [
       {
