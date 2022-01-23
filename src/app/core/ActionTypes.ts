@@ -1,0 +1,7 @@
+const ActionTypes = {
+  SET_MARKUP: "SET_MARKUP",
+  SET_MARKUP_IN_PROGRESS: "SET_MARKUP_IN_PROGRESS",
+  SET_MARKUP_ERROR: "SET_MARKUP_ERROR",
+};
+
+export default ActionTypes;
