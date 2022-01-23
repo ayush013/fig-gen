@@ -1,8 +1,9 @@
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import { figmaPostMessage, MessageTypes } from "../figma/utils/messages";
-import { BaseTemplate } from "./core/BaseTemplate";
+import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import "./style.scss";
-import { TemplateMap } from "./templates";
+import getTemplateClass from "./templates";
+import { TemplateIds } from "./templates";
 
 // To do: Fix syntax
 const { selectMenu, disclosure } = require("figma-plugin-ds");
@@ -10,17 +11,44 @@ const { selectMenu, disclosure } = require("figma-plugin-ds");
 selectMenu.init(); //initiates the select menu component
 disclosure.init(); //initiates the disclosure component
 
-const main = () => {
-  const bodyRef = document.getElementById("body") as HTMLBodyElement;
-  const template = new BaseTemplate(TemplateMap.NoSelection, bodyRef);
+class App implements IComponent {
+  templateMap: Map<TemplateIds, BaseTemplate<any>>;
+  bodyRef: HTMLBodyElement;
 
-  console.log("template", template);
+  constructor() {
+    this.templateMap = new Map();
+    this.bodyRef = document.getElementById(TemplateIds.Body) as HTMLBodyElement;
 
-  const cancel = document.getElementById("cancel");
-  cancel &&
-    cancel.addEventListener("click", () => {
-      figmaPostMessage(MessageTypes.CANCEL);
-    });
-};
+    this.render();
+  }
 
-main();
+  private renderTemplate(id: TemplateIds, ref: HTMLElement = this.bodyRef) {
+    const templateClass = getTemplateClass(id);
+    const template = new templateClass(id, ref);
+    this.templateMap.set(id, template);
+  }
+
+  destroy() {
+    for (let [templateId, template] of this.templateMap) {
+      template.destroy();
+      this.templateMap.delete(templateId);
+    }
+  }
+
+  render() {
+    this.renderTemplate(TemplateIds.NoSelection);
+  }
+}
+
+new App();
+
+// const main = () => {
+
+//   const cancel = document.getElementById("cancel");
+//   cancel &&
+//     cancel.addEventListener("click", () => {
+//       figmaPostMessage(MessageTypes.CANCEL);
+//     });
+// };
+
+// main();

@@ -1,23 +1,29 @@
-export class BaseTemplate<T> {
-  __layoutRef: HTMLTemplateElement | null;
-  parentNode: HTMLElement;
-  data: T | undefined;
-  templateNode: DocumentFragment | undefined;
-  _id: string | undefined;
+export abstract class BaseTemplate<T> implements IComponent {
+  private __layoutRef: HTMLTemplateElement | null;
+  private parentNode: HTMLElement;
+  private data: T | undefined;
+  private templateNode: DocumentFragment | undefined;
+  private _id: string | undefined;
 
   constructor(id: string, parentNode: HTMLElement, data?: T) {
     this.__layoutRef = document.getElementById(id) as HTMLTemplateElement;
     this.parentNode = parentNode;
     this.data = data;
 
+    this.onMount();
+
     this.render();
   }
 
-  get id() {
+  public get id() {
     return this._id;
   }
 
-  render() {
+  protected onMount() {}
+  protected onRender() {}
+  protected onDestroy() {}
+
+  public render() {
     this.templateNode = this.__layoutRef?.content.cloneNode(
       true
     ) as DocumentFragment;
@@ -31,11 +37,19 @@ export class BaseTemplate<T> {
         firstElementChild.id = this._id;
       }
 
+      this.onRender();
+
       this.parentNode.appendChild(this.templateNode);
     }
   }
 
-  destroy() {
+  public destroy() {
     this.parentNode.querySelector(`[id='${this._id}']`)?.remove();
+    this.onDestroy();
   }
+}
+
+export interface IComponent {
+  render: () => void;
+  destroy: () => void;
 }
