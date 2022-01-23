@@ -1,5 +1,5 @@
-export class Store {
-  private _state: IState;
+export default class Store {
+  private _state: IState = initialState;
   private _subscriptions: { [key: string]: (state: IState) => void } = {};
   private _reducer: (state: IState, action: IAction<any>) => IState;
 
@@ -9,20 +9,29 @@ export class Store {
     reducer: (state: IState, action: IAction<any>) => IState,
     enableLogs?: boolean
   ) {
-    this._state = reducer(initialState, { type: "@@INIT" });
     this._reducer = reducer;
 
     enableLogs &&
       (this.actionLogger = (action: IAction<any>) => {
-        console.log(action);
+        console.log(action, this._state);
       });
+
+    const initAction = { type: "@@INIT" };
+
+    // To do - fix syntax to avoid this
+    setTimeout(() => {
+      this.dispatch(initAction);
+    }, 100);
   }
 
   public get state() {
     return this._state;
   }
 
-  public subscribe(key: string, callback: (state: IState) => void) {
+  public subscribe(
+    key: string,
+    callback: (state: IState) => void
+  ): Subscription {
     this._subscriptions[key] = callback;
 
     return {
@@ -41,6 +50,10 @@ export class Store {
       this._subscriptions[key](this._state);
     });
   }
+}
+
+export interface Subscription {
+  unsubscribe: () => void;
 }
 
 export interface IState {

@@ -1,7 +1,7 @@
 import ActionTypes from "./ActionTypes";
 import { IState, IAction, initialState } from "./Store";
 
-const reducer = (
+export const appReducer = (
   state: IState = initialState,
   action: IAction<any>
 ): IState => {

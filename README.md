@@ -1,6 +1,7 @@
 # FigGen project roadmap
 
  * [x] Module bundler setup
+ * [ ] UI setup with vanilla implementation
  * [ ] Analyze technical feasibility of Figma APIs
  * [ ] Plugin UI for generating markup
  * [ ] Ability to parse Figma frame data
