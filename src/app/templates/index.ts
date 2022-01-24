@@ -1,6 +1,10 @@
 export enum TemplateIds {
   Body = "body",
   NoSelection = "no-frame",
+  Error = "error",
+  Markup = "markup",
+  SelectedFrame = "selected-frame",
+  InProgress = "in-progress",
 }
 
 const getTemplateClass = (id: TemplateIds) => {
@@ -10,6 +14,8 @@ const getTemplateClass = (id: TemplateIds) => {
     case TemplateIds.NoSelection:
       templateClass = require("./NoSelection").default;
       break;
+    case TemplateIds.Error:
+      templateClass = require("./ErrorView").default;
     default:
       break;
   }
