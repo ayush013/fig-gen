@@ -13,9 +13,10 @@ export const appReducer = (
           ...state.markup,
           error: null,
           data: action.payload,
+          inProgress: false,
         },
       };
-    case ActionTypes.SET_MARKUP_IN_PROGRESS:
+    case ActionTypes.SET_IN_PROGRESS:
       return {
         ...state,
         markup: {
@@ -23,7 +24,7 @@ export const appReducer = (
           inProgress: true,
         },
       };
-    case ActionTypes.SET_MARKUP_ERROR:
+    case ActionTypes.SET_ERROR:
       return {
         ...state,
         markup: {
@@ -32,6 +33,13 @@ export const appReducer = (
           inProgress: false,
         },
       };
+    case ActionTypes.SET_SELECTED_FRAME:
+      return {
+        ...state,
+        selectedFrame: action.payload,
+      };
+    case ActionTypes.RESET_APP_STATE:
+      return initialState;
     default:
       return state;
   }

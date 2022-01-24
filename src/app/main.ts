@@ -1,5 +1,5 @@
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
-import { figmaPostMessage, MessageTypes } from "../figma/utils/messages";
+import { postMessageToFigma, MessageTypes } from "../figma/utils/messages";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import { appReducer } from "./core/Reducer";
 import Store, { Subscription } from "./core/Store";
@@ -29,7 +29,7 @@ class App implements IComponent {
 
   private renderTemplate(id: TemplateIds, ref: HTMLElement = this.bodyRef) {
     const templateClass = getTemplateClass(id);
-    const template = new templateClass(id, ref);
+    const template = new templateClass(ref);
     this.templateMap.set(id, template);
   }
 
@@ -41,17 +41,55 @@ class App implements IComponent {
   }
 
   onMount() {
-    this.subscription = this.store.subscribe("main", this.render.bind(this));
+    this.subscription = this.store.subscribe("main", () => {
+      // To do: Diffing the state and rendering only the changed components
+      this.destroy();
+
+      this.render();
+    });
   }
 
-  render() {
+  getCurrentState() {
     const { state } = this.store;
     const {
       markup: { data, inProgress, error },
+      selectedFrame,
     } = state;
 
-    if (!data && !inProgress) {
-      this.renderTemplate(TemplateIds.NoSelection);
+    if (data && !inProgress && !error) {
+      return TemplateIds.Markup;
+    } else if (inProgress) {
+      return TemplateIds.InProgress;
+    } else if (error) {
+      return TemplateIds.Error;
+    } else if (!data && !inProgress && !error) {
+      return TemplateIds.NoSelection;
+    } else if (selectedFrame && !error) {
+      return TemplateIds.SelectedFrame;
+    }
+  }
+
+  render() {
+    const currentState = this.getCurrentState();
+
+    switch (currentState) {
+      case TemplateIds.Markup:
+        this.renderTemplate(TemplateIds.Markup);
+        break;
+      case TemplateIds.InProgress:
+        this.renderTemplate(TemplateIds.InProgress);
+        break;
+      case TemplateIds.Error:
+        this.renderTemplate(TemplateIds.Error);
+        break;
+      case TemplateIds.NoSelection:
+        this.renderTemplate(TemplateIds.NoSelection);
+        break;
+      case TemplateIds.SelectedFrame:
+        this.renderTemplate(TemplateIds.SelectedFrame);
+        break;
+      default:
+        break;
     }
   }
 }
@@ -63,7 +101,7 @@ new App();
 //   const cancel = document.getElementById("cancel");
 //   cancel &&
 //     cancel.addEventListener("click", () => {
-//       figmaPostMessage(MessageTypes.CANCEL);
+//       postMessageToFigma(MessageTypes.CANCEL);
 //     });
 // };
 

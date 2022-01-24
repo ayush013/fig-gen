@@ -18,10 +18,7 @@ export default class Store {
 
     const initAction = { type: "@@INIT" };
 
-    // To do - fix syntax to avoid this
-    setTimeout(() => {
-      this.dispatch(initAction);
-    }, 100);
+    this.dispatch(initAction);
   }
 
   public get state() {
@@ -33,6 +30,7 @@ export default class Store {
     callback: (state: IState) => void
   ): Subscription {
     this._subscriptions[key] = callback;
+    callback(this._state);
 
     return {
       unsubscribe: () => {
@@ -62,6 +60,7 @@ export interface IState {
     error: string | null;
     data: string;
   };
+  selectedFrame: string;
 }
 
 export interface IAction<T> {
@@ -71,4 +70,5 @@ export interface IAction<T> {
 
 export const initialState: IState = {
   markup: { inProgress: false, error: null, data: "" },
+  selectedFrame: "",
 };
