@@ -1,4 +1,6 @@
-export default class Store {
+import { appReducer } from "./Reducer";
+
+class Store {
   private _state: IState = initialState;
   private _subscriptions: { [key: string]: (state: IState) => void } = {};
   private _reducer: (state: IState, action: IAction<any>) => IState;
@@ -49,6 +51,17 @@ export default class Store {
     });
   }
 }
+
+let store: Store;
+
+const getStore = (): Store => {
+  if (!store) {
+    store = new Store(appReducer, true);
+  }
+  return store;
+};
+
+export default getStore;
 
 export interface Subscription {
   unsubscribe: () => void;

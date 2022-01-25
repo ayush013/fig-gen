@@ -1,15 +1,20 @@
+import { IConnectedComponent, connectKey, IProps } from "./Connect";
+
 export abstract class BaseTemplate<T> implements IComponent {
   private __layoutRef: HTMLTemplateElement;
   private parentNode: HTMLElement;
-  private data: T | undefined;
   private templateNode: DocumentFragment | undefined;
   private _id: string | undefined;
+  protected props: IProps<T>;
 
-  constructor(parentNode: HTMLElement, data?: T) {
+  constructor(parentNode: HTMLElement) {
+    this.props = (this.constructor as unknown as IConnectedComponent)[
+      connectKey
+    ];
+
     const id = this.getTemplateId();
     this.__layoutRef = document.getElementById(id) as HTMLTemplateElement;
     this.parentNode = parentNode;
-    this.data = data;
 
     this.onMount();
 

@@ -1,8 +1,7 @@
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import { postMessageToFigma, MessageTypes } from "../figma/utils/messages";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
-import { appReducer } from "./core/Reducer";
-import Store, { Subscription } from "./core/Store";
+import getStore, { Subscription } from "./core/Store";
 import "./style.scss";
 import getTemplateClass from "./templates";
 import { TemplateIds } from "./templates";
@@ -16,13 +15,15 @@ disclosure.init(); //initiates the disclosure component
 class App implements IComponent {
   private templateMap: Map<TemplateIds, BaseTemplate<any>>;
   private bodyRef: HTMLBodyElement;
-  private readonly store: Store;
   private subscription: Subscription | undefined;
+
+  // to do : fix type
+  private readonly store: any;
 
   constructor() {
     this.templateMap = new Map();
     this.bodyRef = document.getElementById(TemplateIds.Body) as HTMLBodyElement;
-    this.store = new Store(appReducer, true);
+    this.store = getStore();
 
     this.onMount();
   }
