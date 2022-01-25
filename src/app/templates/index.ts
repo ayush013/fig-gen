@@ -16,6 +16,10 @@ const getTemplateClass = (id: TemplateIds) => {
       break;
     case TemplateIds.Error:
       templateClass = require("./ErrorView").default;
+      break;
+    case TemplateIds.InProgress:
+      templateClass = require("./InProgress").default;
+      break;
     default:
       break;
   }

@@ -3,7 +3,7 @@
   <body class="p-4" id="body">
     <!-- Because we don't have JSX all the markup templates have been added here -->
     <template id="no-frame">
-      <div class="flex items-center flex-col gap-4">
+      <div class="flex items-center flex-col gap-4 h-full justify-center">
         <h1 class="type type--large type--bold">
           Select a frame with Auto layout to convert
         </h1>
@@ -12,11 +12,21 @@
     </template>
 
     <template id="error">
-      <div class="flex items-center flex-col gap-4">
+      <div class="flex items-center flex-col gap-4 h-full justify-center">
         <h1 class="type type--large type--bold error-msg text-red-500">
           error error error error error error error
         </h1>
         <img src="./assets/error.svg" alt="error" class="w-1/2" />
+      </div>
+    </template>
+
+    <template id="in-progress">
+      <div class="flex items-center flex-col gap-4 justify-center h-full">
+        <div class="loader font-mono font-bold text-8xl opacity-80">
+          <span class="inline-block text-green-700">{</span
+          ><span class="inline-block text-blue-700">}</span>
+        </div>
+        <h1 class="type type--large type--medium">Hang on tight!</h1>
       </div>
     </template>
 
