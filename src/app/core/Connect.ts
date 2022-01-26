@@ -1,4 +1,4 @@
-import getStore from "./Store";
+import getStore, { IAction } from "./Store";
 
 const store = getStore();
 
@@ -20,8 +20,10 @@ export interface IConnectedComponent {
   [connectKey]: IProps<any>;
 }
 
-// to do: Fix type
-export interface IProps<T> {
-  dispatch: Function;
-  T: T;
-}
+export type IDispatch = {
+  dispatch?: (action: IAction<any>) => void;
+};
+
+export type IProps<T> = {
+  [K in keyof T]: T[K];
+};

@@ -1,11 +1,11 @@
-import { IConnectedComponent, connectKey, IProps } from "./Connect";
+import { IConnectedComponent, connectKey, IProps, IDispatch } from "./Connect";
 
 export abstract class BaseTemplate<T> implements IComponent {
   private __layoutRef: HTMLTemplateElement;
   private parentNode: HTMLElement;
-  private templateNode: DocumentFragment | undefined;
+  protected templateNode!: DocumentFragment;
   private _id: string | undefined;
-  protected props: IProps<T>;
+  protected props: IProps<T> & IDispatch;
 
   constructor(parentNode: HTMLElement) {
     this.props = (this.constructor as unknown as IConnectedComponent)[
@@ -18,7 +18,7 @@ export abstract class BaseTemplate<T> implements IComponent {
 
     this.onMount();
 
-    this.render();
+    this._render();
   }
 
   public get id() {
@@ -28,10 +28,10 @@ export abstract class BaseTemplate<T> implements IComponent {
   protected abstract getTemplateId(): string;
 
   protected onMount() {}
-  protected onRender() {}
+  protected render() {}
   protected onDestroy() {}
 
-  public render() {
+  public _render() {
     this.templateNode = this.__layoutRef?.content.cloneNode(
       true
     ) as DocumentFragment;
@@ -45,7 +45,7 @@ export abstract class BaseTemplate<T> implements IComponent {
         firstElementChild.id = this._id;
       }
 
-      this.onRender();
+      this.render();
 
       this.parentNode.appendChild(this.templateNode);
     }
@@ -58,6 +58,6 @@ export abstract class BaseTemplate<T> implements IComponent {
 }
 
 export interface IComponent {
-  render: () => void;
+  _render: () => void;
   destroy: () => void;
 }

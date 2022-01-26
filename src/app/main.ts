@@ -1,5 +1,6 @@
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import { postMessageToFigma, MessageTypes } from "../figma/utils/messages";
+import ActionTypes from "./core/ActionTypes";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import getStore, { Subscription } from "./core/Store";
 import "./style.scss";
@@ -46,8 +47,19 @@ class App implements IComponent {
       // To do: Diffing the state and rendering only the changed components
       this.destroy();
 
-      this.render();
+      this._render();
     });
+
+    // setTimeout(() => {
+    //   this.store.dispatch({
+    //     type: ActionTypes.SET_ERROR,
+    //     payload: "kjwefjweo foewj foiewj foiwj ofiwej fowje ofwej",
+    //   });
+    // }, 1000);
+  }
+
+  _render() {
+    this.render();
   }
 
   getCurrentState() {
