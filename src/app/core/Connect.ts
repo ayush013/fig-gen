@@ -1,12 +1,15 @@
-import getStore, { IAction } from "./Store";
+import getStore, { IAction, IState } from "./Store";
 
 const store = getStore();
 
-export default function connect(state: Function) {
-  return function (Component: Function) {
+export default function connect(
+  mapStateToProps: (store: IState) => Record<string, any>
+) {
+  return (Component: Function) => {
+    const componentState = mapStateToProps(store.state);
     const connectedComponent = Object.assign(Component, {
       [connectKey]: {
-        ...state(store.state),
+        ...componentState,
         dispatch: store.dispatch,
       },
     });

@@ -3,7 +3,7 @@ import { BaseTemplate } from "../core/BaseTemplate";
 import connect from "../core/Connect";
 import { IState } from "../core/Store";
 
-class Error extends BaseTemplate<IErrorProps> {
+class ErrorView extends BaseTemplate<IErrorProps> {
   getTemplateId() {
     return TemplateIds.Error;
   }
@@ -38,4 +38,4 @@ const mapStateToProps = ({ markup: { error } }: IState) => ({
   error,
 });
 
-export default connect(mapStateToProps)(Error);
+export default connect(mapStateToProps)(ErrorView);

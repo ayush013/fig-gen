@@ -12,12 +12,15 @@ const getTemplateClass = (id: TemplateIds) => {
 
   switch (id) {
     case TemplateIds.NoSelection:
+      delete require.cache[require.resolve("./NoSelection")];
       templateClass = require("./NoSelection").default;
       break;
     case TemplateIds.Error:
+      delete require.cache[require.resolve("./ErrorView")];
       templateClass = require("./ErrorView").default;
       break;
     case TemplateIds.InProgress:
+      delete require.cache[require.resolve("./InProgress")];
       templateClass = require("./InProgress").default;
       break;
     default:
