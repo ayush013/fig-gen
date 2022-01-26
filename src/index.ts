@@ -32,11 +32,23 @@ const main = debounce(() => {
   const selection = figma.currentPage.selection;
   console.log(figma.currentPage.selection);
   if (isEmptySelection(selection)) {
-    postMessageToApp(MessageTypes.ERROR, {
-      data: "Please select a frame or a group",
-    });
+    postMessageToApp(MessageTypes.NO_SELECTION);
     return;
   }
+
+  postMessageToApp(MessageTypes.IN_PROGRESS);
+
+  setTimeout(() => {
+    postMessageToApp(MessageTypes.MARKUP_GENERATED, {
+      data: {
+        selectedFrame: "Frame ABC",
+        markup: `<div class="flex flex-col space-y-2 items-start justify-start">
+        <p class="text-3xl font-bold text-gray-900">Starter board</p>
+        <p class="w-full text-sm text-gray-600">A description of a board.</p>
+      </div>`,
+      },
+    });
+  }, 1000);
 }, 1000);
 
 main();

@@ -1,6 +1,9 @@
 export enum MessageTypes {
   CLOSE = "CLOSE",
   ERROR = "ERROR",
+  NO_SELECTION = "NO_SELECTION",
+  MARKUP_GENERATED = "MARKUP_GENERATED",
+  IN_PROGRESS = "IN_PROGRESS",
 }
 
 export const postMessageToFigma = (
