@@ -29,7 +29,7 @@
     </template>
 
     <template id="markup">
-      <div class="flex flex-col gap-2 h-full">
+      <div class="flex flex-col gap-2 h-full items-start">
         <div>
           <h1 class="type type--large type--bold">Generated Markup 🚀</h1>
           <h2 class="type type--medium current-frame text-gray-700"></h2>
@@ -37,6 +37,11 @@
         <pre
           class="text-xs max-w-full p-2 bg-gray-800 text-white overflow-x-auto rounded"
         ><code class="markup-container"></code></pre>
+        <button
+          class="button button--primary clipboard-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
+        >
+          Copy to Clipboard
+        </button>
       </div>
     </template>
   </body>

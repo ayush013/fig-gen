@@ -18,10 +18,36 @@ class Markup extends BaseTemplate<IMarkupProps> {
     const { data } = this.props;
 
     if (data) {
-      return data;
+      return beautify(data, { format: "html" });
     }
 
     return "";
+  }
+
+  initCopyToClipboard(markup: string) {
+    const copyButton = this.templateNode.querySelector(
+      ".clipboard-button"
+    ) as HTMLButtonElement;
+
+    if (copyButton) {
+      copyButton.addEventListener("click", () => {
+        const textArea = document.createElement("textarea");
+        textArea.value = markup;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+        copyButton.textContent = "Copied!";
+        copyButton.classList.add("bg-green-500", "w-24");
+        copyButton.classList.remove("w-36");
+
+        setTimeout(() => {
+          copyButton.textContent = "Copy to Clipboard";
+          copyButton.classList.remove("bg-green-500", "w-24");
+          copyButton.classList.add("w-36");
+        }, 3000);
+      });
+    }
   }
 
   render() {
@@ -31,9 +57,10 @@ class Markup extends BaseTemplate<IMarkupProps> {
       this.templateNode.querySelector(".markup-container");
 
     if (markupNode) {
-      const indentedMarkup = beautify(markup, { format: "html" });
-      const code = hljs.highlightAuto(indentedMarkup);
+      const code = hljs.highlightAuto(markup);
       markupNode.innerHTML = code.value;
+
+      this.initCopyToClipboard(markup);
     }
 
     const selectedFrameNode: HTMLDivElement | null =
