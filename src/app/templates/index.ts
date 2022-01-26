@@ -23,6 +23,10 @@ const getTemplateClass = (id: TemplateIds) => {
       delete require.cache[require.resolve("./InProgress")];
       templateClass = require("./InProgress").default;
       break;
+    case TemplateIds.Markup:
+      delete require.cache[require.resolve("./Markup")];
+      templateClass = require("./Markup").default;
+      break;
     default:
       break;
   }

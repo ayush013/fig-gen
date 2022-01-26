@@ -22,7 +22,7 @@ class ErrorView extends BaseTemplate<IErrorProps> {
     const errorMessage = this.getErrorMessage();
 
     const errorNode: HTMLHeadingElement | null =
-      this.templateNode?.querySelector(".error-msg");
+      this.templateNode.querySelector(".error-msg");
 
     if (errorNode) {
       errorNode.textContent = errorMessage;

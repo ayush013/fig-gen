@@ -31,6 +31,8 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "figma-plugin-ds": "^1.0.1"
+    "beautify": "^0.0.8",
+    "figma-plugin-ds": "^1.0.1",
+    "highlight.js": "^11.4.0"
   }
 }
