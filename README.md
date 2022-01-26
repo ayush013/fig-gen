@@ -1,7 +1,9 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/ayush013/fig-gen/badge)](https://www.codefactor.io/repository/github/ayush013/fig-gen)
+
 # FigGen project roadmap
 
  * [x] Module bundler setup
- * [ ] UI setup with vanilla implementation
+ * [x] UI setup with vanilla implementation
  * [ ] Analyze technical feasibility of Figma APIs
  * [ ] Plugin UI for generating markup
  * [ ] Ability to parse Figma frame data

@@ -1,6 +1,14 @@
 import "figma-plugin-ds/dist/figma-plugin-ds.css";
-import { postMessageToFigma, MessageTypes } from "../figma/utils/messages";
-import ActionTypes from "./core/ActionTypes";
+import {
+  postMessageToFigma,
+  MessageTypes,
+  IMessage,
+} from "../figma/utils/messages";
+import {
+  SetErrorAction,
+  SetMarkupAction,
+  SetSelectedFrameAction,
+} from "./core/ActionTypes";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import getStore, { Subscription } from "./core/Store";
 import "./style.scss";
@@ -43,6 +51,7 @@ class App implements IComponent {
   }
 
   onMount() {
+    this.subscribeToMessagesFromFigma();
     this.subscription = this.store.subscribe("main", () => {
       // To do: Diffing the state and rendering only the changed components
       this.destroy();
@@ -51,15 +60,38 @@ class App implements IComponent {
     });
 
     // setTimeout(() => {
-    //   this.store.dispatch({
-    //     type: ActionTypes.SET_ERROR,
-    //     payload: "kjwefjweo foewj foiewj foiwj ofiwej fowje ofwej",
-    //   });
+    //   this.store.dispatch(
+    //     new SetMarkupAction(`<div class="flex flex-col space-y-2 items-start justify-start">
+    //   <p class="text-3xl font-bold text-gray-900">Starter board</p>
+    //   <p class="w-full text-sm text-gray-600">A description of a board.</p>
+    // </div>`)
+    //   );
+
+    //   this.store.dispatch(new SetSelectedFrameAction(`Kanban Board`));
     // }, 1000);
   }
 
   _render() {
     this.render();
+  }
+
+  subscribeToMessagesFromFigma() {
+    onmessage = (msg: MessageEvent<any>) => {
+      const { pluginMessage }: { pluginMessage: IMessage<any> } = msg.data;
+      switch (pluginMessage.type) {
+        case MessageTypes.CLOSE:
+          postMessageToFigma(MessageTypes.CLOSE);
+          break;
+        case MessageTypes.ERROR:
+          const {
+            payload: { data },
+          } = pluginMessage;
+          this.store.dispatch(new SetErrorAction(data));
+          break;
+        default:
+          break;
+      }
+    };
   }
 
   getCurrentState() {
@@ -108,14 +140,3 @@ class App implements IComponent {
 }
 
 new App();
-
-// const main = () => {
-
-//   const cancel = document.getElementById("cancel");
-//   cancel &&
-//     cancel.addEventListener("click", () => {
-//       postMessageToFigma(MessageTypes.CANCEL);
-//     });
-// };
-
-// main();

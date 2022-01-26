@@ -10,3 +10,7 @@ export function supportsChildren(
     type === "BOOLEAN_OPERATION"
   );
 }
+
+export function isEmptySelection(selection: ReadonlyArray<SceneNode>): boolean {
+  return selection.length === 0;
+}

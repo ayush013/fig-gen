@@ -69,7 +69,7 @@ class Markup extends BaseTemplate<IMarkupProps> {
     const { selectedFrame } = this.props;
 
     if (selectedFrameNode) {
-      selectedFrameNode.textContent = `Current Frame: ${selectedFrame}`;
+      selectedFrameNode.innerHTML = `<b>Current Frame:</b> ${selectedFrame}`;
     }
   }
 }

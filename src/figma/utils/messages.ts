@@ -1,5 +1,6 @@
 export enum MessageTypes {
-  CANCEL = "CANCEL",
+  CLOSE = "CLOSE",
+  ERROR = "ERROR",
 }
 
 export const postMessageToFigma = (
@@ -18,4 +19,9 @@ export const postMessageToApp = (
 
 interface IMessagePayload<T> {
   data: T;
+}
+
+export interface IMessage<T> {
+  type: MessageTypes;
+  payload: IMessagePayload<T>;
 }
