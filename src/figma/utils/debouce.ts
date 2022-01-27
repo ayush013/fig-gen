@@ -2,7 +2,7 @@ export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   wait: number
 ): T => {
-  let timer: number | undefined;
+  let timer: ReturnType<typeof setTimeout>;
   return function (...args: any[]) {
     clearTimeout(timer);
     timer = setTimeout(() => {

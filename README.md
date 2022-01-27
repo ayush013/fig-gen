@@ -1,15 +1,20 @@
+# FigGen
+
+An initiative to generate pixel perfect markup for Figma designs.
+
 [![CodeFactor](https://www.codefactor.io/repository/github/ayush013/fig-gen/badge)](https://www.codefactor.io/repository/github/ayush013/fig-gen)
 
-# FigGen project roadmap
+# FigGen MVP project roadmap
 
  * [x] Module bundler setup
  * [x] UI setup with vanilla implementation
+ * [x] Plugin UI for generating markup
  * [ ] Analyze technical feasibility of Figma APIs
- * [ ] Plugin UI for generating markup
- * [ ] Ability to parse Figma frame data
+ * [ ] Ability to parse Figma frame data.
  * [ ] Generate equivalent markup for auto-layout components
- * [ ] Special handling for images.
- * [ ] Variant processing via special keywords
+ * [ ] Special handling for images?
+ * [ ] Support for Masks/Clipping/Stroke Properties
+ * [ ] Variant processing via special keywords/naming convention
  * [ ] and much more that I forgot 
 
 
