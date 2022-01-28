@@ -5,9 +5,9 @@ import {
   isConversionSupported,
   isEmptySelection,
   isPageLevelNode,
-  pipe,
   trimNode,
 } from "./figma/utils/nodes";
+import { pipe } from "./figma/utils/pipe";
 
 // This shows the HTML page in "ui.html".
 figma.showUI(__html__, { width: 500, height: 400 });
@@ -16,7 +16,7 @@ figma.showUI(__html__, { width: 500, height: 400 });
 figma.skipInvisibleInstanceChildren = true;
 
 figma.ui.onmessage = (msg) => {
-  console.log(msg);
+  console.log("onmessage", msg);
 };
 
 const main = debounce(() => {

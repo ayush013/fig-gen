@@ -13,6 +13,7 @@ An initiative to generate pixel perfect markup for Figma designs.
  * [ ] Ability to parse Figma frame data.
  * [ ] Generate equivalent markup for auto-layout components
  * [ ] Special handling for images?
+ * [ ] Handle semantics - Input fields, containers, buttons, links, etc.
  * [ ] Support for Masks/Clipping/Stroke Properties
  * [ ] Variant processing via special keywords/naming convention
  * [ ] and much more that I forgot 

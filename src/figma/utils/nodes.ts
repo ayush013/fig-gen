@@ -1,4 +1,5 @@
 import { isPageNode } from "@figma-plugin/helpers";
+import { FigmaFrameNode } from "../model";
 
 export enum NodeTypes {
   FRAME = "FRAME",
@@ -27,7 +28,9 @@ export function isPageLevelNode(node: Readonly<BaseNode>): boolean {
   return isPageNode(node.parent as BaseNode);
 }
 
-export function supportsAutoLayout() {}
+export function supportsAutoLayout(node: any) {
+  return node.layoutMode === "HORIZONTAL" || node.layourMode === "VERTICAL";
+}
 
 const ACCEPTED_KEYS = {
   CHILDREN: "children",
@@ -69,33 +72,33 @@ export function trimNode(
 
   switch (type) {
     case NodeTypes.FRAME:
-      return trimFrameNode(node as FrameNode);
+      return trimFrameNode(node);
   }
 
   return {};
 }
 
-function trimFrameNode(node: any, convertedObj = {}) {
+function trimFrameNode(node: FrameNode): FigmaFrameNode {
+  const convertedObj: FigmaFrameNode = {} as FigmaFrameNode;
   for (const key of [
     ...ACCEPTED_KEYS.COMMON,
     ...ACCEPTED_KEYS.FRAME,
     ACCEPTED_KEYS.CHILDREN,
   ]) {
-    if (node[key]) {
+    if (key in node) {
       if (key === ACCEPTED_KEYS.CHILDREN) {
-        // @ts-ignore
+        // @ts-ignore - todo: fix this
         convertedObj[key] = node[key].map((child) => trimNode(child));
       } else {
-        // @ts-ignore
+        // @ts-ignore - todo: fix this
         convertedObj[key] = node[key];
       }
     }
   }
 
-  return convertedObj;
-}
+  if (supportsAutoLayout(node)) {
+    convertedObj.autoLayout = true;
+  }
 
-export const pipe =
-  (...functions: Function[]) =>
-  (args: any) =>
-    functions.reduce((arg, fn) => fn(arg), args);
+  return convertedObj as FigmaFrameNode;
+}

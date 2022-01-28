@@ -1,0 +1,30 @@
+export interface FigmaFrameNode {
+  type: "FRAME";
+  name: string;
+  layoutMode: "NONE" | "HORIZONTAL" | "VERTICAL";
+  primaryAxisSizingMode: "FIXED" | "AUTO";
+  counterAxisSizingMode: "FIXED" | "AUTO";
+  primaryAxisAlignItems: "MIN" | "MAX" | "CENTER" | "SPACE_BETWEEN";
+  counterAxisAlignItems: "MIN" | "MAX" | "CENTER";
+  itemSpacing: number;
+  fills: Array<Paint>;
+  strokes: Array<Paint>;
+  strokeWeight: number;
+  opacity: number;
+  effects: Array<Effect>;
+  width: number;
+  height: number;
+  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  constraints: Constraints;
+  children: Array<any>;
+  paddingTop: number;
+  paddingBottom: number;
+  paddingLeft: number;
+  paddingRight: number;
+  cornerRadius: number;
+  topLeftRadius: number;
+  topRightRadius: number;
+  bottomLeftRadius: number;
+  bottomRightRadius: number;
+  autoLayout: boolean;
+}
