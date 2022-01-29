@@ -28,3 +28,33 @@ export interface IMessage<T> {
   type: MessageTypes;
   payload: IMessagePayload<T>;
 }
+
+interface IMarkupPayload {
+  markup: string;
+  selectedFrame: string;
+}
+
+interface IErrorPayload {
+  error: string;
+}
+
+export class MarkupPayload {
+  public data: IMarkupPayload;
+
+  constructor(markup: string, selectedFrame: string) {
+    this.data = {
+      markup,
+      selectedFrame,
+    };
+  }
+}
+
+export class ErrorPayload {
+  public data: IErrorPayload;
+
+  constructor(error: string) {
+    this.data = {
+      error,
+    };
+  }
+}

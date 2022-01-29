@@ -60,17 +60,6 @@ class App implements IComponent {
 
       this._render();
     });
-
-    // setTimeout(() => {
-    //   this.store.dispatch(
-    //     new SetMarkupAction(`<div class="flex flex-col space-y-2 items-start justify-start">
-    //   <p class="text-3xl font-bold text-gray-900">Starter board</p>
-    //   <p class="w-full text-sm text-gray-600">A description of a board.</p>
-    // </div>`)
-    //   );
-
-    //   this.store.dispatch(new SetSelectedFrameAction(`Kanban Board`));
-    // }, 1000);
   }
 
   _render() {
@@ -86,9 +75,11 @@ class App implements IComponent {
           break;
         case MessageTypes.ERROR:
           const {
-            payload: { data },
+            payload: {
+              data: { error },
+            },
           } = pluginMessage;
-          this.store.dispatch(new SetErrorAction(data));
+          this.store.dispatch(new SetErrorAction(error));
           break;
         case MessageTypes.NO_SELECTION:
           this.store.dispatch(new ResetAppStateAction());

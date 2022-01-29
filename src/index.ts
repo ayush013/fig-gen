@@ -1,6 +1,11 @@
 import { nodeToObject } from "@figma-plugin/helpers";
 import { debounce } from "./figma/utils/debouce";
-import { MessageTypes, postMessageToApp } from "./figma/utils/messages";
+import {
+  ErrorPayload,
+  MarkupPayload,
+  MessageTypes,
+  postMessageToApp,
+} from "./figma/utils/messages";
 import {
   isConversionSupported,
   isEmptySelection,
@@ -32,23 +37,26 @@ const main = debounce(() => {
 
   // Only allowing Page level nodes - Just because you can do it, doesn't mean you should
   if (!isPageLevelNode(selection[0])) {
-    postMessageToApp(MessageTypes.ERROR, {
-      data: "Please select a top level frame or component.",
-    });
+    postMessageToApp(
+      MessageTypes.ERROR,
+      new ErrorPayload("Only Page level nodes are supported")
+    );
     return;
   }
 
   if (!isConversionSupported(selection[0])) {
-    postMessageToApp(MessageTypes.ERROR, {
-      data: "Selected node is not a frame, component or instance.",
-    });
+    postMessageToApp(
+      MessageTypes.ERROR,
+      new ErrorPayload("Selected node is not a frame, component or instance.")
+    );
     return;
   }
 
   if (!isNodeVisible(selection[0])) {
-    postMessageToApp(MessageTypes.ERROR, {
-      data: "Selected node is not visible.",
-    });
+    postMessageToApp(
+      MessageTypes.ERROR,
+      new ErrorPayload("Selected node is not visible.")
+    );
     return;
   }
 
@@ -61,15 +69,16 @@ const main = debounce(() => {
   console.log(node);
 
   setTimeout(() => {
-    postMessageToApp(MessageTypes.MARKUP_GENERATED, {
-      data: {
-        selectedFrame: "Frame ABC",
-        markup: `<div class="flex flex-col space-y-2 items-start justify-start">
-        <p class="text-3xl font-bold text-gray-900">Starter board</p>
-        <p class="w-full text-sm text-gray-600">A description of a board.</p>
-      </div>`,
-      },
-    });
+    postMessageToApp(
+      MessageTypes.MARKUP_GENERATED,
+      new MarkupPayload(
+        `<div class="flex flex-col space-y-2 items-start justify-start">
+      <p class="text-3xl font-bold text-gray-900">Starter board</p>
+      <p class="w-full text-sm text-gray-600">A description of a board.</p>
+    </div>`,
+        "Kanban Board"
+      )
+    );
   }, 1000);
 }, 1000);
 
