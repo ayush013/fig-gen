@@ -4,6 +4,7 @@ import { MessageTypes, postMessageToApp } from "./figma/utils/messages";
 import {
   isConversionSupported,
   isEmptySelection,
+  isNodeVisible,
   isPageLevelNode,
   trimNode,
 } from "./figma/utils/nodes";
@@ -22,7 +23,7 @@ figma.ui.onmessage = (msg) => {
 const main = debounce(() => {
   const selection = figma.currentPage.selection;
 
-  console.log(selection);
+  console.log("selection", selection);
 
   if (isEmptySelection(selection)) {
     postMessageToApp(MessageTypes.NO_SELECTION);
@@ -40,6 +41,13 @@ const main = debounce(() => {
   if (!isConversionSupported(selection[0])) {
     postMessageToApp(MessageTypes.ERROR, {
       data: "Selected node is not a frame, component or instance.",
+    });
+    return;
+  }
+
+  if (!isNodeVisible(selection[0])) {
+    postMessageToApp(MessageTypes.ERROR, {
+      data: "Selected node is not visible.",
     });
     return;
   }
