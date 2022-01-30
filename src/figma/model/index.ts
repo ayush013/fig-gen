@@ -1,6 +1,7 @@
 export interface FigmaFrameNode {
   type: "FRAME";
   name: string;
+  id: string;
 
   layoutMode: "NONE" | "HORIZONTAL" | "VERTICAL";
   primaryAxisSizingMode: "FIXED" | "AUTO";
@@ -35,11 +36,14 @@ export interface FigmaFrameNode {
   bottomRightRadius: number;
 
   children: Array<any>;
+
+  originalRef: SceneNode;
 }
 
 export interface FigmaGroupNode {
   type: "GROUP";
   name: string;
+  id: string;
 
   fills: Array<Paint>;
   strokes: Array<Paint>;
@@ -68,4 +72,8 @@ export interface FigmaGroupNode {
   height: number;
 
   children: Array<any>;
+
+  originalRef: SceneNode;
 }
+
+export type FigmaSceneNode = FigmaFrameNode | FigmaGroupNode;

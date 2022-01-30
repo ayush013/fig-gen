@@ -1,11 +1,14 @@
-import { isPageNode } from "@figma-plugin/helpers";
-import { FigmaFrameNode, FigmaGroupNode } from "../model";
+import { hasChildren, isPageNode } from "@figma-plugin/helpers";
+import { FigmaFrameNode, FigmaGroupNode, FigmaSceneNode } from "../model";
 
 export enum NodeTypes {
   FRAME = "FRAME",
   COMPONENT = "COMPONENT",
   INSTANCE = "INSTANCE",
   GROUP = "GROUP",
+  VECTOR = "VECTOR",
+  RECTANGLE = "RECTANGLE",
+  TEXT = "TEXT",
 }
 
 export function isConversionSupported(
@@ -28,7 +31,9 @@ export function isPageLevelNode(node: Readonly<BaseNode>): boolean {
   return isPageNode(node.parent as BaseNode);
 }
 
-export function supportsAutoLayout(node: FrameNode) {
+export function supportsAutoLayout(
+  node: FrameNode | ComponentNode | InstanceNode
+): boolean {
   return node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL";
 }
 
@@ -38,7 +43,7 @@ export function isNodeVisible(node: SceneNode): boolean {
 
 const ACCEPTED_KEYS = {
   CHILDREN: "children",
-  COMMON: ["type", "name"],
+  COMMON: ["type", "name", "originalRef"],
   FRAME: [
     "layoutMode",
     "primaryAxisSizingMode",
@@ -92,23 +97,32 @@ const ACCEPTED_KEYS = {
   ],
 };
 
-export function trimNode(node: SceneNode) {
+export function trimNode(node: SceneNode): FigmaSceneNode {
   const { type } = node;
+  let trimmedNode!: FigmaSceneNode;
 
   if (isNodeVisible(node)) {
     switch (type) {
       case NodeTypes.FRAME:
-        return trimFrameNode(node);
+      case NodeTypes.INSTANCE:
+      case NodeTypes.COMPONENT:
+        trimmedNode = trimFrameNode(node);
+        break;
       case NodeTypes.GROUP:
-        return trimGroupNode(node);
+        trimmedNode = trimGroupNode(node);
+        break;
 
       default:
-        return node;
+        // @ts-ignore - To do for now until I finish the other types
+        trimmedNode = node;
     }
   }
+  return trimmedNode;
 }
 
-function trimFrameNode(node: FrameNode): FigmaFrameNode {
+function trimFrameNode(
+  node: FrameNode | ComponentNode | InstanceNode
+): FigmaFrameNode {
   const trimmedNode: FigmaFrameNode = {} as FigmaFrameNode;
   for (const key of [
     ...ACCEPTED_KEYS.COMMON,
@@ -156,4 +170,23 @@ function trimGroupNode(node: GroupNode): FigmaGroupNode {
   }
 
   return trimmedNode;
+}
+
+export function addRefToOriginalNode(originalNode: SceneNode) {
+  return function innerHelper(node: FigmaSceneNode, root = true) {
+    let targetNode: SceneNode;
+    const { id } = node;
+    if (root) {
+      targetNode = originalNode;
+    } else {
+      // @ts-ignore - todo: fix this
+      targetNode = originalNode.findOne?.((child) => child.id === id);
+    }
+
+    if (ACCEPTED_KEYS.CHILDREN in node) {
+      node.children = node.children.map((child) => innerHelper(child, false));
+    }
+
+    return { ...node, originalRef: targetNode };
+  };
 }

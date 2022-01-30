@@ -7,6 +7,7 @@ import {
   postMessageToApp,
 } from "./figma/utils/messages";
 import {
+  addRefToOriginalNode,
   isConversionSupported,
   isEmptySelection,
   isNodeVisible,
@@ -26,17 +27,19 @@ figma.ui.onmessage = (msg) => {
 };
 
 const main = debounce(() => {
-  const selection = figma.currentPage.selection;
+  const selectionList = figma.currentPage.selection;
 
-  console.log("selection", selection);
+  console.log("selection", selectionList);
 
-  if (isEmptySelection(selection)) {
+  if (isEmptySelection(selectionList)) {
     postMessageToApp(MessageTypes.NO_SELECTION);
     return;
   }
 
+  const selection = selectionList[0];
+
   // Only allowing Page level nodes - Just because you can do it, doesn't mean you should
-  if (!isPageLevelNode(selection[0])) {
+  if (!isPageLevelNode(selection)) {
     postMessageToApp(
       MessageTypes.ERROR,
       new ErrorPayload("Only Page level nodes are supported")
@@ -44,7 +47,7 @@ const main = debounce(() => {
     return;
   }
 
-  if (!isConversionSupported(selection[0])) {
+  if (!isConversionSupported(selection)) {
     postMessageToApp(
       MessageTypes.ERROR,
       new ErrorPayload("Selected node is not a frame, component or instance.")
@@ -52,7 +55,7 @@ const main = debounce(() => {
     return;
   }
 
-  if (!isNodeVisible(selection[0])) {
+  if (!isNodeVisible(selection)) {
     postMessageToApp(
       MessageTypes.ERROR,
       new ErrorPayload("Selected node is not visible.")
@@ -62,9 +65,15 @@ const main = debounce(() => {
 
   postMessageToApp(MessageTypes.IN_PROGRESS);
 
-  const compositeNodeProcessor = pipe(nodeToObject, trimNode);
+  const originalReferenceAdder = addRefToOriginalNode(selection);
 
-  const node = compositeNodeProcessor(selection[0]);
+  const compositeNodeProcessor = pipe(
+    nodeToObject,
+    originalReferenceAdder,
+    trimNode
+  );
+
+  const node = compositeNodeProcessor(selection);
 
   console.log(node);
 
