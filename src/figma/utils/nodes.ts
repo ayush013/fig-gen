@@ -1,5 +1,10 @@
-import { hasChildren, isPageNode } from "@figma-plugin/helpers";
-import { FigmaFrameNode, FigmaGroupNode, FigmaSceneNode } from "../model";
+import { isPageNode } from "@figma-plugin/helpers";
+import {
+  FigmaFrameNode,
+  FigmaGroupNode,
+  FigmaSceneNode,
+  FigmaTextNode,
+} from "../model";
 
 export enum NodeTypes {
   FRAME = "FRAME",
@@ -43,7 +48,7 @@ export function isNodeVisible(node: SceneNode): boolean {
 
 const ACCEPTED_KEYS = {
   CHILDREN: "children",
-  COMMON: ["type", "name", "originalRef"],
+  COMMON: ["type", "name", "originalRef", "id"],
   FRAME: [
     "layoutMode",
     "primaryAxisSizingMode",
@@ -94,6 +99,32 @@ const ACCEPTED_KEYS = {
     "bottomRightRadius",
     "width",
     "height",
+    "rotation",
+  ],
+  TEXT: [
+    "textAlignHorizontal",
+    "textAlignVertical",
+    "textAutoResize",
+    "paragraphIndent",
+    "paragraphSpacing",
+    "characters",
+    "fontSize",
+    "fontName",
+    "textCase",
+    "textDecoration",
+    "letterSpacing",
+    "lineHeight",
+    "fills",
+    "strokes",
+    "strokeWeight",
+    "opacity",
+    "effects",
+    "rotation",
+    "width",
+    "height",
+    "layoutAlign",
+    "layoutGrow",
+    "constraints",
   ],
 };
 
@@ -108,8 +139,13 @@ export function trimNode(node: SceneNode): FigmaSceneNode {
       case NodeTypes.COMPONENT:
         trimmedNode = trimFrameNode(node);
         break;
+
       case NodeTypes.GROUP:
         trimmedNode = trimGroupNode(node);
+        break;
+
+      case NodeTypes.TEXT:
+        trimmedNode = trimTextNode(node);
         break;
 
       default:
@@ -172,6 +208,18 @@ function trimGroupNode(node: GroupNode): FigmaGroupNode {
   return trimmedNode;
 }
 
+function trimTextNode(node: TextNode): FigmaTextNode {
+  const trimmedNode: FigmaTextNode = {} as FigmaTextNode;
+  for (const key of [...ACCEPTED_KEYS.COMMON, ...ACCEPTED_KEYS.TEXT]) {
+    if (key in node) {
+      // @ts-ignore - todo: fix this
+      trimmedNode[key] = node[key];
+    }
+  }
+
+  return trimmedNode;
+}
+
 export function addRefToOriginalNode(originalNode: SceneNode) {
   return function innerHelper(node: FigmaSceneNode, root = true) {
     let targetNode: SceneNode;
@@ -184,7 +232,9 @@ export function addRefToOriginalNode(originalNode: SceneNode) {
     }
 
     if (ACCEPTED_KEYS.CHILDREN in node) {
-      node.children = node.children.map((child) => innerHelper(child, false));
+      (node as FigmaFrameNode | FigmaGroupNode).children = (
+        node as FigmaFrameNode | FigmaGroupNode
+      ).children.map((child: FigmaSceneNode) => innerHelper(child, false));
     }
 
     return { ...node, originalRef: targetNode };

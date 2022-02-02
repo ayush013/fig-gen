@@ -23,6 +23,7 @@ export interface FigmaFrameNode {
 
   width: number;
   height: number;
+  rotation: number;
 
   paddingTop: number;
   paddingBottom: number;
@@ -70,10 +71,44 @@ export interface FigmaGroupNode {
 
   width: number;
   height: number;
+  rotation: number;
 
   children: Array<any>;
 
   originalRef: SceneNode;
 }
 
-export type FigmaSceneNode = FigmaFrameNode | FigmaGroupNode;
+export interface FigmaTextNode {
+  type: "TEXT";
+  name: string;
+  id: string;
+
+  textAlignHorizontal: "LEFT" | "CENTER" | "RIGHT" | "JUSTIFIED";
+  textAlignVertical: "TOP" | "CENTER" | "BOTTOM";
+  textAutoResize: "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT";
+  paragraphIndent: number;
+  paragraphSpacing: number;
+  characters: string;
+  fontSize: number;
+  fontName: FontName;
+  textCase: "ORIGINAL" | "UPPER" | "LOWER" | "TITLE";
+  textDecoration: "NONE" | "UNDERLINE" | "STRIKETHROUGH";
+  letterSpacing: LetterSpacing;
+  lineHeight: LineHeight;
+
+  fills: Array<Paint>;
+  strokes: Array<Paint>;
+  strokeWeight: number;
+  opacity: number;
+  effects: Array<Effect>;
+
+  width: number;
+  height: number;
+  rotation: number;
+
+  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutGrow: number;
+  constraints: Constraints;
+}
+
+export type FigmaSceneNode = FigmaFrameNode | FigmaGroupNode | FigmaTextNode;
