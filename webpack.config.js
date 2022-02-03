@@ -14,9 +14,16 @@ const env = process.env.NODE_ENV;
 const plugins = [
   new HtmlWebpackPlugin({
     title: "FigGen",
-    template: "src/index.html",
+    template: "src/app/index.html",
     chunks: ["htmlApp"],
     filename: "ui.html",
+    inject: "body",
+  }),
+  new HtmlWebpackPlugin({
+    title: "FigGen Worker",
+    template: "src/code-worker/index.html",
+    chunks: ["worker"],
+    filename: "worker.html",
     inject: "body",
   }),
   new HTMLInlineCSSWebpackPlugin(),
@@ -30,6 +37,7 @@ module.exports = {
   entry: {
     code: "./src/index.ts",
     htmlApp: "./src/app/main.ts",
+    worker: "./src/code-worker/main.ts",
   },
   mode: env,
   devtool: false,
