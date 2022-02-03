@@ -1,4 +1,5 @@
 import { nodeToObject } from "@figma-plugin/helpers";
+import { FigmaSceneNode } from "./figma/model";
 import { debounce } from "./figma/utils/debouce";
 import {
   ErrorPayload,
@@ -73,22 +74,29 @@ const main = debounce(() => {
     trimNode
   );
 
-  const node = compositeNodeProcessor(selection);
-
-  console.log(node);
-
   setTimeout(() => {
-    postMessageToApp(
-      MessageTypes.MARKUP_GENERATED,
-      new MarkupPayload(
-        `<div class="flex flex-col space-y-2 items-start justify-start">
-      <p class="text-3xl font-bold text-gray-900">Starter board</p>
-      <p class="w-full text-sm text-gray-600">A description of a board.</p>
-    </div>`,
-        "Kanban Board"
-      )
-    );
-  }, 1000);
+    compositeNodeProcessor(selection)
+      .then((node: FigmaSceneNode) => {
+        console.log(node);
+
+        // do magic here
+
+        postMessageToApp(
+          MessageTypes.MARKUP_GENERATED,
+          new MarkupPayload(
+            `<div class="flex flex-col space-y-2 items-start justify-start">
+        <p class="text-3xl font-bold text-gray-900">Starter board</p>
+        <p class="w-full text-sm text-gray-600">A description of a board.</p>
+      </div>`,
+            "Kanban Board"
+          )
+        );
+      })
+      .catch((error: Error) => {
+        console.log(error);
+        postMessageToApp(MessageTypes.ERROR, new ErrorPayload(error.message));
+      });
+  }, 100);
 }, 1000);
 
 main();

@@ -111,4 +111,23 @@ export interface FigmaTextNode {
   constraints: Constraints;
 }
 
-export type FigmaSceneNode = FigmaFrameNode | FigmaGroupNode | FigmaTextNode;
+export interface FigmaVectorNode {
+  type: "VECTOR";
+  name: string;
+  id: string;
+
+  data: Uint8Array;
+  mimeType: string;
+
+  width: number;
+  height: number;
+  rotation: number;
+
+  originalRef: SceneNode;
+}
+
+export type FigmaSceneNode =
+  | FigmaFrameNode
+  | FigmaGroupNode
+  | FigmaTextNode
+  | FigmaVectorNode;
