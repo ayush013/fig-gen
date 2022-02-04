@@ -96,6 +96,8 @@ class App implements IComponent {
         case MessageTypes.IN_PROGRESS:
           this.store.dispatch(new SetInProgressAction());
           break;
+        case MessageTypes.NODE_GENERATED:
+          console.log(pluginMessage);
         default:
           this.store.dispatch(new ResetAppStateAction());
           break;

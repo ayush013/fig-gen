@@ -1,9 +1,12 @@
+import { FigmaSceneNode } from "../model";
+
 export enum MessageTypes {
   CLOSE = "CLOSE",
   ERROR = "ERROR",
   NO_SELECTION = "NO_SELECTION",
   MARKUP_GENERATED = "MARKUP_GENERATED",
   IN_PROGRESS = "IN_PROGRESS",
+  NODE_GENERATED = "NODE_GENERATED",
 }
 
 export const postMessageToFigma = (
@@ -38,6 +41,10 @@ interface IErrorPayload {
   error: string;
 }
 
+export interface INodePayload {
+  node: FigmaSceneNode;
+}
+
 export class MarkupPayload {
   public data: IMarkupPayload;
 
@@ -55,6 +62,16 @@ export class ErrorPayload {
   constructor(error: string) {
     this.data = {
       error,
+    };
+  }
+}
+
+export class NodePayload {
+  public data: INodePayload;
+
+  constructor(node: FigmaSceneNode) {
+    this.data = {
+      node,
     };
   }
 }

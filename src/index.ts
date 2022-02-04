@@ -5,6 +5,7 @@ import {
   ErrorPayload,
   MarkupPayload,
   MessageTypes,
+  NodePayload,
   postMessageToApp,
 } from "./figma/utils/messages";
 import {
@@ -18,9 +19,7 @@ import {
 import { pipe } from "./figma/utils/pipe";
 
 // This shows the HTML page in "ui.html".
-console.log(__uiFiles__);
-
-figma.showUI(__uiFiles__.main, { width: 500, height: 400 });
+figma.showUI(__html__, { width: 500, height: 400 });
 
 // Skip over invisible nodes and their descendants inside instances for faster performance
 figma.skipInvisibleInstanceChildren = true;
@@ -83,16 +82,18 @@ const main = debounce(() => {
 
         // do magic here
 
-        postMessageToApp(
-          MessageTypes.MARKUP_GENERATED,
-          new MarkupPayload(
-            `<div class="flex flex-col space-y-2 items-start justify-start">
-        <p class="text-3xl font-bold text-gray-900">Starter board</p>
-        <p class="w-full text-sm text-gray-600">A description of a board.</p>
-      </div>`,
-            "Kanban Board"
-          )
-        );
+        postMessageToApp(MessageTypes.NODE_GENERATED, new NodePayload(node));
+
+        //   postMessageToApp(
+        //     MessageTypes.MARKUP_GENERATED,
+        //     new MarkupPayload(
+        //       `<div class="flex flex-col space-y-2 items-start justify-start">
+        //   <p class="text-3xl font-bold text-gray-900">Starter board</p>
+        //   <p class="w-full text-sm text-gray-600">A description of a board.</p>
+        // </div>`,
+        //       "Kanban Board"
+        //     )
+        //   );
       })
       .catch((error: Error) => {
         console.log(error);
