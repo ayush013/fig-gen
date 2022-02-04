@@ -53,9 +53,14 @@ export function isNodeVisible(node: SceneNode): boolean {
   return node.visible;
 }
 
-function isExportable(node: SceneNode): boolean {
-  const { name } = node;
-  return name.toLowerCase().includes("export=true");
+function isExportable(node: CompositeSceneNode): boolean {
+  const { name, exportSettings } = node;
+  const hasExportFlagInName = name.toLowerCase().includes("export=true");
+  const hasValidExportSettings = exportSettings.some((setting) =>
+    setting.format.match(/(svg|png|jpg)/i)
+  );
+
+  return hasExportFlagInName || hasValidExportSettings;
 }
 
 type CompositeSceneNode = SceneNode & {
@@ -204,13 +209,9 @@ async function trimVectorNode(
 ): Promise<FigmaVectorNode> {
   const trimmedNode: FigmaVectorNode = {} as FigmaVectorNode;
 
-  const { name } = node;
-
-  const formatMatch = name.toLowerCase().match(/format=(svg|png|jpg)/);
-  let exportformat = formatMatch ? formatMatch[1].toUpperCase() : "SVG";
-
-  if (!Object.keys(VECTOR_EXPORT_OPTIONS).includes(exportformat)) {
-    exportformat = "SVG";
+  let exportformat = getExportFormatFromSettings(node);
+  if (!exportformat) {
+    exportformat = getExportFormatFromName(node);
   }
 
   const { mimeType, format } =
@@ -233,4 +234,31 @@ async function trimVectorNode(
   } catch (e) {
     throw new Error("Failed to export node");
   }
+}
+
+const DEFAULT_EXPORT_FORMAT = "PNG";
+
+function getExportFormatFromName(node: CompositeSceneNode): string {
+  const { name } = node;
+
+  const formatMatch = name.match(/format=(svg|png|jpg)/i);
+  let exportformat = formatMatch
+    ? formatMatch[1].toUpperCase()
+    : DEFAULT_EXPORT_FORMAT;
+
+  if (!Object.keys(VECTOR_EXPORT_OPTIONS).includes(exportformat)) {
+    exportformat = DEFAULT_EXPORT_FORMAT;
+  }
+  return exportformat;
+}
+
+function getExportFormatFromSettings(
+  node: CompositeSceneNode
+): string | undefined {
+  const { exportSettings } = node;
+  const format = exportSettings
+    .filter(({ format }) => format.match(/(svg|png|jpg)/i))
+    .map(({ format }) => format)?.[0];
+
+  return format;
 }
