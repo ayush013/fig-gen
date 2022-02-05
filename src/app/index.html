@@ -1,10 +1,10 @@
 <html lang="en">
   <head></head>
-  <body class="p-4" id="body">
+  <body class="p-4 text-gray-700" id="body">
     <!-- Because we don't have JSX all the markup templates have been added here -->
     <template id="no-frame">
       <div class="flex items-center flex-col gap-4 h-full justify-center">
-        <h1 class="type type--large type--bold">
+        <h1 class="font-semibold text-xs">
           Select a frame with Auto layout to convert
         </h1>
         <img
@@ -17,7 +17,7 @@
 
     <template id="error">
       <div class="flex items-center flex-col gap-4 h-full justify-center">
-        <h1 class="type type--large type--bold error-msg text-red-500"></h1>
+        <h1 class="font-semibold text-xs error-msg text-red-500"></h1>
         <img src="../assets/error.svg" alt="error" class="w-1/2" />
       </div>
     </template>
@@ -28,21 +28,21 @@
           <span class="inline-block text-green-700">{</span
           ><span class="inline-block text-blue-700">}</span>
         </div>
-        <h1 class="type type--large type--medium">Hang on tight!</h1>
+        <h1 class="font-semibold text-xs">Hang on tight!</h1>
       </div>
     </template>
 
     <template id="markup">
       <div class="flex flex-col gap-2 h-full items-start">
         <div>
-          <h1 class="type type--large type--bold">Generated Markup 🚀</h1>
-          <h2 class="type type--medium current-frame text-gray-700"></h2>
+          <h1 class="font-bold text-sm">Generated Markup 🚀</h1>
+          <h2 class="font-medium text-xs current-frame text-gray-700"></h2>
         </div>
         <pre
           class="text-xs max-w-full p-2 bg-gray-800 text-white overflow-x-auto rounded"
         ><code class="markup-container"></code></pre>
         <button
-          class="button button--primary clipboard-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
+          class="font-semibold text-xs p-2 rounded-md bg-blue-400 text-white clipboard-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
         >
           Copy to Clipboard
         </button>

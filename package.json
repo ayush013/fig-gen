@@ -33,7 +33,6 @@
   "dependencies": {
     "@figma-plugin/helpers": "^0.15.2",
     "beautify": "^0.0.8",
-    "figma-plugin-ds": "^1.0.1",
     "highlight.js": "^11.4.0"
   }
 }

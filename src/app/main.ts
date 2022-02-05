@@ -1,4 +1,3 @@
-import "figma-plugin-ds/dist/figma-plugin-ds.css";
 import {
   postMessageToFigma,
   MessageTypes,
@@ -18,12 +17,6 @@ import getStore, { Store, Subscription } from "./core/Store";
 import "./style.scss";
 import getTemplateClass from "./templates";
 import { TemplateIds } from "./templates";
-
-// To do: Fix syntax
-const { selectMenu, disclosure } = require("figma-plugin-ds");
-
-selectMenu.init(); //initiates the select menu component
-disclosure.init(); //initiates the disclosure component
 
 class App implements IComponent {
   private templateMap: Map<TemplateIds, BaseTemplate<any>>;
