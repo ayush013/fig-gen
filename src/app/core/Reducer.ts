@@ -1,45 +1,74 @@
-import ActionTypes from "./ActionTypes";
+import ActionTypes, {
+  ResetAppStateAction,
+  SetErrorAction,
+  SetInProgressAction,
+  SetMarkupAction,
+  SetNodeAction,
+  SetSelectedFrameAction,
+} from "./ActionTypes";
 import { IState, IAction, initialState } from "./Store";
 
 export const appReducer = (
   state: IState = initialState,
   action: IAction<any>
 ): IState => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case ActionTypes.SET_MARKUP:
-      return {
-        ...state,
-        markup: {
-          ...state.markup,
-          error: null,
-          data: action.payload,
-          inProgress: false,
-        },
-      };
+      if (action instanceof SetMarkupAction) {
+        return {
+          ...state,
+          markup: {
+            ...state.markup,
+            error: null,
+            data: payload,
+            inProgress: false,
+          },
+        };
+      }
     case ActionTypes.SET_IN_PROGRESS:
-      return {
-        ...state,
-        markup: {
-          ...state.markup,
-          inProgress: true,
-        },
-      };
+      if (action instanceof SetInProgressAction) {
+        return {
+          ...state,
+          markup: {
+            ...state.markup,
+            inProgress: true,
+          },
+        };
+      }
     case ActionTypes.SET_ERROR:
-      return {
-        ...state,
-        markup: {
-          ...state.markup,
-          error: action.payload,
-          inProgress: false,
-        },
-      };
+      if (action instanceof SetErrorAction) {
+        return {
+          ...state,
+          markup: {
+            ...state.markup,
+            error: payload,
+            inProgress: false,
+          },
+        };
+      }
     case ActionTypes.SET_SELECTED_FRAME:
-      return {
-        ...state,
-        selectedFrame: action.payload,
-      };
+      if (action instanceof SetSelectedFrameAction) {
+        return {
+          ...state,
+          selectedFrame: payload,
+        };
+      }
+    case ActionTypes.SET_NODE:
+      if (action instanceof SetNodeAction) {
+        return {
+          ...state,
+          node: {
+            ...state.node,
+            tree: payload,
+          },
+        };
+      }
     case ActionTypes.RESET_APP_STATE:
-      return initialState;
+      if (action instanceof ResetAppStateAction) {
+        return initialState;
+      }
     default:
       return state;
   }

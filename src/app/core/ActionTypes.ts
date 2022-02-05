@@ -1,9 +1,12 @@
+import { FigmaSceneNode } from "../../figma/model";
+
 const ActionTypes = {
   SET_MARKUP: "SET_MARKUP",
   SET_IN_PROGRESS: "SET_IN_PROGRESS",
   SET_ERROR: "SET_ERROR",
   SET_SELECTED_FRAME: "SET_SELECTED_FRAME",
   RESET_APP_STATE: "RESET_APP_STATE",
+  SET_NODE: "SET_NODE",
 };
 
 export default ActionTypes;
@@ -43,5 +46,13 @@ export class ResetAppStateAction {
   type: string;
   constructor() {
     this.type = ActionTypes.RESET_APP_STATE;
+  }
+}
+
+export class SetNodeAction {
+  type: string;
+  constructor(public payload: FigmaSceneNode) {
+    this.type = ActionTypes.SET_NODE;
+    this.payload = payload;
   }
 }

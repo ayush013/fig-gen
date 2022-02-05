@@ -1,3 +1,18 @@
+export enum NodeTypes {
+  FRAME = "FRAME",
+  COMPONENT = "COMPONENT",
+  INSTANCE = "INSTANCE",
+  GROUP = "GROUP",
+  TEXT = "TEXT",
+
+  VECTOR = "VECTOR",
+  RECTANGLE = "RECTANGLE",
+  ELLIPSE = "ELLIPSE",
+  LINE = "LINE",
+  POLYGON = "POLYGON",
+  STAR = "STAR",
+}
+
 export const ACCEPTED_KEYS = {
   CHILDREN: "children",
   COMMON: ["type", "name", "originalRef", "id"],

@@ -1,6 +1,7 @@
+import { FigmaSceneNode } from "../../figma/model";
 import { appReducer } from "./Reducer";
 
-class Store {
+export class Store {
   private _state: IState = initialState;
   private _subscriptions: { [key: string]: (state: IState) => void } = {};
   private _reducer: (state: IState, action: IAction<any>) => IState;
@@ -73,6 +74,9 @@ export interface IState {
     error: string | null;
     data: string;
   };
+  node: {
+    tree: FigmaSceneNode | null;
+  };
   selectedFrame: string;
 }
 
@@ -83,5 +87,6 @@ export interface IAction<T> {
 
 export const initialState: IState = {
   markup: { inProgress: false, error: null, data: "" },
+  node: { tree: null },
   selectedFrame: "",
 };

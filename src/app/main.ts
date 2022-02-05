@@ -3,16 +3,18 @@ import {
   postMessageToFigma,
   MessageTypes,
   IMessage,
+  INodePayload,
 } from "../figma/utils/messages";
 import {
   ResetAppStateAction,
   SetErrorAction,
   SetInProgressAction,
   SetMarkupAction,
+  SetNodeAction,
   SetSelectedFrameAction,
 } from "./core/ActionTypes";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
-import getStore, { Subscription } from "./core/Store";
+import getStore, { Store, Subscription } from "./core/Store";
 import "./style.scss";
 import getTemplateClass from "./templates";
 import { TemplateIds } from "./templates";
@@ -28,8 +30,7 @@ class App implements IComponent {
   private bodyRef: HTMLBodyElement;
   private subscription: Subscription | undefined;
 
-  // to do : fix type
-  private readonly store: any;
+  private readonly store: Store;
 
   constructor() {
     this.templateMap = new Map();
@@ -97,7 +98,9 @@ class App implements IComponent {
           this.store.dispatch(new SetInProgressAction());
           break;
         case MessageTypes.NODE_GENERATED:
-          console.log(pluginMessage);
+          const { node } = pluginMessage.payload.data as INodePayload;
+          this.store.dispatch(new SetNodeAction(node));
+          break;
         default:
           this.store.dispatch(new ResetAppStateAction());
           break;

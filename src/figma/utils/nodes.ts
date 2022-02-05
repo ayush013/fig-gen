@@ -1,5 +1,5 @@
 import { isPageNode } from "@figma-plugin/helpers";
-import { ACCEPTED_KEYS, VECTOR_EXPORT_OPTIONS } from "../constants";
+import { ACCEPTED_KEYS, NodeTypes, VECTOR_EXPORT_OPTIONS } from "../constants";
 import {
   FigmaFrameNode,
   FigmaGroupNode,
@@ -7,21 +7,6 @@ import {
   FigmaTextNode,
   FigmaVectorNode,
 } from "../model";
-
-export enum NodeTypes {
-  FRAME = "FRAME",
-  COMPONENT = "COMPONENT",
-  INSTANCE = "INSTANCE",
-  GROUP = "GROUP",
-  TEXT = "TEXT",
-
-  VECTOR = "VECTOR",
-  RECTANGLE = "RECTANGLE",
-  ELLIPSE = "ELLIPSE",
-  LINE = "LINE",
-  POLYGON = "POLYGON",
-  STAR = "STAR",
-}
 
 export function isConversionSupported(
   node: SceneNode
