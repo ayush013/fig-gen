@@ -215,6 +215,8 @@ async function trimVectorNode(
       }
     }
 
+    trimmedNode.type = NodeTypes.VECTOR;
+
     return trimmedNode;
   } catch (e) {
     throw new Error("Failed to export node");

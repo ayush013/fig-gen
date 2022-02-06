@@ -119,9 +119,14 @@ export interface FigmaVectorNode {
   data: Uint8Array;
   mimeType: string;
 
+  effects: Array<Effect>;
+  rotation: number;
+  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  constraints: Constraints;
+  layoutGrow: number;
+
   width: number;
   height: number;
-  rotation: number;
 
   originalRef: SceneNode;
 }

@@ -93,7 +93,15 @@ export const ACCEPTED_KEYS = {
     "layoutGrow",
     "constraints",
   ],
-  VECTOR: ["width", "height", "rotation"],
+  VECTOR: [
+    "width",
+    "height",
+    "rotation",
+    "effects",
+    "layoutAlign",
+    "constraints",
+    "layoutGrow",
+  ],
 };
 
 export const VECTOR_EXPORT_OPTIONS = {
