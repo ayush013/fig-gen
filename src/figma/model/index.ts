@@ -36,7 +36,7 @@ export interface FigmaFrameNode {
   bottomLeftRadius: number;
   bottomRightRadius: number;
 
-  children: Array<any>;
+  children: Array<FigmaSceneNode>;
 
   originalRef: SceneNode;
 }
@@ -73,7 +73,7 @@ export interface FigmaGroupNode {
   height: number;
   rotation: number;
 
-  children: Array<any>;
+  children: Array<FigmaSceneNode>;
 
   originalRef: SceneNode;
 }

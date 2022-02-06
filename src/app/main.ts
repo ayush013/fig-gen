@@ -14,6 +14,7 @@ import {
 } from "./core/ActionTypes";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import getStore, { Store, Subscription } from "./core/Store";
+import generateAndExport from "./generator";
 import "./style.scss";
 import getTemplateClass from "./templates";
 import { TemplateIds } from "./templates";
@@ -93,6 +94,7 @@ class App implements IComponent {
         case MessageTypes.NODE_GENERATED:
           const { node } = pluginMessage.payload.data as INodePayload;
           this.store.dispatch(new SetNodeAction(node));
+          generateAndExport(node);
           break;
         default:
           this.store.dispatch(new ResetAppStateAction());

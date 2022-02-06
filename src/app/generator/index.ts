@@ -1,20 +1,26 @@
+import { NodeTypes } from "../../figma/constants";
 import { FigmaSceneNode } from "../../figma/model";
-import { FigmaIntermediateNode } from "./model";
+import { pipe } from "../../figma/utils/pipe";
+import generateIntermediateNode, {
+  IntermediateNode,
+} from "./utils/intermediate-node";
 
-export default function generate(node: FigmaSceneNode): void {
-  const intermediateNode = nodePipeLine()(node);
+export default function generateAndExport(node: FigmaSceneNode) {
+  const intermediateNode = generate(node);
+
+  console.log(intermediateNode);
 }
 
-// Write a function pipe which composes functions with the same arity.
-// pipe(f, g, h) = x => h(g(f(x)))
-// pipe(f, g) = x => g(f(x))
-// pipe(f) = x => f(x)
+const intermediateNodeGeneratorFn = pipe(generateIntermediateNode);
 
-const nodePipeLine =
-  (...fns: Function[]) =>
-  (node: FigmaSceneNode) => {
-    return fns.reduce(
-      (acc, fn, index) => (index === 0 ? fn(node) : fn(node, acc)),
-      node
-    );
-  };
+function generate(node: FigmaSceneNode): IntermediateNode {
+  const intermediateNode: IntermediateNode = intermediateNodeGeneratorFn(node);
+
+  if (node.type === NodeTypes.FRAME || node.type === NodeTypes.GROUP) {
+    if (node.children) {
+      intermediateNode.children = node.children.map((child) => generate(child));
+    }
+  }
+
+  return intermediateNode;
+}
