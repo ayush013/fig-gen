@@ -80,20 +80,7 @@ const main = debounce(() => {
       .then((node: FigmaSceneNode) => {
         console.log(node);
 
-        // do magic here
-
         postMessageToApp(MessageTypes.NODE_GENERATED, new NodePayload(node));
-
-        postMessageToApp(
-          MessageTypes.MARKUP_GENERATED,
-          new MarkupPayload(
-            `<div class="flex flex-col space-y-2 items-start justify-start">
-          <p class="text-3xl font-bold text-gray-900">Starter board</p>
-          <p class="w-full text-sm text-gray-600">A description of a board.</p>
-        </div>`,
-            "Kanban Board"
-          )
-        );
       })
       .catch((error: Error) => {
         console.log(error);
