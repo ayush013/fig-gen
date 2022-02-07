@@ -8,11 +8,13 @@ import generateIntermediateNode, {
   IntermediateNode,
 } from "./utils/intermediate-node";
 import addLayoutClasses from "./utils/layout-generator";
+import addPaddingClasses from "./utils/padding-generator";
 
 export default function generateAndExport(node: FigmaSceneNode) {
   const intermediateNode = generate(node);
 
   console.log(intermediateNode);
+
   const markup = getHTMLScaffold(
     convertIntermediateNodeToString(intermediateNode)
   );
@@ -22,7 +24,8 @@ export default function generateAndExport(node: FigmaSceneNode) {
 
 const intermediateNodeGeneratorFn = pipe(
   generateIntermediateNode,
-  addLayoutClasses
+  addLayoutClasses,
+  addPaddingClasses
 );
 
 function generate(node: FigmaSceneNode): IntermediateNode {
