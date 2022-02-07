@@ -3,6 +3,7 @@ import { FigmaSceneNode } from "../../figma/model";
 import { pipe } from "../../figma/utils/pipe";
 import { SetMarkupAction } from "../core/ActionTypes";
 import getStore from "../core/Store";
+import getHTMLScaffold from "./bundle/html-scaffold";
 import generateIntermediateNode, {
   IntermediateNode,
 } from "./utils/intermediate-node";
@@ -12,7 +13,9 @@ export default function generateAndExport(node: FigmaSceneNode) {
   const intermediateNode = generate(node);
 
   console.log(intermediateNode);
-  const markup = convertIntermediateNodeToString(intermediateNode);
+  const markup = getHTMLScaffold(
+    convertIntermediateNodeToString(intermediateNode)
+  );
 
   getStore().dispatch(new SetMarkupAction(markup));
 }
