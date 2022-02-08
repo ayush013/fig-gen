@@ -1,11 +1,14 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
+import getColorClass from "./shared/getColor";
+import getOpacityClass from "./shared/getOpacity";
 import { getTailwindFontSizeMap } from "./tailwind-config-parser";
 
 const fontSizeMap = getTailwindFontSizeMap();
 
-const FONT_SIZE_TOKEN = "text-";
+const TEXT_TOKEN = "text-";
+const TEXT__OPACITY_TOKEN = `${TEXT_TOKEN}opacity-`;
 
 export default function addTextAndStyles(
   intermediateNode: IntermediateNode
@@ -17,7 +20,14 @@ export default function addTextAndStyles(
   switch (type) {
     case NodeTypes.TEXT:
       {
-        const { characters, textCase, textDecoration, fontSize } = node;
+        const {
+          characters,
+          textCase,
+          textDecoration,
+          fontSize,
+          textAlignHorizontal,
+          fills,
+        } = node;
 
         intermediateNode.addContent(characters);
 
@@ -29,11 +39,20 @@ export default function addTextAndStyles(
           textDecoration !== "NONE" &&
           intermediateNode.addClass(getTextDecorationClass(textDecoration));
 
+        textAlignHorizontal &&
+          textAlignHorizontal !== "LEFT" &&
+          intermediateNode.addClass(getTextAlignClass(textAlignHorizontal));
+
         if (fontSize !== 16) {
-          const opacityClass = fontSizeMap.has(fontSize)
-            ? `${FONT_SIZE_TOKEN}${fontSizeMap.get(fontSize)}`
-            : `${FONT_SIZE_TOKEN}[${Number(fontSize).toFixed(2)}]`;
-          intermediateNode.addClass(`${opacityClass}`);
+          const fontSizeClass = getFontSizeClass(fontSize);
+          intermediateNode.addClass(`${fontSizeClass}`);
+        }
+
+        if (fills.length > 0) {
+          const currentColor = fills[0];
+
+          intermediateNode.addClass(`${getTextColorClass(currentColor)}`);
+          intermediateNode.addClass(`${getTextOpacityClass(currentColor)}`);
         }
       }
 
@@ -65,4 +84,48 @@ const getTextDecorationClass = (textDecoration: string): string => {
     default:
       return "";
   }
+};
+
+const getTextAlignClass = (textAlignHorizontal: string): string => {
+  switch (textAlignHorizontal) {
+    case "LEFT":
+      return "text-left";
+    case "CENTER":
+      return "text-center";
+    case "RIGHT":
+      return "text-right";
+    case "JUSTIFIED":
+      return "text-justify";
+    default:
+      return "";
+  }
+};
+
+const getTextColorClass = (currentColor: Paint): string => {
+  switch (currentColor.type) {
+    case "SOLID": {
+      const { color } = currentColor;
+
+      return getColorClass(color, TEXT_TOKEN);
+    }
+    default:
+      return "";
+  }
+};
+
+const getFontSizeClass = (fontSize: number): string => {
+  const fontSizeClass = fontSizeMap.has(fontSize)
+    ? `${TEXT_TOKEN}${fontSizeMap.get(fontSize)}`
+    : `${TEXT_TOKEN}[${Number(fontSize / 16).toFixed(2)}rem]`;
+  return fontSizeClass;
+};
+
+const getTextOpacityClass = (currentColor: Paint): string => {
+  const { opacity } = currentColor;
+
+  if (opacity !== undefined && opacity !== 1) {
+    return getOpacityClass(opacity, TEXT__OPACITY_TOKEN);
+  }
+
+  return "";
 };

@@ -1,9 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import { getTailwindOpacityMap } from "./tailwind-config-parser";
-
-const opacityMap = getTailwindOpacityMap();
+import getOpacityClass from "./shared/getOpacity";
 
 const OPACITY_TOKEN = "opacity-";
 
@@ -22,10 +20,9 @@ export default function addOpacityClasses(
         const { opacity } = node;
 
         if (opacity !== 1) {
-          const opacityClass = opacityMap.has(opacity)
-            ? `${OPACITY_TOKEN}${opacityMap.get(opacity)}`
-            : `${OPACITY_TOKEN}[${Number(opacity).toFixed(2)}]`;
-          intermediateNode.addClass(`${opacityClass}`);
+          intermediateNode.addClass(
+            `${getOpacityClass(opacity, OPACITY_TOKEN)}`
+          );
         }
       }
 

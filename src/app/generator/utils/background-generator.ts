@@ -1,20 +1,10 @@
-import { figmaRGBToHex } from "@figma-plugin/helpers";
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import {
-  getTailwindColorMap,
-  getTailwindOpacityMap,
-} from "./tailwind-config-parser";
-
-const colorMap = getTailwindColorMap();
-const opacityMap = getTailwindOpacityMap();
-
-const colorKeys = Array.from(colorMap).map(([key, _]) => key);
-const findNearestColor = require("nearest-color").from(colorKeys);
+import getColorClass from "./shared/getColor";
+import getOpacityClass from "./shared/getOpacity";
 
 const BACKGROUND_TOKEN = "bg-";
-
 const OPACITY_TOKEN = "bg-opacity-";
 
 export default function addBackgroundClasses(
@@ -38,17 +28,14 @@ export default function addBackgroundClasses(
               {
                 const { color, opacity } = currentColor;
 
-                const colorHex = figmaRGBToHex(color);
-                const nearestColorResult = findNearestColor(colorHex);
-                const bgColorValue = colorMap.get(nearestColorResult);
-
-                intermediateNode.addClass(`${BACKGROUND_TOKEN}${bgColorValue}`);
+                intermediateNode.addClass(
+                  `${getColorClass(color, BACKGROUND_TOKEN)}`
+                );
 
                 if (opacity !== undefined && opacity !== 1) {
-                  const opacityClass = opacityMap.has(opacity)
-                    ? `${OPACITY_TOKEN}${opacityMap.get(opacity)}`
-                    : `${OPACITY_TOKEN}[${Number(opacity).toFixed(2)}]`;
-                  intermediateNode.addClass(`${opacityClass}`);
+                  intermediateNode.addClass(
+                    `${getOpacityClass(opacity, OPACITY_TOKEN)}`
+                  );
                 }
               }
               break;

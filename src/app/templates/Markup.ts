@@ -29,13 +29,13 @@ class Markup extends BaseTemplate<IMarkupProps> {
         document.execCommand("copy");
         textArea.remove();
         copyButton.textContent = "Copied!";
-        copyButton.classList.add("bg-green-500", "w-24");
-        copyButton.classList.remove("w-36", "bg-blue-400");
+        copyButton.classList.add("bg-green-400", "w-24", "text-white");
+        copyButton.classList.remove("w-36", "bg-gray-200", "text-gray-800");
 
         setTimeout(() => {
           copyButton.textContent = "Copy to Clipboard";
-          copyButton.classList.remove("bg-green-500", "w-24");
-          copyButton.classList.add("w-36", "bg-blue-400");
+          copyButton.classList.remove("bg-green-400", "w-24", "text-white");
+          copyButton.classList.add("w-36", "bg-gray-200", "text-gray-800");
         }, 3000);
       });
     }
