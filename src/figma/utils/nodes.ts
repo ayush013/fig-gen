@@ -199,14 +199,14 @@ async function trimVectorNode(
     exportformat = getExportFormatFromName(node);
   }
 
-  const { mimeType, format } =
+  const { format } =
     VECTOR_EXPORT_OPTIONS[exportformat as keyof typeof VECTOR_EXPORT_OPTIONS];
 
   try {
     trimmedNode.data = await node.originalRef.exportAsync({
       format,
     } as ExportSettings);
-    trimmedNode.mimeType = mimeType;
+    trimmedNode.format = format;
 
     for (const key of [...ACCEPTED_KEYS.COMMON, ...ACCEPTED_KEYS.VECTOR]) {
       if (key in node) {

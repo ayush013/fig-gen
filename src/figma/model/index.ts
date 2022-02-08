@@ -117,7 +117,7 @@ export interface FigmaVectorNode {
   id: string;
 
   data: Uint8Array;
-  mimeType: string;
+  format: string;
 
   effects: Array<Effect>;
   rotation: number;

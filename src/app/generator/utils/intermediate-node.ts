@@ -7,7 +7,7 @@ export class IntermediateNode {
   selfContained: boolean;
   children: IntermediateNode[] | undefined;
   className: Set<string>;
-  attributes: Map<string, Set<string>>;
+  attributes: Map<string, string>;
 
   constructor(node: FigmaSceneNode) {
     this.__node = node;
@@ -26,12 +26,7 @@ export class IntermediateNode {
   }
 
   addAttribute(attribute: string, value: string) {
-    let attributeSet = this.attributes.get(attribute);
-    if (!attributeSet) {
-      attributeSet = new Set();
-      this.attributes.set(attribute, attributeSet);
-    }
-    attributeSet.add(value);
+    this.attributes.set(attribute, value);
   }
 }
 
