@@ -41,11 +41,22 @@
         <pre
           class="text-xs max-w-full p-2 bg-gray-800 text-white overflow-x-auto rounded w-full"
         ><code class="markup-container"></code></pre>
-        <button
-          class="font-semibold text-xs p-2 rounded-md bg-blue-400 text-white clipboard-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
-        >
-          Copy to Clipboard
-        </button>
+        <div class="flex gap-2">
+          <button
+            class="font-semibold text-xs p-2 rounded-md bg-blue-400 text-white download-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
+          >
+            Download Markup
+          </button>
+          <button
+            class="font-semibold text-xs p-2 rounded-md bg-blue-400 text-white clipboard-button transform duration-500 w-36 text-center inline-block whitespace-nowrap"
+          >
+            Copy to Clipboard
+          </button>
+        </div>
+        <p class="text-gray-400 text-xs">
+          NOTE: Copying to clipboard only copies the HTML Markup and not the
+          image assets. Consider downloading the zip file.
+        </p>
       </div>
     </template>
   </body>

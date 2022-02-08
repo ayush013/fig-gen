@@ -5,23 +5,14 @@ import { IState } from "../core/Store";
 import hljs from "highlight.js/lib/core";
 import xml from "highlight.js/lib/languages/xml";
 import "highlight.js/styles/github-dark.css";
-const beautify = require("beautify");
+import { zip } from "../generator";
+import { saveAs } from "file-saver";
 
 hljs.registerLanguage("xml", xml);
 
 class Markup extends BaseTemplate<IMarkupProps> {
   getTemplateId() {
     return TemplateIds.Markup;
-  }
-
-  getMarkup(): string {
-    const { data } = this.props;
-
-    if (data) {
-      return beautify(data, { format: "html" });
-    }
-
-    return "";
   }
 
   initCopyToClipboard(markup: string) {
@@ -50,17 +41,32 @@ class Markup extends BaseTemplate<IMarkupProps> {
     }
   }
 
+  initDownloadButton() {
+    const downloadButton = this.templateNode.querySelector(
+      ".download-button"
+    ) as HTMLButtonElement;
+
+    if (downloadButton) {
+      downloadButton.addEventListener("click", () => {
+        zip.getZip().then((content: Blob) => {
+          saveAs(content, "FigGen-Export.zip");
+        });
+      });
+    }
+  }
+
   render() {
-    const markup = this.getMarkup();
+    const { data } = this.props;
 
     const markupNode: HTMLDivElement | null =
       this.templateNode.querySelector(".markup-container");
 
     if (markupNode) {
-      const code = hljs.highlightAuto(markup);
+      const code = hljs.highlightAuto(data);
       markupNode.innerHTML = code.value;
 
-      this.initCopyToClipboard(markup);
+      this.initCopyToClipboard(data);
+      this.initDownloadButton();
     }
 
     const selectedFrameNode: HTMLDivElement | null =

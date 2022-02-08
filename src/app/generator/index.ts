@@ -1,7 +1,7 @@
 import { NodeTypes } from "../../figma/constants";
 import { FigmaSceneNode } from "../../figma/model";
 import { pipe } from "../../figma/utils/pipe";
-import { SetMarkupAction } from "../core/ActionTypes";
+import { SetMarkupAction, SetSelectedFrameAction } from "../core/ActionTypes";
 import getStore from "../core/Store";
 import getHTMLScaffold from "./bundle/html-scaffold";
 import generateZip from "./bundle/zip-files";
@@ -10,33 +10,37 @@ import generateIntermediateNode, {
   IntermediateNode,
 } from "./utils/intermediate-node";
 import addLayoutClasses from "./utils/layout-generator";
+import addOpacityClasses from "./utils/opacity-generator";
 import addPaddingClasses from "./utils/padding-generator";
 
 export const zip = generateZip();
+const beautify = require("beautify");
 
 export default function generateAndExport(node: FigmaSceneNode) {
   const intermediateNode = generate(node);
 
   console.log(intermediateNode);
 
-  const markup = getHTMLScaffold(
-    convertIntermediateNodeToString(intermediateNode)
+  const markup = beautify(
+    getHTMLScaffold(convertIntermediateNodeToString(intermediateNode)),
+    { format: "html" }
   );
 
   zip.addHTML("index.html", markup);
 
-  // zip.getZip().then(function (content: Blob) {
-  //   console.log(content);
-  //   saveAs(content, "example.zip");
-  // });
+  const store = getStore();
 
-  getStore().dispatch(new SetMarkupAction(markup));
+  const { name } = node;
+
+  store.dispatch(new SetMarkupAction(markup));
+  store.dispatch(new SetSelectedFrameAction(name));
 }
 
 const intermediateNodeGeneratorFn = pipe(
   generateIntermediateNode,
   addLayoutClasses,
   addPaddingClasses,
+  addOpacityClasses,
   addImageToZip
 );
 

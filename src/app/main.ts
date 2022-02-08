@@ -79,15 +79,6 @@ class App implements IComponent {
         case MessageTypes.NO_SELECTION:
           this.store.dispatch(new ResetAppStateAction());
           break;
-        case MessageTypes.MARKUP_GENERATED:
-          const {
-            payload: {
-              data: { markup, selectedFrame },
-            },
-          } = pluginMessage;
-          this.store.dispatch(new SetMarkupAction(markup));
-          this.store.dispatch(new SetSelectedFrameAction(selectedFrame));
-          break;
         case MessageTypes.IN_PROGRESS:
           this.store.dispatch(new SetInProgressAction());
           break;

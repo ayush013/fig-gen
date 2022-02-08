@@ -1,3 +1,5 @@
+const TAILWIND_CDN = `<script src='https://cdn.tailwindcss.com'><\/script>`;
+
 const getHTMLScaffold = (markup: string): string => {
   return `
     <!DOCTYPE html>
@@ -5,7 +7,7 @@ const getHTMLScaffold = (markup: string): string => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com" />
+        ${TAILWIND_CDN}
     </head>
     <body>
         ${markup}

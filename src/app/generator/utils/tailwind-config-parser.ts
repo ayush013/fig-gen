@@ -19,6 +19,17 @@ export const getTailwindSpacingMap = () => {
   return spacingMap;
 };
 
-export const getTailwindOpacity = () => {
-  return theme.opacity;
+export const getTailwindOpacityMap = () => {
+  const { opacity }: { [key: string]: string } = theme;
+
+  const parsedEntries = Object.entries(opacity).map(([key, value]) => ({
+    value: key,
+    key: Number(value),
+  }));
+
+  let opacityMap = new Map();
+
+  parsedEntries.forEach(({ key, value }) => opacityMap.set(key, value));
+
+  return opacityMap;
 };
