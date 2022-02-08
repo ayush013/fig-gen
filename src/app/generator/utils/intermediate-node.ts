@@ -5,7 +5,7 @@ export class IntermediateNode {
   private __node: FigmaSceneNode;
   tag: HTMLTags;
   selfContained: boolean;
-  children: IntermediateNode[] | undefined;
+  children: IntermediateNode[] | undefined | string;
   className: Set<string>;
   attributes: Map<string, string>;
 
@@ -19,6 +19,10 @@ export class IntermediateNode {
 
   getNode(): FigmaSceneNode {
     return this.__node;
+  }
+
+  addContent(content: string) {
+    this.children = content;
   }
 
   addClass(className: string) {

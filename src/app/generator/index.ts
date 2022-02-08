@@ -14,6 +14,7 @@ import addLayoutClasses from "./utils/layout-generator";
 import addOpacityClasses from "./utils/opacity-generator";
 import addPaddingClasses from "./utils/padding-generator";
 import { getTailwindColorMap } from "./utils/tailwind-config-parser";
+import addText from "./utils/text-generator";
 
 export const zip = generateZip();
 const beautify = require("beautify");
@@ -44,6 +45,7 @@ const intermediateNodeGeneratorFn = pipe(
   addPaddingClasses,
   addOpacityClasses,
   addBackgroundClasses,
+  addText,
   addImageToZip
 );
 
@@ -81,9 +83,11 @@ function convertIntermediateNodeToString(intermediateNode: IntermediateNode) {
   let children = "";
 
   if (intermediateNode.children) {
-    children = `${intermediateNode.children
-      .map(convertIntermediateNodeToString)
-      .join("")}`;
+    children = Array.isArray(intermediateNode.children)
+      ? `${intermediateNode.children
+          .map(convertIntermediateNodeToString)
+          .join("")}`
+      : `${intermediateNode.children}`;
   }
   return `${open}${children}${close}`;
 }
