@@ -54,3 +54,18 @@ export const getTailwindColorMap = () => {
 
   return colorMap;
 };
+
+export const getTailwindFontSizeMap = () => {
+  const { fontSize }: { [key: string]: Object } = theme;
+
+  const parsedEntries = Object.entries(fontSize).map(([key, value]) => ({
+    value: key,
+    key: Number(value[0].replace("rem", "")) * 16,
+  }));
+
+  const fontSizeMap = new Map();
+
+  parsedEntries.forEach(({ key, value }) => fontSizeMap.set(key, value));
+
+  return fontSizeMap;
+};
