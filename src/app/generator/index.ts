@@ -5,6 +5,7 @@ import { SetMarkupAction, SetSelectedFrameAction } from "../core/ActionTypes";
 import getStore from "../core/Store";
 import getHTMLScaffold from "./bundle/html-scaffold";
 import generateZip from "./bundle/zip-files";
+import addBackgroundClasses from "./utils/background-generator";
 import addImageToZip from "./utils/image-generator";
 import generateIntermediateNode, {
   IntermediateNode,
@@ -12,6 +13,7 @@ import generateIntermediateNode, {
 import addLayoutClasses from "./utils/layout-generator";
 import addOpacityClasses from "./utils/opacity-generator";
 import addPaddingClasses from "./utils/padding-generator";
+import { getTailwindColorMap } from "./utils/tailwind-config-parser";
 
 export const zip = generateZip();
 const beautify = require("beautify");
@@ -41,6 +43,7 @@ const intermediateNodeGeneratorFn = pipe(
   addLayoutClasses,
   addPaddingClasses,
   addOpacityClasses,
+  addBackgroundClasses,
   addImageToZip
 );
 

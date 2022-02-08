@@ -143,6 +143,8 @@ async function trimFrameNode(
     trimmedNode.autoLayout = true;
   }
 
+  trimmedNode.type = NodeTypes.FRAME;
+
   return trimmedNode;
 }
 

@@ -12,7 +12,7 @@ export const getTailwindSpacingMap = () => {
       key: Number(value.replace("rem", "")) * 16,
     }));
 
-  let spacingMap = new Map();
+  const spacingMap = new Map();
 
   parsedEntries.forEach(({ key, value }) => spacingMap.set(key, value));
 
@@ -27,9 +27,30 @@ export const getTailwindOpacityMap = () => {
     key: Number(value),
   }));
 
-  let opacityMap = new Map();
+  const opacityMap = new Map();
 
   parsedEntries.forEach(({ key, value }) => opacityMap.set(key, value));
 
   return opacityMap;
+};
+
+export const getTailwindColorMap = () => {
+  const colors = require("tailwindcss/colors");
+
+  const colorMap = new Map();
+
+  Object.entries(Object.getOwnPropertyDescriptors(colors))
+    .filter(([_, decriptor]) => decriptor.hasOwnProperty("value"))
+    .forEach(([color, decriptor]) => {
+      const { value } = decriptor;
+      if (typeof value === "object") {
+        Object.entries(value).forEach(([key, value]) => {
+          colorMap.set(value, `${color}-${key}`);
+        });
+      } else {
+        (value as string).startsWith?.("#") && colorMap.set(value, color);
+      }
+    });
+
+  return colorMap;
 };
