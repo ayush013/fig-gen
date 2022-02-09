@@ -30,12 +30,22 @@ class Markup extends BaseTemplate<IMarkupProps> {
         textArea.remove();
         copyButton.textContent = "Copied!";
         copyButton.classList.add("bg-green-400", "w-24", "text-white");
-        copyButton.classList.remove("w-36", "bg-gray-200", "text-gray-800");
+        copyButton.classList.remove(
+          "w-36",
+          "bg-gray-200",
+          "text-gray-800",
+          "hover:bg-gray-300"
+        );
 
         setTimeout(() => {
           copyButton.textContent = "Copy to Clipboard";
           copyButton.classList.remove("bg-green-400", "w-24", "text-white");
-          copyButton.classList.add("w-36", "bg-gray-200", "text-gray-800");
+          copyButton.classList.add(
+            "w-36",
+            "bg-gray-200",
+            "text-gray-800",
+            "hover:bg-gray-300"
+          );
         }, 3000);
       });
     }

@@ -15,11 +15,16 @@ export default function addLayoutClasses(
   switch (type) {
     case NodeTypes.FRAME:
       {
-        intermediateNode.addClass("flex");
+        const { autoLayout } = node;
 
-        addFlexDirection(node, intermediateNode);
+        // Only supports auto layout for now
+        if (autoLayout) {
+          intermediateNode.addClass("flex");
 
-        addFlexGap(node, intermediateNode);
+          addFlexDirection(node, intermediateNode);
+          addFlexGap(node, intermediateNode);
+          addFlexAlignment(node, intermediateNode);
+        }
       }
       break;
 
@@ -39,6 +44,42 @@ export default function addLayoutClasses(
   return intermediateNode;
 }
 
+function addFlexAlignment(
+  node: FigmaFrameNode,
+  intermediateNode: IntermediateNode
+) {
+  const { primaryAxisAlignItems, counterAxisAlignItems, layoutMode } = node;
+
+  if (layoutMode !== "NONE") {
+    switch (primaryAxisAlignItems) {
+      case "CENTER":
+        intermediateNode.addClass("justify-center");
+        break;
+      case "MIN":
+        intermediateNode.addClass("justify-start");
+        break;
+      case "MAX":
+        intermediateNode.addClass("justify-end");
+        break;
+      case "SPACE_BETWEEN":
+        intermediateNode.addClass("justify-between");
+        break;
+    }
+
+    switch (counterAxisAlignItems) {
+      case "CENTER":
+        intermediateNode.addClass("items-center");
+        break;
+      case "MIN":
+        intermediateNode.addClass("items-start");
+        break;
+      case "MAX":
+        intermediateNode.addClass("items-end");
+        break;
+    }
+  }
+}
+
 function addFlexGap(node: FigmaFrameNode, intermediateNode: IntermediateNode) {
   const { itemSpacing } = node;
 
@@ -56,6 +97,6 @@ function addFlexDirection(
   if (layoutMode === "HORIZONTAL") {
     intermediateNode.addClass("flex-row");
   } else if (layoutMode === "VERTICAL") {
-    intermediateNode.addClass("flex-column");
+    intermediateNode.addClass("flex-col");
   }
 }

@@ -4,14 +4,17 @@ export interface FigmaFrameNode {
   id: string;
 
   layoutMode: "NONE" | "HORIZONTAL" | "VERTICAL";
+
   primaryAxisSizingMode: "FIXED" | "AUTO";
   counterAxisSizingMode: "FIXED" | "AUTO";
+
   primaryAxisAlignItems: "MIN" | "MAX" | "CENTER" | "SPACE_BETWEEN";
   counterAxisAlignItems: "MIN" | "MAX" | "CENTER";
+
   layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutGrow: 0 | 1;
 
   itemSpacing: number;
-  layoutGrow: number;
   autoLayout: boolean;
   constraints: Constraints;
 
@@ -60,7 +63,7 @@ export interface FigmaGroupNode {
   counterAxisAlignItems: "MIN" | "MAX" | "CENTER";
 
   itemSpacing: number;
-  layoutGrow: number;
+  layoutGrow: 0 | 1;
   constraints: Constraints;
 
   cornerRadius: number;
@@ -107,7 +110,7 @@ export interface FigmaTextNode {
   rotation: number;
 
   layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
-  layoutGrow: number;
+  layoutGrow: 0 | 1;
   constraints: Constraints;
 }
 
@@ -123,7 +126,7 @@ export interface FigmaVectorNode {
   rotation: number;
   layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
   constraints: Constraints;
-  layoutGrow: number;
+  layoutGrow: 0 | 1;
 
   width: number;
   height: number;
