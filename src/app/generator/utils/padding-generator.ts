@@ -1,9 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import { getTailwindSpacingMap } from "./tailwind-config-parser";
-
-const paddingMap = getTailwindSpacingMap();
+import getSpacingClass from "./shared/getSpacing";
 
 enum PaddingTokens {
   TOP = "pt-",
@@ -34,59 +32,59 @@ const addPaddingClasses = (intermediateNode: IntermediateNode) => {
         if (hasEqualPadding) {
           padding[0] &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.EQUAL, padding[0])}`
+              getSpacingClass(padding[0], PaddingTokens.EQUAL)
             );
         } else if (hasEqualXPadding && hasEqualYPadding) {
           padding[1] &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.X, padding[1])}`
+              getSpacingClass(padding[1], PaddingTokens.X)
             );
           padding[0] &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.Y, padding[0])}`
+              getSpacingClass(padding[0], PaddingTokens.Y)
             );
         } else if (hasEqualXPadding) {
           padding[1] &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.X, padding[1])}`
+              getSpacingClass(padding[1], PaddingTokens.X)
             );
           paddingTop &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.TOP, paddingTop)}`
+              getSpacingClass(paddingTop, PaddingTokens.TOP)
             );
           paddingBottom &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.BOTTOM, paddingBottom)}`
+              getSpacingClass(paddingBottom, PaddingTokens.BOTTOM)
             );
         } else if (hasEqualYPadding) {
           padding[0] &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.Y, padding[0])}`
+              getSpacingClass(padding[0], PaddingTokens.Y)
             );
           paddingLeft &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.LEFT, paddingLeft)}`
+              getSpacingClass(paddingLeft, PaddingTokens.LEFT)
             );
           paddingRight &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.RIGHT, paddingRight)}`
+              getSpacingClass(paddingRight, PaddingTokens.RIGHT)
             );
         } else {
           paddingLeft &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.LEFT, paddingLeft)}`
+              getSpacingClass(paddingLeft, PaddingTokens.LEFT)
             );
           paddingRight &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.RIGHT, paddingRight)}`
+              getSpacingClass(paddingRight, PaddingTokens.RIGHT)
             );
           paddingTop &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.TOP, paddingTop)}`
+              getSpacingClass(paddingTop, PaddingTokens.TOP)
             );
           paddingBottom &&
             intermediateNode.addClass(
-              `${getPaddingDecorator(PaddingTokens.BOTTOM, paddingBottom)}`
+              getSpacingClass(paddingBottom, PaddingTokens.BOTTOM)
             );
         }
       }
@@ -95,12 +93,6 @@ const addPaddingClasses = (intermediateNode: IntermediateNode) => {
   }
 
   return intermediateNode;
-};
-
-const getPaddingDecorator = (token: string, padding: number) => {
-  return paddingMap.has(padding)
-    ? `${token}${paddingMap.get(padding)}`
-    : `${token}[${Number(padding / 16).toFixed(2)}rem]`;
 };
 
 export default addPaddingClasses;

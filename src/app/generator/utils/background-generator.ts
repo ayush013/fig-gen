@@ -29,12 +29,12 @@ export default function addBackgroundClasses(
                 const { color, opacity } = currentColor;
 
                 intermediateNode.addClass(
-                  `${getColorClass(color, BACKGROUND_TOKEN)}`
+                  getColorClass(color, BACKGROUND_TOKEN)
                 );
 
                 if (opacity !== undefined && opacity !== 1) {
                   intermediateNode.addClass(
-                    `${getOpacityClass(opacity, OPACITY_TOKEN)}`
+                    getOpacityClass(opacity, OPACITY_TOKEN)
                   );
                 }
               }

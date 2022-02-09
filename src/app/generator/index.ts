@@ -61,6 +61,8 @@ function generate(node: FigmaSceneNode): IntermediateNode {
 }
 
 function convertIntermediateNodeToString(intermediateNode: IntermediateNode) {
+  const { selfContained } = intermediateNode;
+
   let classNameString = "";
   if (intermediateNode.className.size > 0) {
     classNameString = ` class="${Array.from(intermediateNode.className).join(
@@ -69,15 +71,23 @@ function convertIntermediateNodeToString(intermediateNode: IntermediateNode) {
   }
 
   let attributesString = "";
+
   if (intermediateNode.attributes.size > 0) {
     attributesString = ` ${Array.from(intermediateNode.attributes).reduce(
       (acc, [key, value]) => acc.concat(`${key}="${value}" `),
       ""
     )}`;
   }
-  const open = `<${intermediateNode.tag}${classNameString}${attributesString}>`;
 
-  const close = `</${intermediateNode.tag}>`;
+  let selfContainedToken = "";
+
+  if (selfContained) {
+    selfContainedToken = " /";
+  }
+
+  const open = `<${intermediateNode.tag}${classNameString}${attributesString}${selfContainedToken}>`;
+
+  const close = selfContained ? "" : `</${intermediateNode.tag}>`;
 
   let children = "";
 
@@ -88,5 +98,6 @@ function convertIntermediateNodeToString(intermediateNode: IntermediateNode) {
           .join("")}`
       : `${intermediateNode.children}`;
   }
+
   return `${open}${children}${close}`;
 }

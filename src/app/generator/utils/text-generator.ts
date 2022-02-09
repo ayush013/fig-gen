@@ -51,8 +51,8 @@ export default function addTextAndStyles(
         if (fills.length > 0) {
           const currentColor = fills[0];
 
-          intermediateNode.addClass(`${getTextColorClass(currentColor)}`);
-          intermediateNode.addClass(`${getTextOpacityClass(currentColor)}`);
+          intermediateNode.addClass(getTextColorClass(currentColor));
+          intermediateNode.addClass(getTextOpacityClass(currentColor));
         }
       }
 

@@ -20,9 +20,7 @@ export default function addOpacityClasses(
         const { opacity } = node;
 
         if (opacity !== 1) {
-          intermediateNode.addClass(
-            `${getOpacityClass(opacity, OPACITY_TOKEN)}`
-          );
+          intermediateNode.addClass(getOpacityClass(opacity, OPACITY_TOKEN));
         }
       }
 

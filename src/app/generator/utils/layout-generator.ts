@@ -1,6 +1,9 @@
 import { NodeTypes } from "../../../figma/constants";
-import { FigmaSceneNode } from "../../../figma/model";
+import { FigmaFrameNode, FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
+import getSpacingClass from "./shared/getSpacing";
+
+const GAP_TOKEN = "gap-";
 
 export default function addLayoutClasses(
   intermediateNode: IntermediateNode
@@ -14,13 +17,9 @@ export default function addLayoutClasses(
       {
         intermediateNode.addClass("flex");
 
-        const { layoutMode } = node;
+        addFlexDirection(node, intermediateNode);
 
-        if (layoutMode === "HORIZONTAL") {
-          intermediateNode.addClass("flex-row");
-        } else if (layoutMode === "VERTICAL") {
-          intermediateNode.addClass("flex-column");
-        }
+        addFlexGap(node, intermediateNode);
       }
       break;
 
@@ -38,4 +37,25 @@ export default function addLayoutClasses(
   }
 
   return intermediateNode;
+}
+
+function addFlexGap(node: FigmaFrameNode, intermediateNode: IntermediateNode) {
+  const { itemSpacing } = node;
+
+  if (itemSpacing !== 0) {
+    intermediateNode.addClass(getSpacingClass(itemSpacing, GAP_TOKEN));
+  }
+}
+
+function addFlexDirection(
+  node: FigmaFrameNode,
+  intermediateNode: IntermediateNode
+) {
+  const { layoutMode } = node;
+
+  if (layoutMode === "HORIZONTAL") {
+    intermediateNode.addClass("flex-row");
+  } else if (layoutMode === "VERTICAL") {
+    intermediateNode.addClass("flex-column");
+  }
 }
