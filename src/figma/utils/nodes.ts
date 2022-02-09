@@ -137,6 +137,9 @@ async function trimFrameNode(
         trimmedNode[key] = node[key];
       }
     }
+    if (key === "fills") {
+      filterVisibleFills(node, trimmedNode);
+    }
   }
 
   if (supportsAutoLayout(node)) {
@@ -185,10 +188,25 @@ async function trimTextNode(node: TextNode): Promise<FigmaTextNode> {
     if (key in node) {
       // @ts-ignore - todo: fix this
       trimmedNode[key] = node[key];
+
+      if (key === "fills") {
+        filterVisibleFills(node, trimmedNode);
+      }
     }
   }
 
   return trimmedNode;
+}
+
+function filterVisibleFills(
+  node: TextNode | FrameNode | ComponentNode | InstanceNode,
+  trimmedNode: FigmaTextNode | FigmaFrameNode
+) {
+  const { fills } = node;
+
+  if (Array.isArray(fills)) {
+    trimmedNode.fills = fills.filter((fill) => fill.visible);
+  }
 }
 
 async function trimVectorNode(

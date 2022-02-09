@@ -16,7 +16,6 @@ export default function addBackgroundClasses(
 
   switch (type) {
     case NodeTypes.FRAME:
-    case NodeTypes.GROUP:
       {
         const { fills } = node;
 

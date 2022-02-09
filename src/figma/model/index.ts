@@ -33,7 +33,6 @@ export interface FigmaFrameNode {
   paddingLeft: number;
   paddingRight: number;
 
-  cornerRadius: number;
   topLeftRadius: number;
   topRightRadius: number;
   bottomLeftRadius: number;
@@ -49,28 +48,13 @@ export interface FigmaGroupNode {
   name: string;
   id: string;
 
-  fills: Array<Paint>;
-  strokes: Array<Paint>;
-  strokeWeight: number;
   opacity: number;
   effects: Array<Effect>;
 
   layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
-  layoutMode: "NONE" | "HORIZONTAL" | "VERTICAL";
-  primaryAxisSizingMode: "FIXED" | "AUTO";
-  counterAxisSizingMode: "FIXED" | "AUTO";
-  primaryAxisAlignItems: "MIN" | "MAX" | "CENTER" | "SPACE_BETWEEN";
-  counterAxisAlignItems: "MIN" | "MAX" | "CENTER";
 
-  itemSpacing: number;
   layoutGrow: 0 | 1;
   constraints: Constraints;
-
-  cornerRadius: number;
-  topLeftRadius: number;
-  topRightRadius: number;
-  bottomLeftRadius: number;
-  bottomRightRadius: number;
 
   width: number;
   height: number;

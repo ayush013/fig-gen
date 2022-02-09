@@ -69,3 +69,20 @@ export const getTailwindFontSizeMap = () => {
 
   return fontSizeMap;
 };
+
+export const getTailwindBorderRadiusMap = () => {
+  const { borderRadius }: { [key: string]: string } = theme;
+
+  const parsedEntries = Object.entries(borderRadius)
+    .filter(([_, value]) => value.includes("rem"))
+    .map(([key, value]) => ({
+      value: key,
+      key: Number(value.replace("rem", "")) * 16,
+    }));
+
+  const borderRadiusMap = new Map();
+
+  parsedEntries.forEach(({ key, value }) => borderRadiusMap.set(key, value));
+
+  return borderRadiusMap;
+};
