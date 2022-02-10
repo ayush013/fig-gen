@@ -3,12 +3,17 @@ import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import getColorClass from "../shared/getColor";
 import getOpacityClass from "../shared/getOpacity";
-import { getTailwindFontSizeMap } from "../shared/tailwind-config-parser";
+import {
+  getFontWeightMap,
+  getTailwindFontSizeMap,
+} from "../shared/tailwind-config-parser";
 
 const fontSizeMap = getTailwindFontSizeMap();
+const fontWeightMap = getFontWeightMap();
 
 const TEXT_TOKEN = "text-";
 const TEXT__OPACITY_TOKEN = `${TEXT_TOKEN}opacity-`;
+const FONT_WEIGHT_TOKEN = "font-";
 
 export default function addTextAndStyles(
   intermediateNode: IntermediateNode
@@ -55,6 +60,8 @@ export default function addTextAndStyles(
           intermediateNode.addClass(getTextColorClass(currentColor));
           intermediateNode.addClass(getTextOpacityClass(currentColor));
         }
+
+        intermediateNode.addClass(getFontWeightClass(fontName.style));
       }
 
       break;
@@ -134,4 +141,12 @@ const getTextOpacityClass = (currentColor: Paint): string => {
   }
 
   return "";
+};
+
+const getFontWeightClass = (style: string): string => {
+  const weight = Array.from(fontWeightMap.keys()).find(
+    (weight) => style.toLocaleLowerCase() === weight
+  );
+
+  return weight ? `${FONT_WEIGHT_TOKEN}${weight}` : "";
 };

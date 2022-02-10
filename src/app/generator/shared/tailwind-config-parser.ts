@@ -116,3 +116,15 @@ export const getTailwindMaxWidthMap = () => {
 
   return maxWidthMap;
 };
+
+export const getFontWeightMap = () => {
+  const { fontWeight }: { [key: string]: string } = theme;
+
+  const parsedEntries = Object.entries(fontWeight);
+
+  const fontWeightMap = new Map();
+
+  parsedEntries.forEach(([key, value]) => fontWeightMap.set(key, value));
+
+  return fontWeightMap;
+};

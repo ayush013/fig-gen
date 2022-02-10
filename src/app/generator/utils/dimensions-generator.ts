@@ -21,6 +21,7 @@ export default function addDimensionClasses(
 
         if (parent.type === NodeTypes.PAGE) {
           intermediateNode.addClass(getMaxWidthClass(width, MAX_WIDTH_TOKEN));
+          intermediateNode.addClass("mx-auto");
         }
       }
       break;
