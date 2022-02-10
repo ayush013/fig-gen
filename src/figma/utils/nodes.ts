@@ -136,9 +136,14 @@ async function trimFrameNode(
         // @ts-ignore - todo: fix this
         trimmedNode[key] = node[key];
       }
-    }
-    if (key === "fills") {
-      filterVisibleFills(node, trimmedNode);
+
+      if (key === "fills") {
+        filterVisibleFills(node, trimmedNode);
+      }
+
+      if (key === "effects") {
+        filterVisibleEffects(node, trimmedNode);
+      }
     }
   }
 
@@ -187,10 +192,16 @@ async function trimTextNode(node: TextNode): Promise<FigmaTextNode> {
   for (const key of [...ACCEPTED_KEYS.COMMON, ...ACCEPTED_KEYS.TEXT]) {
     if (key in node) {
       // @ts-ignore - todo: fix this
-      trimmedNode[key] = node[key];
+      if (node[key] !== figma.mixed) {
+        // @ts-ignore - todo: fix this
+        trimmedNode[key] = node[key];
 
-      if (key === "fills") {
-        filterVisibleFills(node, trimmedNode);
+        if (key === "fills") {
+          filterVisibleFills(node, trimmedNode);
+        }
+      } else {
+        // @ts-ignore - todo: fix this
+        trimmedNode[key] = undefined;
       }
     }
   }
@@ -206,6 +217,17 @@ function filterVisibleFills(
 
   if (Array.isArray(fills)) {
     trimmedNode.fills = fills.filter((fill) => fill.visible);
+  }
+}
+
+function filterVisibleEffects(
+  node: TextNode | FrameNode | ComponentNode | InstanceNode,
+  trimmedNode: FigmaTextNode | FigmaFrameNode
+) {
+  const { effects } = node;
+
+  if (Array.isArray(effects)) {
+    trimmedNode.effects = effects.filter((effect) => effect.visible);
   }
 }
 

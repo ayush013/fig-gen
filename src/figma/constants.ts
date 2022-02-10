@@ -82,7 +82,6 @@ export const ACCEPTED_KEYS = {
     "width",
     "height",
     "rotation",
-    "effects",
     "layoutAlign",
     "constraints",
     "layoutGrow",

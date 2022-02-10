@@ -7,6 +7,7 @@ import getHTMLScaffold from "./bundle/html-scaffold";
 import generateZip from "./bundle/zip-files";
 import addBackgroundClasses from "./utils/background-generator";
 import addBorderRadiusClasses from "./utils/borderRadius-generator";
+import addEffectClasses from "./utils/effects-generator";
 import addImageToZip from "./utils/image-generator";
 import generateIntermediateNode, {
   IntermediateNode,
@@ -46,6 +47,7 @@ const intermediateNodeGeneratorFn = pipe(
   addOpacityClasses,
   addBackgroundClasses,
   addBorderRadiusClasses,
+  addEffectClasses,
   addTextAndStyles,
   addImageToZip
 );

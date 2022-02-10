@@ -106,7 +106,6 @@ export interface FigmaVectorNode {
   data: Uint8Array;
   format: string;
 
-  effects: Array<Effect>;
   rotation: number;
   layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
   constraints: Constraints;
