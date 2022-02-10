@@ -1,7 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import { getTailwindBorderRadiusMap } from "./tailwind-config-parser";
+import { getTailwindBorderRadiusMap } from "../shared/tailwind-config-parser";
 
 enum BorderRadiusTokens {
   ALL = "rounded-",

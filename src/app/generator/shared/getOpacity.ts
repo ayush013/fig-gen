@@ -1,4 +1,4 @@
-import { getTailwindOpacityMap } from "../tailwind-config-parser";
+import { getTailwindOpacityMap } from "./tailwind-config-parser";
 
 const opacityMap = getTailwindOpacityMap();
 

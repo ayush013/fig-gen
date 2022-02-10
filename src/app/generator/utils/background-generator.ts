@@ -1,8 +1,8 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import getColorClass from "./shared/getColor";
-import getOpacityClass from "./shared/getOpacity";
+import getColorClass from "../shared/getColor";
+import getOpacityClass from "../shared/getOpacity";
 
 const BACKGROUND_TOKEN = "bg-";
 const OPACITY_TOKEN = "bg-opacity-";

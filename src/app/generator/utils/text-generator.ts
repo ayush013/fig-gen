@@ -1,9 +1,9 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import getColorClass from "./shared/getColor";
-import getOpacityClass from "./shared/getOpacity";
-import { getTailwindFontSizeMap } from "./tailwind-config-parser";
+import getColorClass from "../shared/getColor";
+import getOpacityClass from "../shared/getOpacity";
+import { getTailwindFontSizeMap } from "../shared/tailwind-config-parser";
 
 const fontSizeMap = getTailwindFontSizeMap();
 
@@ -27,6 +27,7 @@ export default function addTextAndStyles(
           fontSize,
           textAlignHorizontal,
           fills,
+          fontName,
         } = node;
 
         intermediateNode.addContent(characters);

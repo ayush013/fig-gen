@@ -1,7 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import getOpacityClass from "./shared/getOpacity";
+import getOpacityClass from "../shared/getOpacity";
 
 const OPACITY_TOKEN = "opacity-";
 

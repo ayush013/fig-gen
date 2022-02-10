@@ -1,7 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaFrameNode, FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import getSpacingClass from "./shared/getSpacing";
+import getSpacingClass from "../shared/getSpacing";
 
 const GAP_TOKEN = "gap-";
 

@@ -1,7 +1,7 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaFrameNode, FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import { getTailwindMaxWidthMap } from "./tailwind-config-parser";
+import { getTailwindMaxWidthMap } from "../shared/tailwind-config-parser";
 
 const maxWidthMap = getTailwindMaxWidthMap();
 
