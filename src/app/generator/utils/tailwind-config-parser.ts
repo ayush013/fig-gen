@@ -86,3 +86,33 @@ export const getTailwindBorderRadiusMap = () => {
 
   return borderRadiusMap;
 };
+
+export const getTailwindMaxWidthMap = () => {
+  const { maxWidth, screens } = theme;
+
+  const parsedScreenWidthEntries = Object.entries(screens).map(
+    ([key, value]) => ({
+      value: `screen-${key}`,
+      key: Number((value as string).replace("px", "")),
+    })
+  );
+
+  const stub = () => {};
+
+  const parsedMaxWidthEntries = Object.entries(
+    maxWidth({ breakpoints: stub, theme: stub })
+  )
+    .filter(([_, value]) => (value as string).includes("rem"))
+    .map(([key, value]) => ({
+      value: key,
+      key: Number((value as string).replace("rem", "")) * 16,
+    }));
+
+  const maxWidthMap = new Map();
+
+  [...parsedScreenWidthEntries, ...parsedMaxWidthEntries].forEach(
+    ({ key, value }) => maxWidthMap.set(key, value)
+  );
+
+  return maxWidthMap;
+};

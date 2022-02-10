@@ -3,7 +3,6 @@ import { FigmaSceneNode } from "./figma/model";
 import { debounce } from "./figma/utils/debouce";
 import {
   ErrorPayload,
-  MarkupPayload,
   MessageTypes,
   NodePayload,
   postMessageToApp,

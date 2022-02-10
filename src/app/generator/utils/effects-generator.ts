@@ -1,3 +1,4 @@
+import { figmaRGBToWebRGB } from "@figma-plugin/helpers";
 import { NodeTypes } from "../../../figma/constants";
 import {
   FigmaFrameNode,
@@ -7,7 +8,7 @@ import {
 } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 
-const BOX_SHADOW_TOKEN = "drop-shadow-";
+const BOX_SHADOW_TOKEN = "shadow-";
 
 export default function addEffectClasses(
   intermediateNode: IntermediateNode
@@ -51,8 +52,9 @@ function applyEffectsFromArray(
 }
 
 function getShadowClass(effect: DropShadowEffect, token: string): string {
-  const { color, offset, radius } = effect;
-  const { r, g, b, a } = color;
+  const { color, offset, radius, spread } = effect;
+  const webColor = figmaRGBToWebRGB(color);
+  const [r, g, b, a] = webColor;
   const { x, y } = offset;
 
   const colorString = `rgba(${getFloatOrIntegerString(
@@ -67,7 +69,7 @@ function getShadowClass(effect: DropShadowEffect, token: string): string {
 
   const shadowString = `${token}[${offsetString}_${getFloatOrIntegerString(
     radius
-  )}px_${colorString}]`;
+  )}px_${spread ? getFloatOrIntegerString(spread) : 0}px_${colorString}]`;
 
   return shadowString;
 }

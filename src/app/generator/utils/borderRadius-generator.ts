@@ -92,7 +92,12 @@ export default function addBorderRadiusClasses(
 }
 
 const getBorderRadiusClass = (spacing: number, token: string) => {
+  const spacingInRem = spacing / 16;
   return borderRadiusMap.has(spacing)
     ? `${token}${borderRadiusMap.get(spacing)}`
-    : `${token}[${Number(spacing / 16).toFixed(2)}rem]`;
+    : `${token}[${
+        Number.isInteger(spacingInRem)
+          ? spacingInRem
+          : Number(spacingInRem).toFixed(2)
+      }rem]`;
 };

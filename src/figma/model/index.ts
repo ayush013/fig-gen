@@ -1,7 +1,15 @@
+import { NodeTypes } from "../constants";
+
+type NodeToParentRef = {
+  id: string;
+  type: NodeTypes;
+};
+
 export interface FigmaFrameNode {
   type: "FRAME";
   name: string;
   id: string;
+  parent: NodeToParentRef;
 
   layoutMode: "NONE" | "HORIZONTAL" | "VERTICAL";
 
@@ -47,6 +55,7 @@ export interface FigmaGroupNode {
   type: "GROUP";
   name: string;
   id: string;
+  parent: NodeToParentRef;
 
   opacity: number;
   effects: Array<Effect>;
@@ -69,6 +78,7 @@ export interface FigmaTextNode {
   type: "TEXT";
   name: string;
   id: string;
+  parent: NodeToParentRef;
 
   textAlignHorizontal: "LEFT" | "CENTER" | "RIGHT" | "JUSTIFIED";
   textAlignVertical: "TOP" | "CENTER" | "BOTTOM";
@@ -102,6 +112,7 @@ export interface FigmaVectorNode {
   type: "VECTOR";
   name: string;
   id: string;
+  parent: NodeToParentRef;
 
   data: Uint8Array;
   format: string;

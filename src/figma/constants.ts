@@ -4,6 +4,7 @@ export enum NodeTypes {
   INSTANCE = "INSTANCE",
   GROUP = "GROUP",
   TEXT = "TEXT",
+  PAGE = "PAGE",
 
   VECTOR = "VECTOR",
   RECTANGLE = "RECTANGLE",
@@ -15,7 +16,7 @@ export enum NodeTypes {
 
 export const ACCEPTED_KEYS = {
   CHILDREN: "children",
-  COMMON: ["type", "name", "originalRef", "id"],
+  COMMON: ["type", "name", "originalRef", "id", "parent"],
   FRAME: [
     "layoutMode",
     "primaryAxisSizingMode",

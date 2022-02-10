@@ -31,28 +31,12 @@ export interface IMessage<T> {
   payload: IMessagePayload<T>;
 }
 
-interface IMarkupPayload {
-  markup: string;
-  selectedFrame: string;
-}
-
 interface IErrorPayload {
   error: string;
 }
 
 export interface INodePayload {
   node: FigmaSceneNode;
-}
-
-export class MarkupPayload {
-  public data: IMarkupPayload;
-
-  constructor(markup: string, selectedFrame: string) {
-    this.data = {
-      markup,
-      selectedFrame,
-    };
-  }
 }
 
 export class ErrorPayload {

@@ -8,6 +8,8 @@ export default function getOpacityClass(
 ): string {
   const opacityClass = opacityMap.has(opacity)
     ? `${token}${opacityMap.get(opacity)}`
-    : `${token}[${Number(opacity).toFixed(2)}]`;
+    : `${token}[${
+        Number.isInteger(opacity) ? opacity : Number(opacity).toFixed(2)
+      }]`;
   return opacityClass;
 }

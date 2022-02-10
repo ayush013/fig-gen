@@ -114,9 +114,14 @@ const getTextColorClass = (currentColor: Paint): string => {
 };
 
 const getFontSizeClass = (fontSize: number): string => {
+  const fontSizeInRem = fontSize / 16;
   const fontSizeClass = fontSizeMap.has(fontSize)
     ? `${TEXT_TOKEN}${fontSizeMap.get(fontSize)}`
-    : `${TEXT_TOKEN}[${Number(fontSize / 16).toFixed(2)}rem]`;
+    : `${TEXT_TOKEN}[${
+        Number.isInteger(fontSizeInRem)
+          ? fontSizeInRem
+          : Number(fontSizeInRem).toFixed(2)
+      }rem]`;
   return fontSizeClass;
 };
 

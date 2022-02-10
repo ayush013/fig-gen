@@ -7,6 +7,7 @@ import getHTMLScaffold from "./bundle/html-scaffold";
 import generateZip from "./bundle/zip-files";
 import addBackgroundClasses from "./utils/background-generator";
 import addBorderRadiusClasses from "./utils/borderRadius-generator";
+import addDimensionClasses from "./utils/dimensions-generator";
 import addEffectClasses from "./utils/effects-generator";
 import addImageToZip from "./utils/image-generator";
 import generateIntermediateNode, {
@@ -43,6 +44,7 @@ export default function generateAndExport(node: FigmaSceneNode) {
 const intermediateNodeGeneratorFn = pipe(
   generateIntermediateNode,
   addLayoutClasses,
+  addDimensionClasses,
   addPaddingClasses,
   addOpacityClasses,
   addBackgroundClasses,
