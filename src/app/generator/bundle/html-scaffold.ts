@@ -1,4 +1,4 @@
-const TAILWIND_CDN = `<script src='https://cdn.tailwindcss.com'><\/script>`;
+const TAILWIND_CDN = `<script src="https://cdn.tailwindcss.com"><\/script>`;
 
 const getHTMLScaffold = (markup: string): string => {
   return `

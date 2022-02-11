@@ -19,7 +19,7 @@ export interface FigmaFrameNode {
   primaryAxisAlignItems: "MIN" | "MAX" | "CENTER" | "SPACE_BETWEEN";
   counterAxisAlignItems: "MIN" | "MAX" | "CENTER";
 
-  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutAlign: "STRETCH" | "INHERIT";
   layoutGrow: 0 | 1;
 
   itemSpacing: number;
@@ -60,7 +60,7 @@ export interface FigmaGroupNode {
   opacity: number;
   effects: Array<Effect>;
 
-  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutAlign: "STRETCH" | "INHERIT";
 
   layoutGrow: 0 | 1;
   constraints: Constraints;
@@ -87,14 +87,14 @@ export interface FigmaTextNode {
   paragraphSpacing: number;
   characters: string;
   fontSize: number;
-  fontName: FontName;
+  fontName: FontName | undefined;
   textCase: "ORIGINAL" | "UPPER" | "LOWER" | "TITLE";
   textDecoration: "NONE" | "UNDERLINE" | "STRIKETHROUGH";
   letterSpacing: LetterSpacing;
   lineHeight: LineHeight;
 
-  fills: Array<Paint>;
-  strokes: Array<Paint>;
+  fills: Array<Paint> | undefined;
+  strokes: Array<Paint> | undefined;
   strokeWeight: number;
   opacity: number;
   effects: Array<Effect>;
@@ -103,9 +103,11 @@ export interface FigmaTextNode {
   height: number;
   rotation: number;
 
-  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutAlign: "STRETCH" | "INHERIT";
   layoutGrow: 0 | 1;
   constraints: Constraints;
+
+  originalRef: SceneNode;
 }
 
 export interface FigmaVectorNode {
@@ -118,7 +120,7 @@ export interface FigmaVectorNode {
   format: string;
 
   rotation: number;
-  layoutAlign: "MIN" | "CENTER" | "MAX" | "STRETCH" | "INHERIT";
+  layoutAlign: "STRETCH" | "INHERIT";
   constraints: Constraints;
   layoutGrow: 0 | 1;
 

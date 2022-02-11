@@ -54,14 +54,15 @@ export default function addTextAndStyles(
           intermediateNode.addClass(`${fontSizeClass}`);
         }
 
-        if (fills.length > 0) {
+        if (fills) {
           const currentColor = fills[0];
 
           intermediateNode.addClass(getTextColorClass(currentColor));
           intermediateNode.addClass(getTextOpacityClass(currentColor));
         }
 
-        intermediateNode.addClass(getFontWeightClass(fontName.style));
+        fontName &&
+          intermediateNode.addClass(getFontWeightClass(fontName.style));
       }
 
       break;

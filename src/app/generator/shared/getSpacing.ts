@@ -1,11 +1,11 @@
 import { getTailwindSpacingMap } from "./tailwind-config-parser";
 
-const paddingMap = getTailwindSpacingMap();
+const spacingMap = getTailwindSpacingMap();
 
 const getSpacingClass = (spacing: number, token: string) => {
   const spacingInRem = spacing / 16;
-  return paddingMap.has(spacing)
-    ? `${token}${paddingMap.get(spacing)}`
+  return spacingMap.has(spacing)
+    ? `${token}${spacingMap.get(spacing)}`
     : `${token}[${
         Number.isInteger(spacingInRem)
           ? spacingInRem
