@@ -43,7 +43,12 @@ function applyEffectsFromArray(
       switch (type) {
         case "DROP_SHADOW":
           {
-            intermediateNode.addClass(getShadowClass(effect, token));
+            intermediateNode.addClass(getShadowClass(effect, token, false));
+          }
+          break;
+        case "INNER_SHADOW":
+          {
+            intermediateNode.addClass(getShadowClass(effect, token, false));
           }
           break;
       }
@@ -51,7 +56,11 @@ function applyEffectsFromArray(
   }
 }
 
-function getShadowClass(effect: DropShadowEffect, token: string): string {
+function getShadowClass(
+  effect: DropShadowEffect | InnerShadowEffect,
+  token: string,
+  inset: boolean
+): string {
   const { color, offset, radius, spread } = effect;
   const webColor = figmaRGBToWebRGB(color);
   const [r, g, b, a] = webColor;
@@ -69,7 +78,9 @@ function getShadowClass(effect: DropShadowEffect, token: string): string {
 
   const shadowString = `${token}[${offsetString}_${getFloatOrIntegerString(
     radius
-  )}px_${spread ? getFloatOrIntegerString(spread) : 0}px_${colorString}]`;
+  )}px_${spread ? getFloatOrIntegerString(spread) : 0}px_${colorString}${
+    inset ? "_inset" : ""
+  }]`;
 
   return shadowString;
 }

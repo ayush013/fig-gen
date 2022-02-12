@@ -29,16 +29,16 @@ export default function addDimensionClasses(
           break;
         }
 
-        if (hasFixedWidth(node)) {
-          intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
-          break;
-        }
-
         if (autoLayout) {
           const parentNode = getParentNodeById(parentId);
 
           if (parentNode && parentNode.type === NodeTypes.FRAME) {
             const { layoutMode: parentLayoutMode } = parentNode;
+
+            if (hasFixedWidth(node, parentLayoutMode)) {
+              intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
+              break;
+            }
 
             if (hasFullWidth(node, parentLayoutMode)) {
               intermediateNode.addClass(`${WIDTH_TOKEN}full`);
@@ -87,26 +87,23 @@ function hasFullWidth(
     counterAxisSizingMode,
   } = node;
 
-  if (parentLayoutMode === "VERTICAL") {
+  if (
+    (layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
+    (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED")
+  ) {
     return (
-      layoutAlign === "STRETCH" &&
-      layoutGrow === 0 &&
-      ((layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
-        (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED"))
-    );
-  } else if (parentLayoutMode === "HORIZONTAL") {
-    return (
-      layoutAlign === "INHERIT" &&
-      layoutGrow === 1 &&
-      ((layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
-        (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED"))
+      (parentLayoutMode === "VERTICAL" && layoutAlign === "STRETCH") ||
+      (parentLayoutMode === "HORIZONTAL" && layoutGrow === 1)
     );
   }
 
   return false;
 }
 
-function hasFixedWidth(node: FigmaFrameNode): boolean {
+function hasFixedWidth(
+  node: FigmaFrameNode,
+  parentLayoutMode: "VERTICAL" | "HORIZONTAL" | "NONE"
+): boolean {
   const {
     layoutAlign,
     layoutGrow,
@@ -114,12 +111,18 @@ function hasFixedWidth(node: FigmaFrameNode): boolean {
     counterAxisSizingMode,
     primaryAxisSizingMode,
   } = node;
-  return (
-    layoutAlign === "INHERIT" &&
-    layoutGrow === 0 &&
-    ((layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED") ||
-      (layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED"))
-  );
+
+  if (
+    (layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
+    (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED")
+  ) {
+    return (
+      (parentLayoutMode === "VERTICAL" && layoutAlign === "INHERIT") ||
+      (parentLayoutMode === "HORIZONTAL" && layoutGrow === 0)
+    );
+  }
+
+  return false;
 }
 
 function applyMaxWidthToRootNode(

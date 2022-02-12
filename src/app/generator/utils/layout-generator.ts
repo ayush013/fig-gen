@@ -81,9 +81,9 @@ function addFlexAlignment(
 }
 
 function addFlexGap(node: FigmaFrameNode, intermediateNode: IntermediateNode) {
-  const { itemSpacing } = node;
+  const { itemSpacing, primaryAxisAlignItems } = node;
 
-  if (itemSpacing !== 0) {
+  if (itemSpacing !== 0 && primaryAxisAlignItems !== "SPACE_BETWEEN") {
     intermediateNode.addClass(getSpacingClass(itemSpacing, GAP_TOKEN));
   }
 }

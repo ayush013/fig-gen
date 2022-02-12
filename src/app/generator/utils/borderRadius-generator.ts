@@ -84,6 +84,12 @@ export default function addBorderRadiusClasses(
               )
             );
         }
+
+        (bottomLeftRadius ||
+          bottomRightRadius ||
+          topLeftRadius ||
+          topRightRadius) &&
+          intermediateNode.addClass("overflow-hidden");
       }
       break;
   }

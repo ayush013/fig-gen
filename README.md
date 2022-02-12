@@ -14,7 +14,7 @@ An initiative to generate pixel perfect markup for Figma designs.
  * [x] Zipped exports
  * [x] Ability to parse Figma frame data.
  * [x] Recieve plugin input from users for export/format keywords
- * [ ] Generate equivalent markup for auto-layout components
+ * [x] Generate equivalent markup for auto-layout components
  * [ ] Handle semantics - Input fields, containers, buttons, links, etc.
  * [ ] Support for Masks/Clipping/Stroke Properties
  * [ ] Variant processing via special keywords/naming convention
