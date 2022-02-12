@@ -40,9 +40,9 @@ export default function addDimensionClasses(
           if (parentNode && parentNode.type === NodeTypes.FRAME) {
             const { layoutMode: parentLayoutMode } = parentNode;
 
-            switch (parentLayoutMode) {
-              case "VERTICAL": {
-              }
+            if (hasFullWidth(node, parentLayoutMode)) {
+              intermediateNode.addClass(`${WIDTH_TOKEN}full`);
+              break;
             }
           }
         }
@@ -75,7 +75,38 @@ const getMaxWidthClass = (width: number, token: string) => {
       }rem]`;
 };
 
-function hasFixedWidth(node: FigmaFrameNode) {
+function hasFullWidth(
+  node: FigmaFrameNode,
+  parentLayoutMode: "VERTICAL" | "HORIZONTAL" | "NONE"
+): boolean {
+  const {
+    layoutMode,
+    layoutAlign,
+    layoutGrow,
+    primaryAxisSizingMode,
+    counterAxisSizingMode,
+  } = node;
+
+  if (parentLayoutMode === "VERTICAL") {
+    return (
+      layoutAlign === "STRETCH" &&
+      layoutGrow === 0 &&
+      ((layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
+        (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED"))
+    );
+  } else if (parentLayoutMode === "HORIZONTAL") {
+    return (
+      layoutAlign === "INHERIT" &&
+      layoutGrow === 1 &&
+      ((layoutMode === "HORIZONTAL" && primaryAxisSizingMode === "FIXED") ||
+        (layoutMode === "VERTICAL" && counterAxisSizingMode === "FIXED"))
+    );
+  }
+
+  return false;
+}
+
+function hasFixedWidth(node: FigmaFrameNode): boolean {
   const {
     layoutAlign,
     layoutGrow,
