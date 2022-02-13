@@ -31,6 +31,7 @@ export const ACCEPTED_KEYS = {
     "fills",
     "strokes",
     "strokeWeight",
+    "dashPattern",
     "topLeftRadius",
     "topRightRadius",
     "bottomLeftRadius",
@@ -43,6 +44,7 @@ export const ACCEPTED_KEYS = {
     "layoutAlign",
     "layoutGrow",
     "constraints",
+    "clipsContent",
   ],
   GROUP: [
     "opacity",

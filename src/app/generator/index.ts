@@ -6,6 +6,7 @@ import getStore from "../core/Store";
 import getHTMLScaffold from "./bundle/html-scaffold";
 import generateZip from "./bundle/zip-files";
 import addBackgroundClasses from "./utils/background-generator";
+import addBorderClasses from "./utils/border-generator";
 import addBorderRadiusClasses from "./utils/borderRadius-generator";
 import addDimensionClasses from "./utils/dimensions-generator";
 import addEffectClasses from "./utils/effects-generator";
@@ -48,6 +49,7 @@ const intermediateNodeGeneratorFn = pipe(
   addPaddingClasses,
   addOpacityClasses,
   addBackgroundClasses,
+  addBorderClasses,
   addBorderRadiusClasses,
   addEffectClasses,
   addTextAndStyles,

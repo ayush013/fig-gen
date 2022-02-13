@@ -25,10 +25,12 @@ export interface FigmaFrameNode {
   itemSpacing: number;
   autoLayout: boolean;
   constraints: Constraints;
+  clipsContent: boolean;
 
   fills: Array<Paint>;
   strokes: Array<Paint>;
   strokeWeight: number;
+  dashPattern: Array<number>;
   opacity: number;
   effects: Array<Effect>;
 
@@ -94,8 +96,6 @@ export interface FigmaTextNode {
   lineHeight: LineHeight;
 
   fills: Array<Paint> | undefined;
-  strokes: Array<Paint> | undefined;
-  strokeWeight: number;
   opacity: number;
   effects: Array<Effect>;
 

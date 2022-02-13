@@ -24,6 +24,7 @@ export default function addLayoutClasses(
           addFlexDirection(node, intermediateNode);
           addFlexGap(node, intermediateNode);
           addFlexAlignment(node, intermediateNode);
+          addOverflow(node, intermediateNode);
         }
       }
       break;
@@ -86,6 +87,12 @@ function addFlexGap(node: FigmaFrameNode, intermediateNode: IntermediateNode) {
   if (itemSpacing !== 0 && primaryAxisAlignItems !== "SPACE_BETWEEN") {
     intermediateNode.addClass(getSpacingClass(itemSpacing, GAP_TOKEN));
   }
+}
+
+function addOverflow(node: FigmaFrameNode, intermediateNode: IntermediateNode) {
+  const { clipsContent } = node;
+
+  clipsContent && intermediateNode.addClass("overflow-hidden");
 }
 
 function addFlexDirection(

@@ -39,6 +39,8 @@ export default function addBackgroundClasses(
               }
               break;
           }
+          // todo "IMAGE" and "GRADIENT"
+          // todo "GROUP"
         }
       }
 

@@ -69,7 +69,11 @@ const handleWidthTransform = (
 
     case NodeTypes.TEXT:
       {
-        // todo
+        const { textAutoResize } = node;
+
+        if (textAutoResize === "HEIGHT" || textAutoResize === "NONE") {
+          intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
+        }
       }
       break;
 
@@ -114,7 +118,11 @@ const handleHeightTransform = (
 
     case NodeTypes.TEXT:
       {
-        // todo
+        const { textAutoResize } = node;
+
+        if (textAutoResize === "NONE") {
+          intermediateNode.addClass(getSpacingClass(height, HEIGHT_TOKEN));
+        }
       }
       break;
 

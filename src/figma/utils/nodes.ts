@@ -144,6 +144,10 @@ async function trimFrameNode(
       if (key === "effects") {
         filterVisibleEffects(node, trimmedNode);
       }
+
+      if (key === "strokes") {
+        filterVisibleStrokes(node, trimmedNode);
+      }
     }
   }
 
@@ -228,6 +232,17 @@ function filterVisibleEffects(
 
   if (Array.isArray(effects)) {
     trimmedNode.effects = effects.filter((effect) => effect.visible);
+  }
+}
+
+function filterVisibleStrokes(
+  node: TextNode | FrameNode | ComponentNode | InstanceNode,
+  trimmedNode: FigmaFrameNode
+) {
+  const { strokes } = node;
+
+  if (Array.isArray(strokes)) {
+    trimmedNode.strokes = strokes.filter((stroke) => stroke.visible);
   }
 }
 
