@@ -1,17 +1,40 @@
 <html lang="en">
   <head></head>
-  <body class="p-4 text-gray-700" id="body">
+  <body class="text-gray-700" id="body">
     <!-- Because we don't have JSX all the markup templates have been added here -->
     <template id="no-frame">
-      <div class="flex items-center flex-col gap-4 h-full justify-center">
-        <h1 class="font-semibold text-xs">
-          Select a frame with Auto layout to convert
-        </h1>
-        <img
-          src="../assets/no-selection.svg"
-          alt="No selection"
-          class="w-1/2"
-        />
+      <div class="relative">
+        <div class="splash duration-300">
+          <img
+            src="https://cdn.dribbble.com/users/369139/screenshots/16134014/media/16bd10070b66cefeef0006357911b6ee.png?compress=1&resize=1600x1200&vertical=top"
+            class="h-full w-full object-cover"
+          />
+          <div class="absolute w-full text-center p-2 bottom-10 backdrop-blur">
+            <p class="font-bold text-3xl mb-4">FigGen</p>
+            <p class="text-gray-400 text-sm">
+              Shot by
+              <a
+                href="https://dribbble.com/jfcr"
+                target="_blank"
+                rel="noreferrer"
+                >Juan Felipe</a
+              >
+              on Dribbble
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex items-center flex-col gap-4 h-full justify-center landing absolute z-10 top-0 duration-300 opacity-0"
+        >
+          <h1 class="font-semibold text-xs">
+            Select a frame with Auto layout to convert
+          </h1>
+          <img
+            src="../assets/no-selection.svg"
+            alt="No selection"
+            class="w-1/2"
+          />
+        </div>
       </div>
     </template>
 

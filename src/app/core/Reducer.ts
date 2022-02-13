@@ -5,6 +5,7 @@ import ActionTypes, {
   SetMarkupAction,
   SetNodeAction,
   SetSelectedFrameAction,
+  SetSplashAction,
 } from "./ActionTypes";
 import { IState, IAction, initialState } from "./Store";
 
@@ -65,9 +66,16 @@ export const appReducer = (
           },
         };
       }
+    case ActionTypes.SET_SPLASH_SEEN:
+      if (action instanceof SetSplashAction) {
+        return {
+          ...state,
+          splash: false,
+        };
+      }
     case ActionTypes.RESET_APP_STATE:
       if (action instanceof ResetAppStateAction) {
-        return initialState;
+        return { ...initialState, splash: state.splash };
       }
     default:
       return state;

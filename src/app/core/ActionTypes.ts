@@ -7,6 +7,7 @@ const ActionTypes = {
   SET_SELECTED_FRAME: "SET_SELECTED_FRAME",
   RESET_APP_STATE: "RESET_APP_STATE",
   SET_NODE: "SET_NODE",
+  SET_SPLASH_SEEN: "SET_SPLASH_SEEN",
 };
 
 export default ActionTypes;
@@ -54,5 +55,12 @@ export class SetNodeAction {
   constructor(public payload: FigmaSceneNode) {
     this.type = ActionTypes.SET_NODE;
     this.payload = payload;
+  }
+}
+
+export class SetSplashAction {
+  type: string;
+  constructor() {
+    this.type = ActionTypes.SET_SPLASH_SEEN;
   }
 }

@@ -42,7 +42,7 @@ export class Store {
     };
   }
 
-  public dispatch(action: IAction<any>): void {
+  public dispatch = (action: IAction<any>): void => {
     this._state = this._reducer(this._state, action);
 
     this.actionLogger(action);
@@ -50,7 +50,7 @@ export class Store {
     Object.keys(this._subscriptions).forEach((key) => {
       this._subscriptions[key](this._state);
     });
-  }
+  };
 }
 
 let store: Store;
@@ -78,6 +78,7 @@ export interface IState {
     tree: FigmaSceneNode | null;
   };
   selectedFrame: string;
+  splash: boolean;
 }
 
 export interface IAction<T> {
@@ -89,4 +90,5 @@ export const initialState: IState = {
   markup: { inProgress: false, error: null, data: "" },
   node: { tree: null },
   selectedFrame: "",
+  splash: true,
 };
