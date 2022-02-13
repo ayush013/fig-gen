@@ -6,7 +6,7 @@
       <div class="relative">
         <div class="splash duration-300">
           <img
-            src="https://cdn.dribbble.com/users/369139/screenshots/16134014/media/16bd10070b66cefeef0006357911b6ee.png?compress=1&resize=1600x1200&vertical=top"
+            src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/splash.webp"
             class="h-full w-full object-cover"
           />
           <div class="absolute w-full text-center p-2 bottom-10 backdrop-blur">
@@ -24,16 +24,61 @@
           </div>
         </div>
         <div
-          class="flex items-center flex-col gap-4 h-full justify-center landing absolute z-10 top-0 duration-300 opacity-0"
+          class="h-full w-full landing absolute z-10 top-0 duration-300 opacity-0 p-4"
         >
-          <h1 class="font-semibold text-xs">
-            Select a frame with Auto layout to convert
-          </h1>
-          <img
-            src="../assets/no-selection.svg"
-            alt="No selection"
-            class="w-1/2"
-          />
+          <div class="items-center flex gap-2">
+            <img
+              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/select-frame.svg"
+              alt="No selection"
+              class="w-24"
+            />
+            <h1 class="font-semibold text-lg">
+              Select any Frame for conversion.
+              <br />
+              <span class="text-gray-600 font-semibold text-sm"
+                >For more accurate results follow the guidelines 👉🏻</span
+              >
+            </h1>
+          </div>
+          <p class="text-xs text-gray-500 font-medium mt-4">
+            Figma to code conversion is no rocket science, but for pixel perfect
+            UI, we have to do some pre-processing to unfold the magic. Let’s
+            look at some ways to achieve accurate results:
+          </p>
+          <div class="items-center flex justify-between gap-4 mt-8">
+            <p class="text-xs text-gray-600 font-medium">
+              Ensure that the frames have auto layout. It helps us to parse your
+              Design better and also good for scaling designs in long term.
+            </p>
+            <img
+              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/instruction-1.jpg"
+              alt="No selection"
+              class="w-36"
+            />
+          </div>
+          <div class="items-center flex justify-between gap-4 mt-4">
+            <p class="text-xs text-gray-600 font-medium">
+              Mark the image/icon layers for export in the desirable format. We
+              will import the asset in the selected format for you.
+            </p>
+            <img
+              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/instruction-2.gif"
+              alt="No selection"
+              class="w-36"
+            />
+          </div>
+          <div class="items-center flex justify-between gap-4 mt-4">
+            <p class="text-xs text-gray-600 font-medium">
+              Avoid the use of Fixed Height/Width constraints as much as
+              possible. Nearly same results can be achieved using ‘Fill
+              container’/’Hug contents’ constraint.
+            </p>
+            <img
+              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/instruction-3.jpg"
+              alt="No selection"
+              class="w-36"
+            />
+          </div>
         </div>
       </div>
     </template>
@@ -56,7 +101,7 @@
     </template>
 
     <template id="markup">
-      <div class="flex flex-col gap-2 h-full items-start">
+      <div class="flex flex-col gap-2 h-full items-start p-4">
         <div>
           <h1 class="font-bold text-sm">Generated Markup 🚀</h1>
           <h2 class="font-medium text-xs current-frame text-gray-700"></h2>
