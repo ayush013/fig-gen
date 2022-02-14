@@ -4,7 +4,6 @@ import {
   FigmaFrameNode,
   FigmaGroupNode,
   FigmaSceneNode,
-  FigmaTextNode,
 } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 
@@ -30,7 +29,7 @@ export default function addEffectClasses(
 }
 
 function applyEffectsFromArray(
-  node: FigmaFrameNode | FigmaGroupNode | FigmaTextNode,
+  node: FigmaFrameNode | FigmaGroupNode,
   intermediateNode: IntermediateNode,
   token: string
 ): void {
@@ -49,6 +48,18 @@ function applyEffectsFromArray(
         case "INNER_SHADOW":
           {
             intermediateNode.addClass(getShadowClass(effect, token, false));
+          }
+          break;
+        case "LAYER_BLUR":
+          {
+            const { radius } = effect;
+            intermediateNode.addClass(`blur-[${radius}px]`);
+          }
+          break;
+        case "BACKGROUND_BLUR":
+          {
+            const { radius } = effect;
+            intermediateNode.addClass(`backdrop-blur-[${radius}px]`);
           }
           break;
       }
