@@ -1,8 +1,12 @@
+![Cover art](src/assets/Cover-Art.jpg)
+
 # FigGen
 
 An initiative to generate pixel perfect markup for Figma designs.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/ayush013/fig-gen/badge)](https://www.codefactor.io/repository/github/ayush013/fig-gen)
+
+## Demo Preview
 
 ![Conversion process](src/assets/preview.gif)
 
