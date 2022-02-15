@@ -119,5 +119,33 @@
         </p>
       </div>
     </template>
+
+    <template id="dialog">
+      <div
+        class="fixed dialog-container bottom-0 w-full left-0 z-10 bg-gray-500 bg-opacity-50 h-full"
+      >
+        <div class="flex items-center justify-center h-full">
+          <div
+            class="w-5/6 bg-white shadow-2xl p-3 text-gray-700 max-h-full overflow-y-auto"
+          >
+            <div class="flex justify-between items-center gap-2">
+              <h1 class="text-xs font-semibold dialog-title"></h1>
+              <a class="cursor-pointer warning-close">
+                <svg
+                  class="h-3 w-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512.001 512.001"
+                >
+                  <path
+                    d="M284.286 256.002L506.143 34.144c7.811-7.811 7.811-20.475 0-28.285-7.811-7.81-20.475-7.811-28.285 0L256 227.717 34.143 5.859c-7.811-7.811-20.475-7.811-28.285 0-7.81 7.811-7.811 20.475 0 28.285l221.857 221.857L5.858 477.859c-7.811 7.811-7.811 20.475 0 28.285a19.938 19.938 0 0014.143 5.857 19.94 19.94 0 0014.143-5.857L256 284.287l221.857 221.857c3.905 3.905 9.024 5.857 14.143 5.857s10.237-1.952 14.143-5.857c7.811-7.811 7.811-20.475 0-28.285L284.286 256.002z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div class="mt-4 flex flex-col gap-2 dialog-content"></div>
+          </div>
+        </div>
+      </div>
+    </template>
   </body>
 </html>

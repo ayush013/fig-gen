@@ -3,8 +3,8 @@ export enum TemplateIds {
   NoSelection = "no-frame",
   Error = "error",
   Markup = "markup",
-  SelectedFrame = "selected-frame",
   InProgress = "in-progress",
+  Dialog = "dialog",
 }
 
 const getTemplateClass = (id: TemplateIds) => {
@@ -26,6 +26,10 @@ const getTemplateClass = (id: TemplateIds) => {
     case TemplateIds.Markup:
       delete require.cache[require.resolve("./Markup")];
       templateClass = require("./Markup").default;
+      break;
+    case TemplateIds.Dialog:
+      delete require.cache[require.resolve("./Dialog")];
+      templateClass = require("./Dialog").default;
       break;
     default:
       break;
