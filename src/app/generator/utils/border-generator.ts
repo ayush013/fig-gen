@@ -1,12 +1,14 @@
 import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 import getColorClass from "../shared/getColor";
 import { IntermediateNode } from "./intermediate-node";
 
 const BORDER_TOKEN = "border-";
 
 export default function addBorderClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -34,6 +36,12 @@ export default function addBorderClasses(
             if (dashPattern.length) {
               intermediateNode.addClass(`${BORDER_TOKEN}dashed`);
             }
+          } else {
+            dispatch(
+              new SetWarningAction(
+                `Layer Name: ${node.name} - Border of ${stroke.type} type is not supported yet.`
+              )
+            );
           }
         }
       }

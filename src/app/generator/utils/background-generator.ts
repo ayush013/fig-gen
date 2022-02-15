@@ -1,14 +1,16 @@
 import { NodeTypes } from "../../../figma/constants";
-import { FigmaSceneNode } from "../../../figma/model";
+import { FigmaFrameNode, FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import getColorClass from "../shared/getColor";
 import getOpacityClass from "../shared/getOpacity";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 
 const BACKGROUND_TOKEN = "bg-";
 const OPACITY_TOKEN = "bg-opacity-";
 
 export default function addBackgroundClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -38,9 +40,19 @@ export default function addBackgroundClasses(
                 }
               }
               break;
+            case "IMAGE": {
+              dispatch(
+                new SetWarningAction(
+                  `Layer Name: ${node.name} - Image as a background is not supported yet.`
+                )
+              );
+              break;
+            }
           }
           // todo "IMAGE" and "GRADIENT"
           // todo "GROUP"
+
+          checkForMultipleFills(fills, dispatch, node);
         }
       }
 
@@ -48,4 +60,18 @@ export default function addBackgroundClasses(
   }
 
   return intermediateNode;
+}
+
+function checkForMultipleFills(
+  fills: Paint[],
+  dispatch: (action: any) => void,
+  node: FigmaFrameNode
+) {
+  if (fills.length > 1) {
+    dispatch(
+      new SetWarningAction(
+        `Layer Name: ${node.name} - Multiple fills are not supported.`
+      )
+    );
+  }
 }

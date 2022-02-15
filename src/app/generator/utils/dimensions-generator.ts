@@ -8,6 +8,7 @@ import { IntermediateNode } from "./intermediate-node";
 import { getTailwindMaxWidthMap } from "../shared/tailwindConfigParser";
 import getParentNodeById from "../shared/getParentNodeById";
 import getSpacingClass from "../shared/getSpacing";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 
 const maxWidthMap = getTailwindMaxWidthMap();
 
@@ -16,7 +17,8 @@ const WIDTH_TOKEN = "w-";
 const HEIGHT_TOKEN = "h-";
 
 export default function addDimensionClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -26,9 +28,9 @@ export default function addDimensionClasses(
 
   const parentNode = getParentNodeById(parentId);
 
-  handleWidthTransform(node, intermediateNode, parentNode);
+  handleWidthTransform(node, intermediateNode, parentNode, dispatch);
 
-  handleHeightTransform(node, intermediateNode, parentNode);
+  handleHeightTransform(node, intermediateNode, parentNode, dispatch);
 
   return intermediateNode;
 }
@@ -36,7 +38,8 @@ export default function addDimensionClasses(
 const handleWidthTransform = (
   node: FigmaSceneNode,
   intermediateNode: IntermediateNode,
-  parentNode: FigmaFrameNode | FigmaGroupNode | undefined
+  parentNode: FigmaFrameNode | FigmaGroupNode | undefined,
+  dispatch: (action: IAppActions) => void
 ) => {
   const { type, parent, width } = node;
 
@@ -55,6 +58,13 @@ const handleWidthTransform = (
 
             if (hasFixedWidth(node, parentLayoutMode)) {
               intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
+
+              dispatch(
+                new SetWarningAction(
+                  `Layer Name: ${node.name} - has fixed width, consider using 'Fill Container'/'Hug Contents' as constraint`
+                )
+              );
+
               break;
             }
 
@@ -90,7 +100,8 @@ const handleWidthTransform = (
 const handleHeightTransform = (
   node: FigmaSceneNode,
   intermediateNode: IntermediateNode,
-  parentNode: FigmaFrameNode | FigmaGroupNode | undefined
+  parentNode: FigmaFrameNode | FigmaGroupNode | undefined,
+  dispatch: (action: IAppActions) => void
 ) => {
   const { type, height } = node;
 
@@ -104,6 +115,13 @@ const handleHeightTransform = (
 
             if (hasFixedHeight(node, parentLayoutMode)) {
               intermediateNode.addClass(getSpacingClass(height, HEIGHT_TOKEN));
+
+              dispatch(
+                new SetWarningAction(
+                  `Layer Name: ${node.name} - has fixed height, consider using 'Fill Container'/'Hug Contents' as constraint`
+                )
+              );
+
               break;
             }
 
@@ -122,6 +140,12 @@ const handleHeightTransform = (
 
         if (textAutoResize === "NONE") {
           intermediateNode.addClass(getSpacingClass(height, HEIGHT_TOKEN));
+
+          dispatch(
+            new SetWarningAction(
+              `Layer Name: ${node.name} - Detected with fixed height/width, if this was intentional, ignore this warning.`
+            )
+          );
         }
       }
       break;

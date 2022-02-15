@@ -5,12 +5,14 @@ import {
   FigmaGroupNode,
   FigmaSceneNode,
 } from "../../../figma/model";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 import { IntermediateNode } from "./intermediate-node";
 
 const BOX_SHADOW_TOKEN = "shadow-";
 
 export default function addEffectClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -21,6 +23,18 @@ export default function addEffectClasses(
     case NodeTypes.GROUP:
       {
         applyEffectsFromArray(node, intermediateNode, BOX_SHADOW_TOKEN);
+      }
+      break;
+    case NodeTypes.TEXT:
+      {
+        const { effects } = node;
+        if (effects.length > 0) {
+          dispatch(
+            new SetWarningAction(
+              `Layer Name: ${node.name} - Text effects are not supported yet.`
+            )
+          );
+        }
       }
       break;
   }
@@ -47,7 +61,7 @@ function applyEffectsFromArray(
           break;
         case "INNER_SHADOW":
           {
-            intermediateNode.addClass(getShadowClass(effect, token, false));
+            intermediateNode.addClass(getShadowClass(effect, token, true));
           }
           break;
         case "LAYER_BLUR":

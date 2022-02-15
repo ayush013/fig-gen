@@ -2,11 +2,13 @@ import { NodeTypes } from "../../../figma/constants";
 import { FigmaFrameNode, FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import getSpacingClass from "../shared/getSpacing";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 
 const GAP_TOKEN = "gap-";
 
 export default function addLayoutClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -25,6 +27,12 @@ export default function addLayoutClasses(
           addFlexGap(node, intermediateNode);
           addFlexAlignment(node, intermediateNode);
           addOverflow(node, intermediateNode);
+        } else {
+          dispatch(
+            new SetWarningAction(
+              `Layer Name: ${node.name} - doesn't have auto layout, generated code might not be correct.`
+            )
+          );
         }
       }
       break;

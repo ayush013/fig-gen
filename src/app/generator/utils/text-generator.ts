@@ -1,5 +1,5 @@
 import { NodeTypes } from "../../../figma/constants";
-import { FigmaSceneNode } from "../../../figma/model";
+import { FigmaSceneNode, FigmaTextNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import getColorClass from "../shared/getColor";
 import getOpacityClass from "../shared/getOpacity";
@@ -7,6 +7,7 @@ import {
   getFontWeightMap,
   getTailwindFontSizeMap,
 } from "../shared/tailwindConfigParser";
+import { IAppActions, SetWarningAction } from "../../core/ActionTypes";
 
 const fontSizeMap = getTailwindFontSizeMap();
 const fontWeightMap = getFontWeightMap();
@@ -16,7 +17,8 @@ const TEXT__OPACITY_TOKEN = `${TEXT_TOKEN}opacity-`;
 const FONT_WEIGHT_TOKEN = "font-";
 
 export default function addTextAndStyles(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  dispatch: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
@@ -57,8 +59,16 @@ export default function addTextAndStyles(
         if (fills) {
           const currentColor = fills[0];
 
-          intermediateNode.addClass(getTextColorClass(currentColor));
+          intermediateNode.addClass(
+            getTextColorClass(currentColor, node, dispatch)
+          );
           intermediateNode.addClass(getTextOpacityClass(currentColor));
+        } else {
+          dispatch(
+            new SetWarningAction(
+              `Layer name: ${node.name} - Text has multiple colors, consider splitting it into multiple layers`
+            )
+          );
         }
 
         fontName &&
@@ -110,7 +120,11 @@ const getTextAlignClass = (textAlignHorizontal: string): string => {
   }
 };
 
-const getTextColorClass = (currentColor: Paint): string => {
+const getTextColorClass = (
+  currentColor: Paint,
+  node: FigmaTextNode,
+  dispatch: (action: IAppActions) => void
+): string => {
   switch (currentColor.type) {
     case "SOLID": {
       const { color } = currentColor;
@@ -118,6 +132,9 @@ const getTextColorClass = (currentColor: Paint): string => {
       return getColorClass(color, TEXT_TOKEN);
     }
     default:
+      dispatch(
+        new SetWarningAction(`Layer name: ${node.name} has unsupported fill.`)
+      );
       return "";
   }
 };

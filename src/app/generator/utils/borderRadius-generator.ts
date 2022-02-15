@@ -2,6 +2,7 @@ import { NodeTypes } from "../../../figma/constants";
 import { FigmaSceneNode } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import { getTailwindBorderRadiusMap } from "../shared/tailwindConfigParser";
+import { IAppActions } from "../../core/ActionTypes";
 
 enum BorderRadiusTokens {
   ALL = "rounded-",
@@ -18,7 +19,8 @@ enum BorderRadiusTokens {
 const borderRadiusMap = getTailwindBorderRadiusMap();
 
 export default function addBorderRadiusClasses(
-  intermediateNode: IntermediateNode
+  intermediateNode: IntermediateNode,
+  _: (action: IAppActions) => void
 ): IntermediateNode {
   const node: FigmaSceneNode = intermediateNode.getNode();
 
