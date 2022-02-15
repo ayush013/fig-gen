@@ -1,4 +1,5 @@
-import getStore, { IAction, IState } from "./Store";
+import { IAppActions } from "./ActionTypes";
+import getStore, { IState } from "./Store";
 
 const store = getStore();
 
@@ -24,7 +25,7 @@ export interface IConnectedComponent {
 }
 
 export type IDispatch = {
-  dispatch?: (action: IAction<any>) => void;
+  dispatch?: (action: IAppActions) => void;
 };
 
 export type IProps<T> = {

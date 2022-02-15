@@ -1,4 +1,6 @@
 import ActionTypes, {
+  IAppActions,
+  ClearAllWarningsAction,
   ResetAppStateAction,
   SetErrorAction,
   SetInProgressAction,
@@ -6,14 +8,15 @@ import ActionTypes, {
   SetNodeAction,
   SetSelectedFrameAction,
   SetSplashAction,
+  SetWarningAction,
 } from "./ActionTypes";
-import { IState, IAction, initialState } from "./Store";
+import { IState, initialState } from "./Store";
 
 export const appReducer = (
   state: IState = initialState,
-  action: IAction<any>
+  action: IAppActions
 ): IState => {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
     case ActionTypes.SET_MARKUP:
@@ -23,7 +26,7 @@ export const appReducer = (
           markup: {
             ...state.markup,
             error: null,
-            data: payload,
+            data: action.payload,
             inProgress: false,
           },
         };
@@ -44,7 +47,7 @@ export const appReducer = (
           ...state,
           markup: {
             ...state.markup,
-            error: payload,
+            error: action.payload,
             inProgress: false,
           },
         };
@@ -53,7 +56,7 @@ export const appReducer = (
       if (action instanceof SetSelectedFrameAction) {
         return {
           ...state,
-          selectedFrame: payload,
+          selectedFrame: action.payload,
         };
       }
     case ActionTypes.SET_NODE:
@@ -62,7 +65,7 @@ export const appReducer = (
           ...state,
           node: {
             ...state.node,
-            tree: payload,
+            tree: action.payload,
           },
         };
       }
@@ -71,6 +74,26 @@ export const appReducer = (
         return {
           ...state,
           splash: false,
+        };
+      }
+    case ActionTypes.ADD_WARNING:
+      if (action instanceof SetWarningAction) {
+        return {
+          ...state,
+          markup: {
+            ...state.markup,
+            warnings: [...state.markup.warnings, action.payload],
+          },
+        };
+      }
+    case ActionTypes.CLEAR_ALL_WARNINGS:
+      if (action instanceof ClearAllWarningsAction) {
+        return {
+          ...state,
+          markup: {
+            ...state.markup,
+            warnings: [],
+          },
         };
       }
     case ActionTypes.RESET_APP_STATE:

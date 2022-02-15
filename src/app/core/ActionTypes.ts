@@ -8,6 +8,8 @@ const ActionTypes = {
   RESET_APP_STATE: "RESET_APP_STATE",
   SET_NODE: "SET_NODE",
   SET_SPLASH_SEEN: "SET_SPLASH_SEEN",
+  ADD_WARNING: "ADD_WARNING",
+  CLEAR_ALL_WARNINGS: "CLEAR_ALL_WARNINGS",
 };
 
 export default ActionTypes;
@@ -64,3 +66,29 @@ export class SetSplashAction {
     this.type = ActionTypes.SET_SPLASH_SEEN;
   }
 }
+
+export class SetWarningAction {
+  type: string;
+  constructor(public payload: string) {
+    this.type = ActionTypes.ADD_WARNING;
+    this.payload = payload;
+  }
+}
+
+export class ClearAllWarningsAction {
+  type: string;
+  constructor() {
+    this.type = ActionTypes.CLEAR_ALL_WARNINGS;
+  }
+}
+
+export type IAppActions =
+  | SetMarkupAction
+  | SetInProgressAction
+  | SetErrorAction
+  | SetSelectedFrameAction
+  | ResetAppStateAction
+  | SetNodeAction
+  | SetSplashAction
+  | SetWarningAction
+  | ClearAllWarningsAction;

@@ -1,21 +1,22 @@
 import { FigmaSceneNode } from "../../figma/model";
+import { IAppActions } from "./ActionTypes";
 import { appReducer } from "./Reducer";
 
 export class Store {
   private _state: IState = initialState;
   private _subscriptions: { [key: string]: (state: IState) => void } = {};
-  private _reducer: (state: IState, action: IAction<any>) => IState;
+  private _reducer: (state: IState, action: IAppActions) => IState;
 
-  private actionLogger = (action: IAction<any>) => {};
+  private actionLogger = (action: IAppActions) => {};
 
   constructor(
-    reducer: (state: IState, action: IAction<any>) => IState,
+    reducer: (state: IState, action: IAppActions) => IState,
     enableLogs?: boolean
   ) {
     this._reducer = reducer;
 
     enableLogs &&
-      (this.actionLogger = (action: IAction<any>) => {
+      (this.actionLogger = (action: IAppActions) => {
         console.log(action, this._state);
       });
 
@@ -42,7 +43,7 @@ export class Store {
     };
   }
 
-  public dispatch = (action: IAction<any>): void => {
+  public dispatch = (action: IAppActions): void => {
     this._state = this._reducer(this._state, action);
 
     this.actionLogger(action);
@@ -57,7 +58,7 @@ let store: Store;
 
 const getStore = (): Store => {
   if (!store) {
-    store = new Store(appReducer, false);
+    store = new Store(appReducer, true);
   }
   return store;
 };
@@ -73,6 +74,7 @@ export interface IState {
     inProgress: boolean;
     error: string | null;
     data: string;
+    warnings: string[];
   };
   node: {
     tree: FigmaSceneNode | null;
@@ -81,13 +83,13 @@ export interface IState {
   splash: boolean;
 }
 
-export interface IAction<T> {
-  type: string;
-  payload?: T;
-}
-
 export const initialState: IState = {
-  markup: { inProgress: false, error: null, data: "" },
+  markup: {
+    inProgress: false,
+    error: null,
+    data: "",
+    warnings: [],
+  },
   node: { tree: null },
   selectedFrame: "",
   splash: true,

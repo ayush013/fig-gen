@@ -68,11 +68,11 @@ const main = debounce(() => {
 
   const originalReferenceAdder = addRefToOriginalNode(selection);
 
-  const compositeNodeProcessor = pipe(
+  const compositeNodeProcessor = pipe([
     nodeToObject,
     originalReferenceAdder,
-    trimNode
-  );
+    trimNode,
+  ]);
 
   setTimeout(() => {
     compositeNodeProcessor(selection)

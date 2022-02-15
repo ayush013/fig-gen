@@ -43,17 +43,20 @@ export default function generateAndExport(node: FigmaSceneNode) {
 }
 
 const intermediateNodeGeneratorFn = pipe(
-  generateIntermediateNode,
-  addLayoutClasses,
-  addDimensionClasses,
-  addPaddingClasses,
-  addOpacityClasses,
-  addBackgroundClasses,
-  addBorderClasses,
-  addBorderRadiusClasses,
-  addEffectClasses,
-  addTextAndStyles,
-  addImageToZip
+  [
+    generateIntermediateNode,
+    addLayoutClasses,
+    addDimensionClasses,
+    addPaddingClasses,
+    addOpacityClasses,
+    addBackgroundClasses,
+    addBorderClasses,
+    addBorderRadiusClasses,
+    addEffectClasses,
+    addTextAndStyles,
+    addImageToZip,
+  ],
+  getStore().dispatch
 );
 
 function generate(node: FigmaSceneNode): IntermediateNode {
