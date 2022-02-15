@@ -81,6 +81,12 @@ export interface IState {
   };
   selectedFrame: string;
   splash: boolean;
+  dialog: IDialogState | null;
+}
+
+export interface IDialogState {
+  title: string;
+  content: string[];
 }
 
 export const initialState: IState = {
@@ -93,4 +99,5 @@ export const initialState: IState = {
   node: { tree: null },
   selectedFrame: "",
   splash: true,
+  dialog: null,
 };

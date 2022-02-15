@@ -1,4 +1,5 @@
 import { FigmaSceneNode } from "../../figma/model";
+import { IDialogState } from "./Store";
 
 const ActionTypes = {
   SET_MARKUP: "SET_MARKUP",
@@ -10,6 +11,8 @@ const ActionTypes = {
   SET_SPLASH_SEEN: "SET_SPLASH_SEEN",
   ADD_WARNING: "ADD_WARNING",
   CLEAR_ALL_WARNINGS: "CLEAR_ALL_WARNINGS",
+  SET_AND_OPEN_DIALOG: "SET_AND_OPEN_DIALOG",
+  CLOSE_DIALOG: "CLOSE_DIALOG",
 };
 
 export default ActionTypes;
@@ -79,6 +82,21 @@ export class ClearAllWarningsAction {
   type: string;
   constructor() {
     this.type = ActionTypes.CLEAR_ALL_WARNINGS;
+  }
+}
+
+export class OpenDialogAction {
+  type: string;
+  constructor(public payload: IDialogState) {
+    this.type = ActionTypes.SET_AND_OPEN_DIALOG;
+    this.payload = payload;
+  }
+}
+
+export class CloseDialogAction {
+  type: string;
+  constructor() {
+    this.type = ActionTypes.CLOSE_DIALOG;
   }
 }
 

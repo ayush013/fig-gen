@@ -64,6 +64,9 @@ class App implements IComponent {
   subscribeToMessagesFromFigma() {
     onmessage = (msg: MessageEvent<any>) => {
       const { pluginMessage }: { pluginMessage: IMessage<any> } = msg.data;
+
+      this.store.dispatch(new ResetAppStateAction());
+
       switch (pluginMessage.type) {
         case MessageTypes.CLOSE:
           postMessageToFigma(MessageTypes.CLOSE);
@@ -95,11 +98,11 @@ class App implements IComponent {
   }
 
   getCurrentState() {
-    const { state } = this.store;
     const {
-      markup: { data, inProgress, error },
-      selectedFrame,
-    } = state;
+      state: {
+        markup: { data, inProgress, error },
+      },
+    } = this.store;
 
     if (data && !inProgress && !error) {
       return TemplateIds.Markup;
@@ -109,13 +112,18 @@ class App implements IComponent {
       return TemplateIds.Error;
     } else if (!data && !inProgress && !error) {
       return TemplateIds.NoSelection;
-    } else if (selectedFrame && !error) {
-      return TemplateIds.SelectedFrame;
     }
   }
 
   render() {
     const currentState = this.getCurrentState();
+    const {
+      state: { dialog },
+    } = this.store;
+
+    if (dialog) {
+      this.renderTemplate(TemplateIds.Dialog);
+    }
 
     switch (currentState) {
       case TemplateIds.Markup:
@@ -129,9 +137,6 @@ class App implements IComponent {
         break;
       case TemplateIds.NoSelection:
         this.renderTemplate(TemplateIds.NoSelection);
-        break;
-      case TemplateIds.SelectedFrame:
-        this.renderTemplate(TemplateIds.SelectedFrame);
         break;
       default:
         break;

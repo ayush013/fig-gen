@@ -9,6 +9,8 @@ import ActionTypes, {
   SetSelectedFrameAction,
   SetSplashAction,
   SetWarningAction,
+  OpenDialogAction,
+  CloseDialogAction,
 } from "./ActionTypes";
 import { IState, initialState } from "./Store";
 
@@ -94,6 +96,20 @@ export const appReducer = (
             ...state.markup,
             warnings: [],
           },
+        };
+      }
+    case ActionTypes.SET_AND_OPEN_DIALOG:
+      if (action instanceof OpenDialogAction) {
+        return {
+          ...state,
+          dialog: action.payload,
+        };
+      }
+    case ActionTypes.CLOSE_DIALOG:
+      if (action instanceof CloseDialogAction) {
+        return {
+          ...state,
+          dialog: null,
         };
       }
     case ActionTypes.RESET_APP_STATE:

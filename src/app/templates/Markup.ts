@@ -7,6 +7,7 @@ import xml from "highlight.js/lib/languages/xml";
 import "highlight.js/styles/github-dark.css";
 import { zip } from "../generator";
 import { saveAs } from "file-saver";
+import { OpenDialogAction } from "../core/ActionTypes";
 
 hljs.registerLanguage("xml", xml);
 
@@ -65,8 +66,31 @@ class Markup extends BaseTemplate<IMarkupProps> {
     }
   }
 
+  addWarningListener() {
+    const { dispatch, warnings } = this.props;
+
+    const warningTriggerNode: HTMLDivElement | null =
+      this.templateNode.querySelector(".warning-trigger");
+
+    if (warningTriggerNode) {
+      if (!warnings.length) {
+        warningTriggerNode.classList.add("hidden");
+      } else {
+        warningTriggerNode.addEventListener("click", () => {
+          dispatch?.(
+            new OpenDialogAction({
+              title:
+                "Generated markup may not be perfect due to one or more of the following reasons:",
+              content: warnings,
+            })
+          );
+        });
+      }
+    }
+  }
+
   render() {
-    const { data } = this.props;
+    const { data, selectedFrame } = this.props;
 
     const markupNode: HTMLDivElement | null =
       this.templateNode.querySelector(".markup-container");
@@ -82,22 +106,27 @@ class Markup extends BaseTemplate<IMarkupProps> {
     const selectedFrameNode: HTMLDivElement | null =
       this.templateNode.querySelector(".current-frame");
 
-    const { selectedFrame } = this.props;
-
     if (selectedFrameNode) {
       selectedFrameNode.innerHTML = `<b>Current Frame:</b> ${selectedFrame}`;
     }
+
+    this.addWarningListener();
   }
 }
 
 interface IMarkupProps {
   data: string;
   selectedFrame: string;
+  warnings: string[];
 }
 
-const mapStateToProps = ({ markup: { data }, selectedFrame }: IState) => ({
+const mapStateToProps = ({
+  markup: { data, warnings },
+  selectedFrame,
+}: IState) => ({
   data,
   selectedFrame,
+  warnings,
 });
 
 export default connect(mapStateToProps)(Markup);
