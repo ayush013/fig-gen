@@ -15,12 +15,12 @@
         >
           <div class="items-center flex gap-3">
             <img
-              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/select-frame.svg"
+              src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/figma.png"
               alt="No selection"
-              class="w-20"
+              class="w-8"
             />
             <h1 class="font-semibold text-lg">
-              Select any Frame for conversion.
+              Select any Frame for conversion. 👀
               <br />
               <span class="text-gray-600 font-semibold text-sm"
                 >For more accurate results follow the guidelines 👉🏻</span
@@ -29,13 +29,12 @@
           </div>
           <p class="text-xs text-gray-500 font-medium mt-4">
             Figma to code conversion is no rocket science, but for pixel perfect
-            UI, we have to do some pre-processing to unfold the magic. Let’s
-            look at some ways to achieve accurate results:
+            UI, we have to do some pre-processing to unfold the magic. 🦄
           </p>
           <div class="items-center flex justify-between gap-4 mt-8">
             <p class="text-xs text-gray-600 font-medium">
-              Ensure that the frames have auto layout. It helps us to parse your
-              Design better and also good for scaling designs in long term.
+              👉🏻 Ensure that the frames have auto layout. It helps us to parse
+              your Design better and also good for scaling designs in long term.
             </p>
             <img
               src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/instruction-1.jpg"
@@ -45,8 +44,8 @@
           </div>
           <div class="items-center flex justify-between gap-4 mt-4">
             <p class="text-xs text-gray-600 font-medium">
-              Mark the image/icon layers for export in the desirable format. We
-              will import the asset in the selected format for you.
+              👉🏻 Mark the image/icon layers for export in the desirable format.
+              We will import the asset in the selected format for you.
             </p>
             <img
               src="https://raw.githubusercontent.com/ayush013/fig-gen/main/src/assets/instruction-2.gif"
@@ -56,7 +55,7 @@
           </div>
           <div class="items-center flex justify-between gap-4 mt-4">
             <p class="text-xs text-gray-600 font-medium">
-              Avoid the use of Fixed Height/Width constraints as much as
+              👉🏻 Avoid the use of Fixed Height/Width constraints as much as
               possible. Nearly same results can be achieved using ‘Fill
               container’/’Hug contents’ constraint.
             </p>
@@ -89,9 +88,15 @@
 
     <template id="markup">
       <div class="flex flex-col gap-2 h-full items-start p-4">
-        <div>
-          <h1 class="font-bold text-sm">Generated Markup 🚀</h1>
-          <h2 class="font-medium text-xs current-frame text-gray-700"></h2>
+        <div class="flex justify-between w-full">
+          <div>
+            <h1 class="font-bold text-sm">Generated Markup 🚀</h1>
+            <h2 class="font-medium text-xs current-frame text-gray-700"></h2>
+          </div>
+          <a
+            class="text-yellow-500 warning-trigger cursor-pointer underline font-semibold text-sm"
+            >Warnings ⚠️</a
+          >
         </div>
         <pre
           class="text-xs max-w-full p-2 bg-gray-800 text-white overflow-x-auto rounded w-full"

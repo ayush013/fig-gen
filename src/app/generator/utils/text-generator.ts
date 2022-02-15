@@ -6,7 +6,7 @@ import getOpacityClass from "../shared/getOpacity";
 import {
   getFontWeightMap,
   getTailwindFontSizeMap,
-} from "../shared/tailwind-config-parser";
+} from "../shared/tailwindConfigParser";
 
 const fontSizeMap = getTailwindFontSizeMap();
 const fontWeightMap = getFontWeightMap();

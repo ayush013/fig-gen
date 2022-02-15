@@ -5,7 +5,7 @@ import {
   FigmaSceneNode,
 } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
-import { getTailwindMaxWidthMap } from "../shared/tailwind-config-parser";
+import { getTailwindMaxWidthMap } from "../shared/tailwindConfigParser";
 import getParentNodeById from "../shared/getParentNodeById";
 import getSpacingClass from "../shared/getSpacing";
 

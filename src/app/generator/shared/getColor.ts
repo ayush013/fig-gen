@@ -1,5 +1,5 @@
 import { figmaRGBToHex } from "@figma-plugin/helpers";
-import { getTailwindColorMap } from "./tailwind-config-parser";
+import { getTailwindColorMap } from "./tailwindConfigParser";
 
 const colorMap = getTailwindColorMap();
 

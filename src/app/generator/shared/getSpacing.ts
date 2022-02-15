@@ -1,4 +1,4 @@
-import { getTailwindSpacingMap } from "./tailwind-config-parser";
+import { getTailwindSpacingMap } from "./tailwindConfigParser";
 
 const spacingMap = getTailwindSpacingMap();
 
