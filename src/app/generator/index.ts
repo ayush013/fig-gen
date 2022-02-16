@@ -25,8 +25,6 @@ const beautify = require("beautify");
 export default function generateAndExport(node: FigmaSceneNode) {
   const intermediateNode = generate(node);
 
-  console.log(intermediateNode);
-
   const markup = beautify(
     getHTMLScaffold(convertIntermediateNodeToString(intermediateNode)),
     { format: "html" }

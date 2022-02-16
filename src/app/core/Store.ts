@@ -58,7 +58,7 @@ let store: Store;
 
 const getStore = (): Store => {
   if (!store) {
-    store = new Store(appReducer, true);
+    store = new Store(appReducer, false);
   }
   return store;
 };

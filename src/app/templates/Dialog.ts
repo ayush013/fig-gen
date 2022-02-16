@@ -16,10 +16,21 @@ class Dialog extends BaseTemplate<IMarkupProps> {
     if (contentNode) {
       const fragment = new DocumentFragment();
       const contentHTML = content
-        .map((item) => `<p class="text-xs">${item}</p><hr class="my-1" />`)
+        .map(
+          (item, idx) =>
+            `<li class="p-1 ${
+              idx % 2 === 0 ? "bg-gray-100" : "bg-transparent"
+            }">${item}</li>`
+        )
         .join("");
 
-      const wrapperDiv = document.createElement("div");
+      const wrapperDiv = document.createElement("ul");
+      wrapperDiv.classList.add(
+        "list-disc",
+        "text-xs",
+        "font-medium",
+        "list-inside"
+      );
       wrapperDiv.innerHTML = contentHTML;
 
       fragment.appendChild(wrapperDiv);

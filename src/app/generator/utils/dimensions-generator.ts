@@ -3,6 +3,7 @@ import {
   FigmaFrameNode,
   FigmaGroupNode,
   FigmaSceneNode,
+  FigmaTextNode,
 } from "../../../figma/model";
 import { IntermediateNode } from "./intermediate-node";
 import { getTailwindMaxWidthMap } from "../shared/tailwindConfigParser";
@@ -79,10 +80,24 @@ const handleWidthTransform = (
 
     case NodeTypes.TEXT:
       {
-        const { textAutoResize } = node;
+        if (parentNode && parentNode.type === NodeTypes.FRAME) {
+          const { layoutMode: parentLayoutMode } = parentNode;
 
-        if (textAutoResize === "HEIGHT" || textAutoResize === "NONE") {
-          intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
+          if (textHasFixedWidth(node, parentLayoutMode)) {
+            intermediateNode.addClass(getSpacingClass(width, WIDTH_TOKEN));
+
+            dispatch(
+              new SetWarningAction(
+                `Layer Name: ${node.name} - has fixed width, consider using 'Fill Container'/'Hug Contents' as constraint`
+              )
+            );
+            break;
+          }
+
+          if (textHasFullWidth(node, parentLayoutMode)) {
+            intermediateNode.addClass(`${WIDTH_TOKEN}full`);
+            break;
+          }
         }
       }
       break;
@@ -136,16 +151,19 @@ const handleHeightTransform = (
 
     case NodeTypes.TEXT:
       {
-        const { textAutoResize } = node;
+        if (parentNode && parentNode.type === NodeTypes.FRAME) {
+          const { layoutMode: parentLayoutMode } = parentNode;
 
-        if (textAutoResize === "NONE") {
-          intermediateNode.addClass(getSpacingClass(height, HEIGHT_TOKEN));
+          if (textHasFixedHeight(node, parentLayoutMode)) {
+            intermediateNode.addClass(getSpacingClass(height, HEIGHT_TOKEN));
 
-          dispatch(
-            new SetWarningAction(
-              `Layer Name: ${node.name} - Detected with fixed height/width, if this was intentional, ignore this warning.`
-            )
-          );
+            dispatch(
+              new SetWarningAction(
+                `Layer Name: ${node.name} - has fixed height, consider using 'Fill Container'/'Hug Contents' as constraint`
+              )
+            );
+            break;
+          }
         }
       }
       break;
@@ -170,6 +188,51 @@ const getMaxWidthClass = (width: number, token: string) => {
           : Number(widthInRem).toFixed(2)
       }rem]`;
 };
+
+function textHasFixedWidth(
+  node: FigmaTextNode,
+  parentLayoutMode: "VERTICAL" | "HORIZONTAL" | "NONE"
+): boolean {
+  const { layoutAlign, layoutGrow, textAutoResize } = node;
+  if (
+    ((parentLayoutMode === "VERTICAL" && layoutAlign === "INHERIT") ||
+      (parentLayoutMode === "HORIZONTAL" && layoutGrow === 0)) &&
+    (textAutoResize === "NONE" || textAutoResize === "HEIGHT")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function textHasFullWidth(
+  node: FigmaTextNode,
+  parentLayoutMode: "VERTICAL" | "HORIZONTAL" | "NONE"
+): boolean {
+  const { layoutAlign, layoutGrow, textAutoResize } = node;
+  if (
+    ((parentLayoutMode === "VERTICAL" && layoutAlign === "STRETCH") ||
+      (parentLayoutMode === "HORIZONTAL" && layoutGrow === 1)) &&
+    (textAutoResize === "WIDTH_AND_HEIGHT" || textAutoResize === "HEIGHT")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function textHasFixedHeight(
+  node: FigmaTextNode,
+  parentLayoutMode: "VERTICAL" | "HORIZONTAL" | "NONE"
+): boolean {
+  const { layoutAlign, layoutGrow, textAutoResize } = node;
+  if (
+    ((parentLayoutMode === "VERTICAL" && layoutGrow === 0) ||
+      (parentLayoutMode === "HORIZONTAL" && layoutAlign === "INHERIT")) &&
+    textAutoResize === "NONE"
+  ) {
+    return true;
+  }
+  return false;
+}
 
 function hasFullWidth(
   node: FigmaFrameNode,

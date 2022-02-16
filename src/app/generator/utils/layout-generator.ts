@@ -30,7 +30,7 @@ export default function addLayoutClasses(
         } else {
           dispatch(
             new SetWarningAction(
-              `Layer Name: ${node.name} - doesn't have auto layout, generated code might not be correct.`
+              `Layer Name: ${node.name} - doesn't have auto layout. Consider using auto layout.`
             )
           );
         }
