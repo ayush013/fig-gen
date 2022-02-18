@@ -10,6 +10,10 @@ An initiative to generate pixel perfect markup for Figma designs.
 
 ![Conversion process](src/assets/preview.gif)
 
+## Download
+
+[Download FigGen from Figma Community](https://www.figma.com/community/plugin/1065278044402066626)
+
 ## Features
 
 * Utility first approach to generate pixel perfect markup for Figma designs.
@@ -52,6 +56,7 @@ Figma to code conversion is no rocket science, but for pixel perfect UI, we have
 
 ## Future improvements
 
+ * [ ] Better Responsiveness overall
  * [ ] Better Documentation and add comments to the code
  * [ ] Handle semantics - Input fields, containers, buttons, links, etc.
  * [ ] Support for Masks/Clipping/Stroke Properties

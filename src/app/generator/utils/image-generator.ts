@@ -12,10 +12,10 @@ export default function addImageToZip(
 
   switch (type) {
     case NodeTypes.VECTOR:
-      const { data } = node;
+      const { data, format } = node;
       const assetName = `image-${
         Math.random() * 100000
-      }.${node.format.toLocaleLowerCase()}`;
+      }.${format.toLocaleLowerCase()}`;
       intermediateNode.addAttribute("src", `./assets/${assetName}`);
       zip.addImage(`${assetName}`, data);
       break;
