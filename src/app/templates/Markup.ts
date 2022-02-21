@@ -77,7 +77,7 @@ class Markup extends BaseTemplate<IMarkupProps> {
         warningTriggerNode.classList.add("hidden");
       } else {
         warningTriggerNode.addEventListener("click", () => {
-          dispatch?.(
+          dispatch(
             new OpenDialogAction({
               title:
                 "Generated markup may not be perfect due to one or more of the following reasons:",

@@ -21,11 +21,11 @@ export default function connect(
 export const connectKey = Symbol("connect");
 
 export interface IConnectedComponent {
-  [connectKey]: IProps<any>;
+  [connectKey]: IProps<any> & IDispatch;
 }
 
 export type IDispatch = {
-  dispatch?: (action: IAppActions) => void;
+  dispatch: (action: IAppActions) => void;
 };
 
 export type IProps<T> = {

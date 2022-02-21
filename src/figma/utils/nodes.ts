@@ -1,5 +1,10 @@
 import { isPageNode } from "@figma-plugin/helpers";
-import { ACCEPTED_KEYS, NodeTypes, VECTOR_EXPORT_OPTIONS } from "../constants";
+import {
+  ACCEPTED_KEYS,
+  NodeKeys,
+  NodeTypes,
+  VECTOR_EXPORT_OPTIONS,
+} from "../constants";
 import {
   FigmaFrameNode,
   FigmaGroupNode,
@@ -137,15 +142,15 @@ async function trimFrameNode(
         trimmedNode[key] = node[key];
       }
 
-      if (key === "fills") {
+      if (key === NodeKeys.FILLS) {
         filterVisibleFills(node, trimmedNode);
       }
 
-      if (key === "effects") {
+      if (key === NodeKeys.EFFECTS) {
         filterVisibleEffects(node, trimmedNode);
       }
 
-      if (key === "strokes") {
+      if (key === NodeKeys.STROKES) {
         filterVisibleStrokes(node, trimmedNode);
       }
     }
@@ -200,7 +205,7 @@ async function trimTextNode(node: TextNode): Promise<FigmaTextNode> {
         // @ts-ignore - todo: fix this
         trimmedNode[key] = node[key];
 
-        if (key === "fills") {
+        if (key === NodeKeys.FILLS) {
           filterVisibleFills(node, trimmedNode);
         }
       } else {

@@ -27,6 +27,7 @@ figma.ui.onmessage = (msg) => {
   console.log("onmessage", msg);
 };
 
+// Debounced selection to wait for user to finish selecting the frame
 const main = debounce(() => {
   const selectionList = figma.currentPage.selection;
 
@@ -48,6 +49,7 @@ const main = debounce(() => {
     return;
   }
 
+  // Only allowing Frame, Group and Component nodes
   if (!isConversionSupported(selection)) {
     postMessageToApp(
       MessageTypes.ERROR,
@@ -64,16 +66,20 @@ const main = debounce(() => {
     return;
   }
 
+  // Set progress UI to the iframe
   postMessageToApp(MessageTypes.IN_PROGRESS);
 
+  // To add the reference to original SceneNode to be used in exporting the image/vector if any`
   const originalReferenceAdder = addRefToOriginalNode(selection);
 
+  // Function that converts the SceneNode to FigmaSceneNode
   const compositeNodeProcessor = pipe([
     nodeToObject,
     originalReferenceAdder,
     trimNode,
   ]);
 
+  // todo: fix this - this is to prevent blocking UI from showing
   setTimeout(() => {
     compositeNodeProcessor(selection)
       .then((node: FigmaSceneNode) => {

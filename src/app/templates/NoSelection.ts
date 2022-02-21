@@ -14,7 +14,7 @@ class NoSelection extends BaseTemplate<ISplashScreenProps> {
     if (splash) {
       setTimeout(() => {
         this.hideSplashScreen();
-        dispatch?.(new SetSplashAction());
+        dispatch(new SetSplashAction());
       }, 1500);
     } else {
       this.hideSplashScreen();

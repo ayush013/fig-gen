@@ -44,7 +44,7 @@ class Dialog extends BaseTemplate<IMarkupProps> {
       this.templateNode.querySelector(".warning-close");
 
     dismissNode?.addEventListener("click", () => {
-      dispatch?.(new CloseDialogAction());
+      dispatch(new CloseDialogAction());
     });
   }
 

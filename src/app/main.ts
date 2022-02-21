@@ -8,9 +8,7 @@ import {
   ResetAppStateAction,
   SetErrorAction,
   SetInProgressAction,
-  SetMarkupAction,
   SetNodeAction,
-  SetSelectedFrameAction,
 } from "./core/ActionTypes";
 import { BaseTemplate, IComponent } from "./core/BaseTemplate";
 import getStore, { Store, Subscription } from "./core/Store";
