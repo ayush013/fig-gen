@@ -51,7 +51,7 @@ Figma to code conversion is no rocket science, but for pixel perfect UI, we have
  * [x] Special handling for images
  * [x] Zipped exports
  * [x] Ability to parse Figma frame data.
- * [x] Recieve plugin input from users for export/format keywords
+ * [x] Receive plugin input from users for export/format keywords
  * [x] Generate equivalent markup for auto-layout components
 
 ## Future improvements
