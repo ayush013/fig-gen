@@ -1,5 +1,6 @@
 import * as JSZip from "jszip";
 
+// Creates a zip instance and returns access to add image, html or download zip
 export default function generateZip() {
   const zipInstance = new JSZip();
 

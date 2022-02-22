@@ -14,6 +14,7 @@ import ActionTypes, {
 } from "./ActionTypes";
 import { IState, initialState } from "./Store";
 
+// Currently having a single app reducer which makes state changes based on the action type
 export const appReducer = (
   state: IState = initialState,
   action: IAppActions

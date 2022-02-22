@@ -2,11 +2,20 @@ import { FigmaSceneNode } from "../../figma/model";
 import { IAppActions } from "./ActionTypes";
 import { appReducer } from "./Reducer";
 
+// Class to handle the state of the application
+// Takes a reducer function and a boolean to indicate whether to log actions on the console
+
 export class Store {
+  // State is a private variable that is updated by the reducer function
   private _state: IState = initialState;
+
+  // Map of subscriptions
   private _subscriptions: { [key: string]: (state: IState) => void } = {};
+
+  // Reducer function
   private _reducer: (state: IState, action: IAppActions) => IState;
 
+  // Logger function
   private actionLogger = (action: IAppActions) => {};
 
   constructor(
@@ -56,6 +65,7 @@ export class Store {
 
 let store: Store;
 
+// Cached instance of the store so that we don't have to create a new one every time
 const getStore = (): Store => {
   if (!store) {
     store = new Store(appReducer, false);

@@ -1,5 +1,6 @@
 const TAILWIND_CDN = `<script src="https://cdn.tailwindcss.com"><\/script>`;
 
+// Basic HTML scaffold for the generated markup
 const getHTMLScaffold = (markup: string): string => {
   return `
     <!DOCTYPE html>

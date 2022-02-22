@@ -69,15 +69,13 @@ const main = debounce(() => {
   // Set progress UI to the iframe
   postMessageToApp(MessageTypes.IN_PROGRESS);
 
-  // To add the reference to original SceneNode to be used in exporting the image/vector if any`
-  const originalReferenceAdder = addRefToOriginalNode(selection);
+  const convertNodeToObject = (node: SceneNode) => nodeToObject(node);
 
   // Function that converts the SceneNode to FigmaSceneNode
-  const compositeNodeProcessor = pipe([
-    nodeToObject,
-    originalReferenceAdder,
-    trimNode,
-  ]);
+  const compositeNodeProcessor = pipe(
+    [convertNodeToObject, addRefToOriginalNode, trimNode],
+    selection
+  );
 
   // todo: fix this - this is to prevent blocking UI from showing
   setTimeout(() => {

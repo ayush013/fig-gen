@@ -3,6 +3,9 @@ import getStore, { IState } from "./Store";
 
 const store = getStore();
 
+// A Higher order function that converts a Stateless Component to a Stateful Component
+// Maps state to props which a component needs to access
+// Also adds a reference to dispatcher to the component
 export default function connect(
   mapStateToProps: (store: IState) => Record<string, any>
 ) {

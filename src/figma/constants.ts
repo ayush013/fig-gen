@@ -33,7 +33,6 @@ export enum NodeKeys {
   LETTER_SPACING = "letterSpacing",
   LINE_HEIGHT = "lineHeight",
   FILLS = "fills",
-  STROKE = "stroke",
   STROKE_WEIGHT = "strokeWeight",
   DASH_PATTERN = "dashPattern",
   TOP_LEFT_RADIUS = "topLeftRadius",

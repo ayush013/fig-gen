@@ -1,6 +1,8 @@
 import { FigmaSceneNode } from "../../figma/model";
 import { IDialogState } from "./Store";
 
+// All possible Actions with Payload (if any) that can be fired in the application
+
 const ActionTypes = {
   SET_MARKUP: "SET_MARKUP",
   SET_IN_PROGRESS: "SET_IN_PROGRESS",

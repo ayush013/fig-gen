@@ -57,25 +57,28 @@ type CompositeSceneNode = SceneNode & {
   originalRef: SceneNode;
 };
 
-export function addRefToOriginalNode(originalNode: SceneNode) {
-  return function innerHelper(node: FigmaSceneNode, root = true) {
-    let targetNode: SceneNode;
-    const { id } = node;
-    if (root) {
-      targetNode = originalNode;
-    } else {
-      // @ts-ignore - todo: fix this
-      targetNode = originalNode.findOne?.((child) => child.id === id);
-    }
+export function addRefToOriginalNode(
+  node: FigmaSceneNode,
+  originalNode: FrameNode | ComponentNode | InstanceNode,
+  root = true
+) {
+  let targetNode: SceneNode;
+  const { id } = node;
+  if (root) {
+    targetNode = originalNode;
+  } else {
+    targetNode = originalNode.findOne((child) => child.id === id) as SceneNode;
+  }
 
-    if (ACCEPTED_KEYS.CHILDREN in node) {
-      (node as FigmaFrameNode | FigmaGroupNode).children = (
-        node as FigmaFrameNode | FigmaGroupNode
-      ).children.map((child: FigmaSceneNode) => innerHelper(child, false));
-    }
+  if (ACCEPTED_KEYS.CHILDREN in node) {
+    (node as FigmaFrameNode | FigmaGroupNode).children = (
+      node as FigmaFrameNode | FigmaGroupNode
+    ).children.map((child: FigmaSceneNode) =>
+      addRefToOriginalNode(child, originalNode, false)
+    );
+  }
 
-    return { ...node, originalRef: targetNode };
-  };
+  return { ...node, originalRef: targetNode };
 }
 
 // Node trimming related functions
