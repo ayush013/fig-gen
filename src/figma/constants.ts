@@ -47,7 +47,6 @@ export enum NodeKeys {
   LAYOUT_ALIGN = "layoutAlign",
   CONSTRAINTS = "constraints",
   LAYOUT_GROW = "layoutGrow",
-
   LAYOUT_MODE = "layoutMode",
   PRIMARY_AXIS_SIZING_MODE = "primaryAxisSizingMode",
   COUNTER_AXIS_SIZING_MODE = "counterAxisSizingMode",

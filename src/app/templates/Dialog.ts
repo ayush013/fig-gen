@@ -1,12 +1,19 @@
 import { TemplateIds } from ".";
 import { CloseDialogAction } from "../core/ActionTypes";
 import { BaseTemplate } from "../core/BaseTemplate";
-import connect from "../core/Connect";
+import connect, { IProps } from "../core/Connect";
 import { IDialogState, IState } from "../core/Store";
 
 class Dialog extends BaseTemplate<IMarkupProps> {
   getTemplateId() {
     return TemplateIds.Dialog;
+  }
+
+  shouldComponentUpdate(nextProps: IProps<IMarkupProps>) {
+    return (
+      nextProps.dialog.content !== this.props.dialog.content ||
+      nextProps.dialog.title !== this.props.dialog.title
+    );
   }
 
   renderDialogContent(content: string[]) {

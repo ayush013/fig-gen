@@ -1,11 +1,15 @@
 import { TemplateIds } from ".";
 import { SetSplashAction } from "../core/ActionTypes";
 import { BaseTemplate } from "../core/BaseTemplate";
-import connect from "../core/Connect";
+import connect, { IProps } from "../core/Connect";
 import { IState } from "../core/Store";
 class NoSelection extends BaseTemplate<ISplashScreenProps> {
   getTemplateId() {
     return TemplateIds.NoSelection;
+  }
+
+  shouldComponentUpdate(nextProps: IProps<ISplashScreenProps>) {
+    return nextProps.splash !== this.props.splash;
   }
 
   render() {

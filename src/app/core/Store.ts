@@ -4,7 +4,6 @@ import { appReducer } from "./Reducer";
 
 // Class to handle the state of the application
 // Takes a reducer function and a boolean to indicate whether to log actions on the console
-
 export class Store {
   // State is a private variable that is updated by the reducer function
   private _state: IState = initialState;

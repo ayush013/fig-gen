@@ -1,6 +1,6 @@
 import { TemplateIds } from ".";
 import { BaseTemplate } from "../core/BaseTemplate";
-import connect from "../core/Connect";
+import connect, { IProps } from "../core/Connect";
 import { IState } from "../core/Store";
 import hljs from "highlight.js/lib/core";
 import xml from "highlight.js/lib/languages/xml";
@@ -14,6 +14,14 @@ hljs.registerLanguage("xml", xml);
 class Markup extends BaseTemplate<IMarkupProps> {
   getTemplateId() {
     return TemplateIds.Markup;
+  }
+
+  shouldComponentUpdate(nextProps: IProps<IMarkupProps>) {
+    return (
+      nextProps.data !== this.props.data ||
+      nextProps.selectedFrame !== this.props.selectedFrame ||
+      nextProps.warnings !== this.props.warnings
+    );
   }
 
   initCopyToClipboard(markup: string) {

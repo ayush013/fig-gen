@@ -17,6 +17,13 @@ export default function connect(
         dispatch: store.dispatch,
       },
     });
+    store.subscribe(`connectedComponent-${Math.random() * 100000}`, (state) => {
+      const updatedState = mapStateToProps(state);
+      connectedComponent[connectKey] = {
+        ...updatedState,
+        dispatch: store.dispatch,
+      };
+    });
     return connectedComponent;
   };
 }

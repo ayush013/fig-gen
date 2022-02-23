@@ -1,11 +1,15 @@
 import { TemplateIds } from ".";
 import { BaseTemplate } from "../core/BaseTemplate";
-import connect from "../core/Connect";
+import connect, { IProps } from "../core/Connect";
 import { IState } from "../core/Store";
 
 class ErrorView extends BaseTemplate<IErrorProps> {
   getTemplateId() {
     return TemplateIds.Error;
+  }
+
+  shouldComponentUpdate(nextProps: IProps<IErrorProps>) {
+    return nextProps.error !== this.props.error;
   }
 
   getErrorMessage() {

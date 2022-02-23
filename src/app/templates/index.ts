@@ -1,5 +1,4 @@
 export enum TemplateIds {
-  Body = "body",
   NoSelection = "no-frame",
   Error = "error",
   Markup = "markup",

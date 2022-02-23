@@ -83,6 +83,8 @@ export function addRefToOriginalNode(
 
 // Node trimming related functions
 
+// Trimming the node because we only care about the properties listed in the model
+// If the node is marked as exportable, data is converted to UInt8Array
 export async function trimNode(
   node: CompositeSceneNode
 ): Promise<FigmaSceneNode | undefined> {
@@ -90,8 +92,10 @@ export async function trimNode(
 
   if (isNodeVisible(node)) {
     if (isExportable(node)) {
+      // Handling like a vector node irrespective of the type if marked as exportable
       trimmedNode = await trimVectorNode(node);
     } else {
+      // Trimming the node based on the type for everything else
       trimmedNode = await trimNodeBasedOnType(node);
     }
   }
