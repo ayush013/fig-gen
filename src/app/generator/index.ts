@@ -70,33 +70,26 @@ function generate(node: FigmaSceneNode): IntermediateNode {
 }
 
 function convertIntermediateNodeToString(intermediateNode: IntermediateNode) {
-  const { selfContained } = intermediateNode;
+  const { selfContained, tag } = intermediateNode;
 
-  let classNameString = "";
-  if (intermediateNode.className.size > 0) {
-    classNameString = ` class="${Array.from(intermediateNode.className).join(
-      " "
-    )}"`;
-  }
+  const classNameString =
+    intermediateNode.className.size > 0
+      ? ` class="${Array.from(intermediateNode.className).join(" ")}"`
+      : "";
 
-  let attributesString = "";
+  const attributesString =
+    intermediateNode.attributes.size > 0
+      ? ` ${Array.from(intermediateNode.attributes).reduce(
+          (acc, [key, value]) => acc.concat(`${key}="${value}" `),
+          ""
+        )}`
+      : "";
 
-  if (intermediateNode.attributes.size > 0) {
-    attributesString = ` ${Array.from(intermediateNode.attributes).reduce(
-      (acc, [key, value]) => acc.concat(`${key}="${value}" `),
-      ""
-    )}`;
-  }
+  const selfContainedToken = selfContained ? " /" : "";
 
-  let selfContainedToken = "";
+  const open = `<${tag}${classNameString}${attributesString}${selfContainedToken}>`;
 
-  if (selfContained) {
-    selfContainedToken = " /";
-  }
-
-  const open = `<${intermediateNode.tag}${classNameString}${attributesString}${selfContainedToken}>`;
-
-  const close = selfContained ? "" : `</${intermediateNode.tag}>`;
+  const close = selfContained ? "" : `</${tag}>`;
 
   let children = "";
 

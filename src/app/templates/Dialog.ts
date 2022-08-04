@@ -17,51 +17,87 @@ class Dialog extends BaseTemplate<IMarkupProps> {
   }
 
   renderDialogContent(content: string[]) {
-    const contentNode: HTMLDivElement | null =
-      this.templateNode.querySelector(".dialog-content");
+    const contentNode: HTMLDivElement =
+      this.templateNode.querySelector(".dialog-content")!;
 
-    if (contentNode) {
-      const fragment = new DocumentFragment();
-      const contentHTML = content
-        .map(
-          (item, idx) =>
-            `<li class="p-1 ${
-              idx % 2 === 0 ? "bg-gray-100" : "bg-transparent"
-            }">${item}</li>`
-        )
-        .join("");
+    const fragment = new DocumentFragment();
+    const contentHTML = content
+      .map(
+        (item, idx) =>
+          `<li class="p-1 ${
+            idx % 2 === 0 ? "bg-gray-100" : "bg-transparent"
+          }">${item}</li>`
+      )
+      .join("");
 
-      const wrapperDiv = document.createElement("ul");
-      wrapperDiv.classList.add(
-        "list-disc",
-        "text-xs",
-        "font-medium",
-        "list-inside"
-      );
-      wrapperDiv.innerHTML = contentHTML;
+    const wrapperDiv = document.createElement("ul");
+    wrapperDiv.classList.add(
+      "list-disc",
+      "text-xs",
+      "font-medium",
+      "list-inside"
+    );
+    wrapperDiv.innerHTML = contentHTML;
 
-      fragment.appendChild(wrapperDiv);
-      contentNode.appendChild(fragment);
-    }
+    fragment.appendChild(wrapperDiv);
+    contentNode.appendChild(fragment);
   }
 
   initCloseButton() {
-    const { dispatch } = this.props;
-    const dismissNode: HTMLDivElement | null =
-      this.templateNode.querySelector(".warning-close");
+    const dismissNode: HTMLDivElement =
+      this.templateNode.querySelector(".warning-close")!;
 
-    dismissNode?.addEventListener("click", () => {
-      dispatch(new CloseDialogAction());
-    });
+    const containerNode: HTMLDivElement =
+      this.templateNode.querySelector(".dialog-body")!;
+
+    dismissNode.addEventListener(
+      "click",
+      this.animateAndCloseDialog.bind(this, containerNode)
+    );
   }
 
-  renderDialogTitle(title: string) {
-    const titleNode: HTMLHeadingElement | null =
-      this.templateNode.querySelector(".dialog-title");
+  animateAndCloseDialog = (containerNode: HTMLDivElement) => {
+    const { dispatch } = this.props;
 
-    if (titleNode) {
-      titleNode.innerHTML = title;
-    }
+    containerNode.animate(
+      [
+        { transform: "none", opacity: 1 },
+        { transform: "translateY(-10px)", opacity: 0 },
+      ],
+      {
+        duration: 300,
+        easing: "ease",
+      }
+    );
+
+    Promise.all(containerNode.getAnimations().map((a) => a.finished)).then(
+      dispatch.bind(this, new CloseDialogAction())
+    );
+  };
+
+  animateDialogEnter = () => {
+    const containerNode: HTMLDivElement =
+      this.templateNode.querySelector(".dialog-body")!;
+
+    requestAnimationFrame(() => {
+      containerNode.animate(
+        [
+          { transform: "translateY(10px)", opacity: 0 },
+          { transform: "none", opacity: 1 },
+        ],
+        {
+          duration: 300,
+          easing: "ease",
+        }
+      );
+    });
+  };
+
+  renderDialogTitle(title: string) {
+    const titleNode: HTMLHeadingElement =
+      this.templateNode.querySelector(".dialog-title")!;
+
+    titleNode.innerHTML = title;
   }
 
   render() {
@@ -71,6 +107,8 @@ class Dialog extends BaseTemplate<IMarkupProps> {
 
     this.renderDialogTitle(title);
     this.renderDialogContent(content);
+
+    this.animateDialogEnter();
 
     this.initCloseButton();
   }

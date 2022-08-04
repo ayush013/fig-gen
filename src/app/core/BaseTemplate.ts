@@ -12,7 +12,7 @@ export abstract class BaseTemplate<T> implements IComponent {
   protected templateNode!: DocumentFragment;
   private _id: string | undefined;
   protected props: IProps<T> & IDispatch;
-  private subscription: Subscription | undefined;
+  private subscription!: Subscription;
   private readonly store: Store;
   private isRendered = false;
 
